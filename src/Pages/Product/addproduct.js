@@ -2,12 +2,12 @@ import React from 'react';
 import NavBar from '../../Components/navbar';
 import Sidebar from '../../Components/sidebar';
 import { TextField, Button } from '@mui/material';
-import AddImage from '../../resources/profilePicture.png';
+// import AddImage from '../../resources/profilePicture.png';
 import Fixed from '../../resources/fixed.png';
 import AddPhoto from '../../resources/addphoto.png';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import { useRef, useState } from 'react';
-import { addProduct } from '../../Services/Product';
+// import { addProduct } from '../../Services/Product';
 import axios from 'axios';
 
 const AddProduct = () => {
@@ -124,7 +124,6 @@ return (
                             </label>
                         </div> */}
                         <div className="col-span-1">
-                                <label htmlFor="image">Image</label>
                                 <input
                                     type="file"
                                     name="image"
@@ -156,9 +155,19 @@ return (
                                     <TextField label="Size 2" name="size2" value={formData.size2} onChange={handleInputChange} variant="outlined" className='mb-2 w-[100px]' />
                                     <TextField label="Size 3" name="size3" value={formData.size3} onChange={handleInputChange} variant="outlined" className='mb-2 w-[100px]' />
                                 </div>
-                                <Button type="submit" variant="contained" color="primary">
-                                    <img src={Fixed} alt='Product' className='mb-4' />
-                                </Button>
+                                <Button
+  type="submit"
+  variant="contained"
+  style={{
+    background: 'transparent', 
+    boxShadow: 'none', 
+    border: 'none', 
+    padding: 0, 
+    cursor: 'pointer',
+  }}
+>
+  <img src={Fixed} alt='Product' className='mb-4' />
+</Button>
                             </div>
                             <div>
                                 <TextField
