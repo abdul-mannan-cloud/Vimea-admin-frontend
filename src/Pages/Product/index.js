@@ -30,15 +30,41 @@ const fetchProducts = async () => {
 fetchProducts();
 }, []);
 
+
 const handleProductClick = (product) => {
     if (selectedProduct === product) {
       setSelectedProduct(null);
       setShowForm(false);
+      setFormData({
+        productName: '',
+        price: '',
+        quantity: '',
+        type: '',
+        size1: '',
+        size2: '',
+        size3: '',
+        description: '',
+        coverimage: '',
+        images: [],
+      });
     } else {
       setSelectedProduct(product);
       setShowForm(true);
+      setFormData({
+        productName: product.name || '',
+        price: product.price || '',
+        quantity: product.quantity || '',
+        type: product.type || '',
+        size1: (product.size && product.size[0]) || '',
+        size2: (product.size && product.size[1]) || '',
+        size3: (product.size && product.size[2]) || '',
+        description: product.description || '',
+        coverimage: '', 
+        images: [], 
+      });
     }
   };
+  
 
 const fileInput = useRef(null);
 const [formData, setFormData] = useState({
@@ -59,19 +85,48 @@ const handleFileChange = (index, e) => {
 }
 
 const handleInputChange = (e) => {
-const { name, value } = e.target;
-setFormData((prevData) => ({
-    ...prevData,
-    [name]: value,
-}));
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+        ...prevData,
+        [name]: value,
+    }));
 };
-
 
 const handleNewFormSubmit = async (e) => {
-e.preventDefault();
-console.log("Just before sending in function");
+    e.preventDefault();
+    
+    console.log(formData);
+  
+    // let formDataToSend = new FormData();
+    // formDataToSend.append('productName', formData.productName);
+    // formDataToSend.append('price', formData.price);
+    // formDataToSend.append('quantity', formData.quantity);
+    // formDataToSend.append('type', formData.type);
+    // formDataToSend.append('size1', formData.size1);
+    // formDataToSend.append('size2', formData.size2);
+    // formDataToSend.append('size3', formData.size3);
+    // formDataToSend.append('description', formData.description);
+    // formDataToSend.append('coverImage', formData.coverimage); 
+    // for (let i = 0; i < formData.images.length; i++) {
+    //   formDataToSend.append(`images`, formData.images[i]);
+    // }
+  
+    try {
+  
+      const response = await axios.post('http://localhost:3001/products/editproduct', formData);
+      console.log(response.data.filenames);
+    } catch (error) {
+      console.error(error);
+    }
+  
+    e.target.reset();
+    setSelectedProduct(null); 
+    setShowForm(false); 
+    return false;
+  };
+  
+  
 
-};
 
 return (
     <div className='flex h-screen'>
@@ -127,16 +182,16 @@ return (
                 </div>
                             </div>
                         </div>
-                            <TextField value={selectedProduct.name} onChange={handleInputChange} name="productName" label="productName" variant="outlined" className='mb-4 w-[300px]' />
+                            <TextField value={formData.productName} onChange={handleInputChange} name="productName" label="productName" variant="outlined" className='mb-4 w-[300px]' />
                             <div className='flex flex-auto pt-4 pb-4 justify-between '>
-                                <TextField name="price" label="price" value={selectedProduct.price} onChange={handleInputChange} variant="outlined" className='mb-2 w-[100px] ' />
-                                <TextField label="quantity" name="quantity" value={selectedProduct.quantity} onChange={handleInputChange} variant="outlined" className='mb-2 w-[100px]' />
-                                <TextField label="type" name="type" value={selectedProduct.type} onChange={handleInputChange} variant="outlined" className='mb-2 w-[100px]' />
+                                <TextField name="price" label="price" value={formData.price} onChange={handleInputChange} variant="outlined" className='mb-2 w-[100px] ' />
+                                <TextField label="quantity" name="quantity" value={formData.quantity} onChange={handleInputChange} variant="outlined" className='mb-2 w-[100px]' />
+                                <TextField label="type" name="type" value={formData.type} onChange={handleInputChange} variant="outlined" className='mb-2 w-[100px]' />
                             </div>
                             <div className='flex flex-auto pb-4 justify-between  '>
-                            <TextField label="Size 1" name="size1" value={selectedProduct.size[0]} onChange={handleInputChange} variant="outlined" className='mb-2 w-[100px]' />
-                            <TextField label="Size 2" name="size2" value={selectedProduct.size[1]} onChange={handleInputChange} variant="outlined" className='mb-2 w-[100px]' />
-                            <TextField label="Size 3" name="size3" value={selectedProduct.size[2]} onChange={handleInputChange} variant="outlined" className='mb-2 w-[100px]' />
+                            <TextField label="Size 1" name="size1" value={formData.size0} onChange={handleInputChange} variant="outlined" className='mb-2 w-[100px]' />
+                            <TextField label="Size 2" name="size2" value={formData.size1} onChange={handleInputChange} variant="outlined" className='mb-2 w-[100px]' />
+                            <TextField label="Size 3" name="size3" value={formData.size2} onChange={handleInputChange} variant="outlined" className='mb-2 w-[100px]' />
 
                             </div>
                             <Button
@@ -157,7 +212,7 @@ cursor: 'pointer',
                             <TextField
                                 label="Description"
                                 name="description"
-                                value={selectedProduct.description}
+                                value={formData.description}
                                 onChange={handleInputChange}
                                 multiline
                                 rows={4}
