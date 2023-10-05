@@ -77,6 +77,8 @@ const handleNewFormSubmit = async (e) => {
     for (let i = 0; i < formData.images.length; i++) {
         formDataToSend.append(`images`, formData.images[i]);
     }
+
+    console.log(formDataToSend)
   
     try {
       const response = await axios.post('http://localhost:3001/products/addproduct', formDataToSend);
@@ -106,7 +108,6 @@ return (
                             <div className='p-10 flex justify-between items-center '>
                                 <h2 className='text-2xl font-bold'>Add Product</h2>
                                 <div className='flex justify-end items-center'>
-
                                 {/* <div className="w-24 h-24 bg-gray-300 relative" id="imageDiv0">
                             <input
                             type="file"

@@ -9,6 +9,8 @@ import { TextField, Button } from '@mui/material';
 import Fixed from '../../resources/fixed.png';
 import AddPhoto from '../../resources/addphoto.png';
 import { useRef } from 'react';
+import DeleteIcon from '@mui/icons-material/Delete';
+
 
 const Products = () => {
 const navigate = useNavigate();
@@ -59,9 +61,21 @@ const handleProductClick = (product) => {
         size2: (product.size && product.size[1]) || '',
         size3: (product.size && product.size[2]) || '',
         description: product.description || '',
-        coverimage: '', 
-        images: [], 
+        coverimage: product.coverimage || '', 
+        images: product.images || [], 
       });
+    }
+  };
+  
+
+  const onDeleteClick = async () => {
+    if (selectedProduct) {
+      try {
+        const response = await axios.delete(`http://localhost:3001/products/deleteproduct/${selectedProduct._id}`);
+        console.log(response.data); 
+      } catch (error) {
+        console.error('Error deleting product:', error);
+      }
     }
   };
   
@@ -97,23 +111,24 @@ const handleNewFormSubmit = async (e) => {
     
     console.log(formData);
   
-    // let formDataToSend = new FormData();
-    // formDataToSend.append('productName', formData.productName);
-    // formDataToSend.append('price', formData.price);
-    // formDataToSend.append('quantity', formData.quantity);
-    // formDataToSend.append('type', formData.type);
-    // formDataToSend.append('size1', formData.size1);
-    // formDataToSend.append('size2', formData.size2);
-    // formDataToSend.append('size3', formData.size3);
-    // formDataToSend.append('description', formData.description);
-    // formDataToSend.append('coverImage', formData.coverimage); 
-    // for (let i = 0; i < formData.images.length; i++) {
-    //   formDataToSend.append(`images`, formData.images[i]);
-    // }
-  
+    let formDataToSend = new FormData();
+    formDataToSend.append('productName', formData.productName);
+    formDataToSend.append('price', formData.price);
+    formDataToSend.append('quantity', formData.quantity);
+    formDataToSend.append('type', formData.type);
+    formDataToSend.append('size1', formData.size1);
+    formDataToSend.append('size2', formData.size2);
+    formDataToSend.append('size3', formData.size3);
+    formDataToSend.append('description', formData.description);
+    formDataToSend.append('coverImage', formData.coverimage); 
+    for (let i = 0; i < formData.images.length; i++) {
+      formDataToSend.append(`images`, formData.images[i]);
+    }  
+
+    console.log(formDataToSend)
     try {
   
-      const response = await axios.post('http://localhost:3001/products/editproduct', formData);
+      const response = await axios.post('http://localhost:3001/products/editproduct', formDataToSend);
       console.log(response.data.filenames);
     } catch (error) {
       console.error(error);
@@ -143,9 +158,9 @@ return (
             />
           </div>
           {products.map((product, index) => (
-            <div key={index} className='w-full'>
+            <div key={index} className='w-full px-16'>
               <div
-                className={`border p-4 rounded-lg w-full ${
+                className={`border p-4 rounded-lg w-full h-20 flex items-center justify-between ${
                   selectedProduct === product ? 'mb-2' : 'mb-4'
                 }`}
                 onClick={() => handleProductClick(product)}
@@ -153,6 +168,9 @@ return (
                 <h2 className='font-bold mb-3'>{product.name}</h2>
                 <p> {product.type}</p>
                 <p>Є {product.price}</p>
+                {/* <img src={} className='w-24 h-24 mb-2 rounded-lg' alt='Product image 1' />
+                <img src={} className='w-24 h-24 rounded-lg' alt='Product image 2' /> */}
+                
               </div>
               {selectedProduct === product && (
                 <form
@@ -161,7 +179,6 @@ return (
                   id='formID'
                   encType='multipart/form-data'
                 >
-
         <div className='flex justify-center'>
                     <div className='p-4 max-w-7xl w-3/3 l-1/3 h-[450px] rounded-lg bg-white flex justify-between'>
                         <div>
@@ -189,25 +206,39 @@ return (
                                 <TextField label="type" name="type" value={formData.type} onChange={handleInputChange} variant="outlined" className='mb-2 w-[100px]' />
                             </div>
                             <div className='flex flex-auto pb-4 justify-between  '>
-                            <TextField label="Size 1" name="size1" value={formData.size0} onChange={handleInputChange} variant="outlined" className='mb-2 w-[100px]' />
-                            <TextField label="Size 2" name="size2" value={formData.size1} onChange={handleInputChange} variant="outlined" className='mb-2 w-[100px]' />
-                            <TextField label="Size 3" name="size3" value={formData.size2} onChange={handleInputChange} variant="outlined" className='mb-2 w-[100px]' />
+                            <TextField label="Size 1" name="size1" value={formData.size1} onChange={handleInputChange} variant="outlined" className='mb-2 w-[100px]' />
+                            <TextField label="Size 2" name="size2" value={formData.size2} onChange={handleInputChange} variant="outlined" className='mb-2 w-[100px]' />
+                            <TextField label="Size 3" name="size3" value={formData.size3} onChange={handleInputChange} variant="outlined" className='mb-2 w-[100px]' />
 
                             </div>
-                            <Button
-type="submit"
-variant="contained"
-style={{
-background: 'transparent', 
-boxShadow: 'none', 
-border: 'none',
-padding: 0, 
-cursor: 'pointer', 
-}}
->
-<img src={Fixed} alt='Product' className='mb-4' />
-</Button>
-                        </div>
+                            <div className='flex justify-center items-center'>
+  <Button
+    type="submit"
+    variant="contained"
+    style={{
+      background: 'transparent',
+      boxShadow: 'none',
+      border: 'none',
+      padding: 0,
+      cursor: 'pointer',
+    }}
+  >
+    <img src={Fixed} alt='Product' className='mb-4' />
+  </Button>
+  <div className='pb-4 pl-36'>
+
+  <Button
+    variant="contained"
+    style={{ backgroundColor: 'red', color: 'white', height: '55px', width: '220px' }}
+    startIcon={<DeleteIcon />}
+    onClick={onDeleteClick}
+  >
+    Delete
+  </Button>
+  </div>
+  </div>
+
+    </div>
                         <div className='pt-32 pl-8'>
                             <TextField
                                 label="Description"
@@ -233,7 +264,6 @@ cursor: 'pointer',
 <img src={AddPhoto} alt='Product' className=' border border-teal-500 rounded-lg w-[150px] h-[50px] mb-4 ' />
 </div>
 </div>
-
                     </div>
             <input type="file" ref={fileInput} style={{ display: 'none' }} onChange={handleFileChange} />
         </div>       
