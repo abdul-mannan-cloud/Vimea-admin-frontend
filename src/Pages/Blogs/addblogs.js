@@ -102,7 +102,7 @@ return (
                                           cursor: 'pointer',
                                         }}
                                       >
-                                  <img src={Fixed} alt='Product' className='mb-4' />
+                                  <img src={Fixed} alt='Product' className='mb-4'/>
                                 </Button>
                             </div>
                             <div>

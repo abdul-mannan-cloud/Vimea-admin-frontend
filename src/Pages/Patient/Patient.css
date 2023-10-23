@@ -1,0 +1,32 @@
+/* Patients.css */
+.patient-container {
+    display: flex;
+    height: 100vh;
+  }
+  
+  .sidebar {
+    /* Add your sidebar styles here */
+  }
+  
+  .main-content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    overflow: auto;
+  }
+  
+  .navbar {
+    /* Add your navbar styles here */
+  }
+  
+  .patient-list {
+    padding: 0 40px;
+  }
+  
+  .patient-item {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 15px;
+  }
+  

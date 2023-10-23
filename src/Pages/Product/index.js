@@ -122,10 +122,11 @@ const handleNewFormSubmit = async (e) => {
     formDataToSend.append('description', formData.description);
     formDataToSend.append('coverImage', formData.coverimage); 
     for (let i = 0; i < formData.images.length; i++) {
-      formDataToSend.append(`images`, formData.images[i]);
+      formDataToSend.append(`images`, formData.images[i]); 
+        //  console.log(formData.images[i])
     }  
 
-    console.log(formDataToSend)
+    // console.log(formDataToSend)
     try {
   
       const response = await axios.post('http://localhost:3001/products/editproduct', formDataToSend);
