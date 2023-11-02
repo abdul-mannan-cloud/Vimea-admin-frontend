@@ -8,6 +8,7 @@ import axios from 'axios';
 import { TextField, Button } from '@mui/material';
 import Fixed from '../../resources/fixed.png';
 import AddPhoto from '../../resources/addphoto.png';
+import Plus from '../../resources/Plus.png';
 import { useRef } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 
@@ -129,18 +130,19 @@ const handleNewFormSubmit = async (e) => {
 
 
 return (
-    <div className='flex h-screen'>
+    <div className='flex h-screen bg-gray-100'>
       <Sidebar />
       <div className='flex flex-col w-full overflow-auto'>
         <NavBar />
-        <div className='pl-4 flex-grow bg-gray-100 flex flex-col items-center space-y-4'>
-          <div className='pt-16 pr-16 flex items-end justify-end'>
-            <img
-              src={AddBlogs}
-              className='w-100 h-10 mb-4 rounded-lg cursor-pointer'
-              alt='Image 1'
+        <div className=' flex flex-col items-center space-y-4 w-full px-20'>
+          <div className='flex items-end justify-end mt-32 w-full'>
+            <div 
               onClick={() => navigate('/blogs/add')}
-            />
+              className='flex gap-3 px-3 py-2 bg-[#128F96] rounded-xl justify-center items-center hover:bg-cyan-700 transition-all duration-200 cursor-pointer'
+              >
+              <img src={Plus} className=''/>
+              <span className='text-lg font-bold text-white'>SHTO BLOGUN</span>
+            </div>
           </div>
           
           

@@ -13,7 +13,7 @@ import img10 from '../resources/10.png';
 
 const Sidebar = () => {
   return (
-    <div className='flex flex-col  items-start pl-6 pt-40 pr-6'>
+    <div className='flex flex-col  items-start pl-6 pt-40 pr-6 bg-white fixed top-0 left-0 h-screen'>
         <img src={img1} className='w-6 h-6 mb-4' alt='Image 1' />
         <img src={img2} className='w-6 h-6 mb-4' alt='Image 2' />
         <img src={img3} className='w-6 h-6 mb-4' alt='Image 3' />
@@ -47,3 +47,14 @@ export default Sidebar;
     <MenuItem> Calendar </MenuItem>
   </Menu>
 </Sidebar> */}
+
+
+
+
+
+
+
+
+
+
+
