@@ -11,6 +11,7 @@ import AddPhoto from '../../resources/addphoto.png';
 import Plus from '../../resources/Plus.png';
 import { useRef } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
+import AWS from 'aws-sdk';
 
 
 const Blogs = () => {
@@ -61,16 +62,58 @@ const handleProductClick = (blog) => {
   
 
   const onDeleteClick = async () => {
-    // if (selectedProduct) {
-    //   try {
-    //     const response = await axios.delete(`http://localhost:3001/products/deleteproduct/${selectedProduct._id}`);
-    //     console.log(response.data); 
-    //   } catch (error) {
-    //     console.error('Error deleting product:', error);
-    //   }
-    // }
+    if (selectedBlogs) {
+      try {
+        const response = await axios.delete(`http://localhost:3001/blogs/deleteblog/${selectedBlogs._id}`);
+        console.log(response.data); 
+      } catch (error) {
+        console.error('Error deleting product:', error);
+      }
+    }
   };
   
+
+
+  const spacesEndpoint = new AWS.Endpoint('nyc3.digitaloceanspaces.com');
+  const s3 = new AWS.S3({
+      endpoint: spacesEndpoint,
+      accessKeyId: 'DO00B86B2J6M8JRAFFMR',
+      secretAccessKey: 'XxvAhR8M2aF8ZYDliQ5kuvDvKEMwIr1BKUKJi7g7Bv4'
+  });
+  const bucketName = 'vimea';  
+  const uploadImage = async (file, imageType) => {
+      const timestamp = Date.now(); 
+      const uniqueFileName = `${imageType}-${file.name}-${timestamp}`; 
+      console.log(`Uploading ${uniqueFileName}`); 
+  
+      const params = {
+          Body: file,
+          Bucket: bucketName,
+          Key: uniqueFileName, 
+          ACL: 'public-read'  
+      };
+  
+      return new Promise((resolve, reject) => {
+          s3.putObject(params)
+              .on('build', request => {
+                  request.httpRequest.headers.Host = `${bucketName}.${spacesEndpoint.hostname}`;
+                  request.httpRequest.headers['Content-Length'] = file.size;
+                  request.httpRequest.headers['Content-Type'] = file.type;
+                  request.httpRequest.headers['x-amz-acl'] = 'public-read';
+              })
+              .send((err) => {
+                  if (err) {
+                      console.log(err);
+                      reject({ success: false, error: err });
+                  } else {
+                      console.log('Upload Success');
+                      resolve({ success: true, filename: uniqueFileName });
+                  }
+              });
+      });
+  };
+  
+
 
 const fileInput = useRef(null);
 const [formData, setFormData] = useState({
@@ -82,7 +125,8 @@ const [formData, setFormData] = useState({
 });
 
 const handleFileChange = (index, e) => {
-}
+  const file = e.target.files;
+};
 
 const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -93,37 +137,46 @@ const handleInputChange = (e) => {
 };
 
 const handleNewFormSubmit = async (e) => {
-    // e.preventDefault();
-    
-    // console.log(formData);
-  
-    // let formDataToSend = new FormData();
-    // formDataToSend.append('productName', formData.productName);
-    // formDataToSend.append('price', formData.price);
-    // formDataToSend.append('quantity', formData.quantity);
-    // formDataToSend.append('type', formData.type);
-    // formDataToSend.append('size1', formData.size1);
-    // formDataToSend.append('size2', formData.size2);
-    // formDataToSend.append('size3', formData.size3);
-    // formDataToSend.append('description', formData.description);
-    // formDataToSend.append('coverImage', formData.coverimage); 
-    // for (let i = 0; i < formData.images.length; i++) {
-    //   formDataToSend.append(`images`, formData.images[i]);
-    // }  
+  e.preventDefault();      
+  let imageNames = [];
 
-    // console.log(formDataToSend)
-    // try {
+  const imageUploadResponse = await uploadImage(formData.images[0], 'blog-main-image');
+  if (imageUploadResponse.success) {
+      console.log(`Main image uploaded with filename: ${imageUploadResponse.filename}`);
+      imageNames.push(imageUploadResponse.filename);
+  } else {
+      console.error(`Failed to upload main image: ${imageUploadResponse.error}`);
+      return;
+  }
+
+  for (let i = 0; i < formData.images.length; i++) {
+      const imageUploadResponse = await uploadImage(formData.images[i], 'blog-add-on-image');
+      if (imageUploadResponse.success) {
+          console.log(`Add-on image uploaded with filename: ${imageUploadResponse.filename}`);
+          imageNames.push(imageUploadResponse.filename);
+        
+      } else {
+          console.error(`Failed to upload add-on image: ${imageUploadResponse.error}`);
+          return;
+      }
+  } 
+  const updatedFormData = {
+    ...formData,
+    imagenames: imageNames,
+};
+
+console.log(updatedFormData);
+
+    try {
+         await axios.post('http://localhost:3001/blogs/editblog', updatedFormData);
+    } catch (error) {
+      console.error(error);
+    }
   
-    //   const response = await axios.post('http://localhost:3001/products/editproduct', formDataToSend);
-    //   console.log(response.data.filenames);
-    // } catch (error) {
-    //   console.error(error);
-    // }
-  
-    // e.target.reset();
-    // setSelectedProduct(null); 
-    // setShowForm(false); 
-    // return false;
+    e.target.reset();
+    setSelectedBlogs(null); 
+    setShowForm(false); 
+    return false;
   };
   
   
@@ -156,9 +209,9 @@ return (
               >
                 <h2 className='font-bold mb-3'>{blog.blogTitle}</h2>
                 <p> {blog.phoneNumber}</p>
-                <p>Є {blog.toSatisfy}</p>
-                {/* <img src={} className='w-24 h-24 mb-2 rounded-lg' alt='Product image 1' />
-                <img src={} className='w-24 h-24 rounded-lg' alt='Product image 2' /> */}
+                {/* <p> {blog.toSatisfy}</p> */}
+                <img src={`https://vimea.nyc3.cdn.digitaloceanspaces.com/${blog.mainImage}`}  className='w-20 h-20 mb-2 rounded-lg' alt='Product image 1' />
+                <img src={`https://vimea.nyc3.cdn.digitaloceanspaces.com/${blog.addonImages[0]}`} className='w-20 h-20 rounded-lg' alt='Product image 2' />
                 
               </div>
               {selectedBlogs === blog && (

@@ -8,6 +8,7 @@ import camera from '../../resources/camera.png'
 import saveIcon from '../../resources/save.png'
 import { useRef, useState } from 'react';
 import axios from 'axios';
+import AWS from 'aws-sdk';
 import { useNavigate } from 'react-router-dom';
 
 const AddBlog = () => {
@@ -18,12 +19,14 @@ const [formData, setFormData] = useState({
     toSatisfy: '',
     coverimage: '',
     images: [],
+    imagenames: []
 });
 
 const navigate = useNavigate();
 
 const handleFileChange = (index, e) => {
-  };
+  const file = e.target.files;
+};
   
 
 const handleInputChange = (e) => {
@@ -34,23 +37,80 @@ const handleInputChange = (e) => {
     }));
 };
 
-const handleNewFormSubmit = async (e) => {
-    e.preventDefault();
-    console.log("Just before sending in function");
-    let formDataToSend = new FormData();
-    formDataToSend.append('blogTitle', formData.blogTitle);
-    formDataToSend.append('phoneNumber', formData.phoneNumber);
-    formDataToSend.append('images', formData.coverimage);
-    formDataToSend.append('toSatisfy', formData.toSatisfy);
-    for (let i = 0; i < formData.images.length; i++) {
-        formDataToSend.append(`images`, formData.images[i]);
-    }
 
-    console.log(formDataToSend)
+
+const spacesEndpoint = new AWS.Endpoint('nyc3.digitaloceanspaces.com');
+const s3 = new AWS.S3({
+    endpoint: spacesEndpoint,
+    accessKeyId: 'DO00B86B2J6M8JRAFFMR',
+    secretAccessKey: 'XxvAhR8M2aF8ZYDliQ5kuvDvKEMwIr1BKUKJi7g7Bv4'
+});
+
+const bucketName = 'vimea';  
+const uploadImage = async (file, imageType) => {
+    const timestamp = Date.now(); 
+    const uniqueFileName = `${imageType}-${file.name}-${timestamp}`; 
+    console.log(`Uploading ${uniqueFileName}`); 
+
+    const params = {
+        Body: file,
+        Bucket: bucketName,
+        Key: uniqueFileName, 
+        ACL: 'public-read'  
+    };
+
+    return new Promise((resolve, reject) => {
+        s3.putObject(params)
+            .on('build', request => {
+                request.httpRequest.headers.Host = `${bucketName}.${spacesEndpoint.hostname}`;
+                request.httpRequest.headers['Content-Length'] = file.size;
+                request.httpRequest.headers['Content-Type'] = file.type;
+                request.httpRequest.headers['x-amz-acl'] = 'public-read';
+            })
+            .send((err) => {
+                if (err) {
+                    console.log(err);
+                    reject({ success: false, error: err });
+                } else {
+                    console.log('Upload Success');
+                    resolve({ success: true, filename: uniqueFileName });
+                }
+            });
+    });
+};
+
+const handleNewFormSubmit = async (e) => {
+  e.preventDefault();      
+  let imageNames = [];
+  const imageUploadResponse = await uploadImage(formData.images[0], 'blog-main-image');
+  if (imageUploadResponse.success) {
+      console.log(`Main image uploaded with filename: ${imageUploadResponse.filename}`);
+      imageNames.push(imageUploadResponse.filename);
+  } else {
+      console.error(`Failed to upload main image: ${imageUploadResponse.error}`);
+      return;
+  }
+
+  for (let i = 0; i < formData.images.length; i++) {
+      const imageUploadResponse = await uploadImage(formData.images[i], 'blog-add-on-image');
+      if (imageUploadResponse.success) {
+          console.log(`Add-on image uploaded with filename: ${imageUploadResponse.filename}`);
+          imageNames.push(imageUploadResponse.filename);
+      } else {
+          console.error(`Failed to upload add-on image: ${imageUploadResponse.error}`);
+          return;
+      }
+  }
+
+  const updatedFormData = {
+    ...formData,
+    imagenames: imageNames,
+};
+
+  console.log(updatedFormData);
   
     try {
-      const response = await axios.post('http://localhost:3001/blogs/addblog', formDataToSend);
-      console.log(response.data.filenames);
+       await axios.post('http://localhost:3001/blogs/addblog', updatedFormData);
     } catch (error) {
       console.error(error);
     }

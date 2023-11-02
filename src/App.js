@@ -7,13 +7,15 @@ import Blogs from './Pages/Blogs/index';
 import AddBlogs from './Pages/Blogs/addblogs';
 import Home from './Pages/Home/index';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+// import Sample from './Components/sample';
 
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Home />} />
+      <Route path="/" element={<Home />} />
+      {/* <Route path="/sample" element={<Sample />} /> */}
         <Route path="/products" element={<Products />} />
           <Route path="/products/add" element={<AddProduct/>}/>
           <Route path="/blogs" element={<Blogs />} />
