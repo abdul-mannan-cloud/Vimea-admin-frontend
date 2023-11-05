@@ -8,6 +8,7 @@ import axios from 'axios';
 import { TextField, Button } from '@mui/material';
 import Fixed from '../../resources/fixed.png';
 import AddPhoto from '../../resources/addphoto.png';
+import Plus from '../../resources/Plus.png'
 import { useRef } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AWS from 'aws-sdk';
@@ -201,32 +202,36 @@ console.log(updatedFormData);
 
 
 return (
-    <div className='flex h-screen'>
+    <div className='flex h-screen bg-gray-100'>
       <Sidebar />
       <div className='flex flex-col w-full overflow-auto'>
         <NavBar />
-        <div className='pl-4 flex-grow bg-gray-100 flex flex-col items-center space-y-4'>
-          <div className='pt-16 pr-16 flex items-end justify-end'>
-            <img
-              src={AddProduct}
-              className='w-100 h-10 mb-4 rounded-lg cursor-pointer'
-              alt='Image 1'
+        <div className='flex flex-col items-center space-y-4 w-full px-20'>
+        <div className='flex items-end justify-end mt-32 w-full'>
+            <div 
               onClick={() => navigate('/products/add')}
-            />
+              className='flex gap-3 px-3 py-2 bg-[#128F96] rounded-xl justify-center items-center hover:bg-cyan-700 transition-all duration-200 cursor-pointer'
+              >
+              <img src={Plus} className=''/>
+              <span className='text-lg font-bold text-white'>SHTO BLOGUN</span>
+            </div>
           </div>
           {products.map((product, index) => (
             <div key={index} className='w-full px-16'>
               <div
-                className={`border p-4 rounded-lg w-full h-20 flex items-center justify-between ${
+                  className={`border shadow-lg p-5 px-10 gap-10 rounded-lg w-full h-[120px] flex items-center justify-between bg-white ${
                   selectedProduct === product ? 'mb-2' : 'mb-4'
                 }`}
                 onClick={() => handleProductClick(product)}
               >
-                <h2 className='font-bold mb-3'>{product.name}</h2>
+                <h2 className='font-bold text-2xl'>{product.name}</h2>
                 <p> {product.type}</p>
                 <p>Є {product.price}</p>
-                <img src={`https://vimea.nyc3.cdn.digitaloceanspaces.com/${product.mainImage}`}  className='w-20 h-20 mb-2 rounded-lg' alt='Product image 1' />
-                <img src={`https://vimea.nyc3.cdn.digitaloceanspaces.com/${product.addonImages[0]}`} className='w-20 h-20 rounded-lg' alt='Product image 2' />
+                <div className='flex flex-row gap-5'>
+                  <img src={`https://vimea.nyc3.cdn.digitaloceanspaces.com/${product.mainImage}`}  className='w-[100px] h-[100px] rounded-lg' alt='Product image 1' />
+                  <img src={`https://vimea.nyc3.cdn.digitaloceanspaces.com/${product.addonImages[0]}`} className='w-[100px] h-[100px] rounded-lg' alt='Product image 2' />
+                  <img src={`https://vimea.nyc3.cdn.digitaloceanspaces.com/${product.addonImages[3]}`} className='w-[100px] h-[100px] rounded-lg' alt='Product image 3' />
+                </div>
               </div>
               {selectedProduct === product && (
                 <form

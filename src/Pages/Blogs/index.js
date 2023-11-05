@@ -178,9 +178,6 @@ console.log(updatedFormData);
     setShowForm(false); 
     return false;
   };
-  
-  
-
 
 return (
     <div className='flex h-screen bg-gray-100'>
@@ -202,16 +199,20 @@ return (
           {blogs.map((blog, index) => (
             <div key={index} className='w-full px-16'>
               <div
-                className={`border p-4 rounded-lg w-full h-20 flex items-center justify-between ${
+                className={`border shadow-lg p-5 px-10 gap-10 rounded-lg w-full h-[120px] flex items-center justify-between bg-white ${
                     selectedBlogs === blog ? 'mb-2' : 'mb-4'
                 }`}
                 onClick={() => handleProductClick(blog)}
               >
-                <h2 className='font-bold mb-3'>{blog.blogTitle}</h2>
-                <p> {blog.phoneNumber}</p>
+                <h2 className='font-bold text-2xl'>{blog.blogTitle}</h2>
+                <p className='text-xl'>{blog.phoneNumber}</p>
+                <p className='text-xl'>{blog.phoneNumber}</p>
                 {/* <p> {blog.toSatisfy}</p> */}
-                <img src={`https://vimea.nyc3.cdn.digitaloceanspaces.com/${blog.mainImage}`}  className='w-20 h-20 mb-2 rounded-lg' alt='Product image 1' />
-                <img src={`https://vimea.nyc3.cdn.digitaloceanspaces.com/${blog.addonImages[0]}`} className='w-20 h-20 rounded-lg' alt='Product image 2' />
+                <div className='flex flex-row gap-5'>
+                  <img src={`https://vimea.nyc3.cdn.digitaloceanspaces.com/${blog.coverimage}`}  className='w-[100px] h-[100px] rounded-lg' alt='Product image 1' />
+                  <img src={`https://vimea.nyc3.cdn.digitaloceanspaces.com/${blog.images[0]}`} className='w-[100px] h-[100px] rounded-lg' alt='Product image 2' />
+                  <img src={`https://vimea.nyc3.cdn.digitaloceanspaces.com/${blog.images[1]}`} className='w-[100px] h-[100px] rounded-lg' alt='Product image 2' />
+                </div>
                 
               </div>
               {selectedBlogs === blog && (
