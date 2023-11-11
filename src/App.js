@@ -10,6 +10,8 @@ import Clients from './Pages/Client/index';
 import Home from './Pages/Home/index';
 import Feedback from './Pages/Feedback/index';
 import Payments from './Pages/Payments/index';
+import Employees from './Pages/Employees/index';
+import AddEmployee from './Pages/Employees/addEmployee';
 import Orders from './Pages/orders/index';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 // import Sample from './Components/sample';
@@ -29,6 +31,8 @@ function App() {
         <Route path="/feedbacks" element={<Feedback />} />
         <Route path="/orders" element={<Orders />} />
         <Route path="/payments" element={<Payments />} />
+        <Route path="/employees" element={<Employees />} />
+            <Route path="/employees/add" element={<AddEmployee />} />
         {/* <Route path="/login" element={<Login />} />
         <Route path="/view/:id" element={<Details />} /> */}
       </Routes>
