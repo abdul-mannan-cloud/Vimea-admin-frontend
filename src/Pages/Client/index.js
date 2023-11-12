@@ -25,50 +25,74 @@ const Employees = () => {
     };
     const transClass = dropDown ? 'flex' : 'hidden';
 
-    const clients = [
-        {
-            clientName: 'John',
-            mobileNumber: '000 000 000 000',
-            sales: 23,
-            userName: 'John1243',
-            password: '1234',
-        },
-        {
-            clientName: 'John',
-            mobileNumber: '000 000 000 000',
-            sales: 23,
-            userName: 'John1243',
-            password: '1234',
-        },
-        {
-            clientName: 'John',
-            mobileNumber: '000 000 000 000',
-            sales: 23,
-            userName: 'John1243',
-            password: '1234',
-        },
-        {
-            clientName: 'John',
-            mobileNumber: '000 000 000 000',
-            sales: 23,
-            userName: 'John1243',
-            password: '1234',
-        },
-        {
-            clientName: 'John',
-            mobileNumber: '000 000 000 000',
-            sales: 23,
-            userName: 'John1243',
-            password: '1234',
-        },
-        {
-            clientName: 'John',
-            mobileNumber: '000 000 000 000',
-            sales: 23,
-            userName: 'John1243',
-            password: '1234',
-        }
-    ]
+    // const clients = [
+    //     {
+    //         clientName: 'John',
+    //         mobileNumber: '000 000 000 000',
+    //         sales: 23,
+    //         userName: 'John1243',
+    //         password: '1234',
+    //     },
+    //     {
+    //         clientName: 'John',
+    //         mobileNumber: '000 000 000 000',
+    //         sales: 23,
+    //         userName: 'John1243',
+    //         password: '1234',
+    //     },
+    //     {
+    //         clientName: 'John',
+    //         mobileNumber: '000 000 000 000',
+    //         sales: 23,
+    //         userName: 'John1243',
+    //         password: '1234',
+    //     },
+    //     {
+    //         clientName: 'John',
+    //         mobileNumber: '000 000 000 000',
+    //         sales: 23,
+    //         userName: 'John1243',
+    //         password: '1234',
+    //     },
+    //     {
+    //         clientName: 'John',
+    //         mobileNumber: '000 000 000 000',
+    //         sales: 23,
+    //         userName: 'John1243',
+    //         password: '1234',
+    //     },
+    //     {
+    //         clientName: 'John',
+    //         mobileNumber: '000 000 000 000',
+    //         sales: 23,
+    //         userName: 'John1243',
+    //         password: '1234',
+    //     }
+    // ]
+    const [clients, setClients] = useState([]);
+
+    useEffect(() => {
+        const getClients = async () => {
+            try {
+                const { data } = await axios.get('http://localhost:3001/client/getallclients');
+                const transformedClients = data.map((user) => {
+                    return {
+                        clientName: user.firstName + ' ' + user.lastName,
+                        mobileNumber: user.contactNumber,
+                        sales: user.orders.length, 
+                        userName: user.firstName,
+                        password: user.password, 
+                    };
+                });
+                setClients(transformedClients);
+            } catch (error) {
+                console.error('Error fetching clients:', error);
+            }
+        };
+
+        getClients();
+    }, []);
+
 
     return(
         <div className='flex h-screen bg-gray-100'>
