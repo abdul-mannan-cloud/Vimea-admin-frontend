@@ -1,155 +1,194 @@
-import React, {useState, useCallback, useEffect} from 'react';
-import {DndProvider, useDrag, useDrop} from 'react-dnd';
-import {HTML5Backend} from 'react-dnd-html5-backend';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
+import React, { useState } from 'react';
+import NavBar from '../../Components/navbar';
+import Sidebar from '../../Components/sidebar';
+import AddBlogs from '../../resources/addBlogs.png';
+import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import axios from 'axios';
+import { useRef } from 'react';
+import { Container, InputAdornment, TextField } from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
+import arrowIcon from '../../resources/arrowIcon.png';
+import plusIcon from '../../resources/Plus.png';
+import AWS from 'aws-sdk';
 
-const times = ['7 AM', '8 AM', '9 AM', '10 AM', '11 AM', '12 PM', '1 PM'];
-const employees = ['Employee 1', 'Employee 2', 'Employee 3'];
+import femaleIcon from '../../resources/female.png'
 
-const initialAppointments = [
-    {id: 1, employee: 'Employee 1', date: new Date('2023-11-13'), time: '9 AM', content: 'Meeting'},
-    {id: 2, employee: 'Employee 2', date: new Date('2023-11-13'), time: '10 AM', content: 'Meeting'},
-    {id: 3, employee: 'Employee 2', date: new Date('2023-11-12'), time: '7 AM', content: 'Meeting'},
-];
+const Appointments = () => {
 
-const ItemTypes = {
-    APPOINTMENT: 'appointment',
-};
+    const appointments = [
+        {
+            service: "Plush",
+            price: "25",
+            time: 45,
+            category: "children"
+        },
+        {
+            service: "Plush",
+            price: "25",
+            time: 45,
+            category: "mother"
+        },
+        {
+            service: "Plush",
+            price: "25",
+            time: 45,
+            category: "baby"
+        },
+        {
+            service: "Plush",
+            price: "25",
+            time: 45,
+            category: "group"
+        },
+        {
+            service: "Plush",
+            price: "25",
+            time: 45,
+            category: "children"
+        },
+        {
+            service: "Plush",
+            price: "25",
+            time: 45,
+            category: "children"
+        },
+        {
+            service: "Plush",
+            price: "25",
+            time: 45,
+            category: "group"
+        },
+        {
+            service: "Plush",
+            price: "25",
+            time: 45,
+            category: "group"
+        },
+        {
+            service: "Plush",
+            price: "25",
+            time: 45,
+            category: "group"
+        },
+        {
+            service: "Plush",
+            price: "25",
+            time: 45,
+            category: "mother"
+        },
+        {
+            service: "Plush",
+            price: "25",
+            time: 45,
+            category: "mother"
+        },
+        {
+            service: "Plush",
+            price: "25",
+            time: 45,
+            category: "mother"
+        },
+        {
+            service: "Plush",
+            price: "25",
+            time: 45,
+            category: "mother"
+        },
+        {
+            service: "Plush",
+            price: "25",
+            time: 45,
+            category: "mother"
+        },
+        {
+            service: "Plush",
+            price: "25",
+            time: 45,
+            category: "mother"
+        },
+        {
+            service: "Plush",
+            price: "25",
+            time: 45,
+            category: "mother"
+        },
+        {
+            service: "Plush",
+            price: "25",
+            time: 45,
+            category: "group"
+        },
+    ]
 
-function Appointments() {
-    const [currentDate, setCurrentDate] = useState(new Date());
-    const [appointments, setAppointments] = useState(initialAppointments);
 
-    const formatDate = (date) => {
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
-        const day = String(date.getDate()).padStart(2, '0');
-        return `${year}-${month}-${day}`;
-    };
+    const groupAppointments = appointments.filter(appointment => appointment.category === "group");
+    const childrenAppointments = appointments.filter(appointment => appointment.category === "children");
+    const babyAppointments = appointments.filter(appointment => appointment.category === "baby");
+    const motherAppointments = appointments.filter(appointment => appointment.category === "mother");
 
 
-    useEffect(() => {
-        console.log(appointments)
-        console.log(currentDate)
-    });
 
-    const moveAppointment = useCallback((id, newEmployee, newTime, newDate) => {
-        setAppointments(prevAppointments => prevAppointments.map(appointment => {
-            if (appointment.id === id) {
-                return { ...appointment, employee: newEmployee, time: newTime, date: newDate };
-            }
-            return appointment;
-        }));
-    }, [setAppointments]);
-
-    const handlePrevDay = () => {
-        const date = new Date(currentDate);
-        date.setDate(currentDate.getDate() - 1);
-        setCurrentDate(date);
-    };
-
-    const handleNextDay = () => {
-        const date = new Date(currentDate);
-        date.setDate(currentDate.getDate() + 1);
-        setCurrentDate(date);    };
-
-    // const formatDate = (date) => {
-    //     return date.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-    // };
-
-    return (
-        <DndProvider backend={HTML5Backend}>
-            <div className='container mx-auto p-4'>
-                <h1 className='text-2xl font-bold mb-4'>Appointments</h1>
-                {/*change date functionality and next day */}
-                <div className='flex justify-between items-center mb-4'>
-                    <div className='flex items-center'>
-                        <button onClick={handlePrevDay} className='bg-gray-200 hover:bg-gray-300 rounded px-4 py-2'>
-                            <svg className='h-4 w-4 fill-current' viewBox='0 0 20 20'>
-                                <path d='M12.707 15.707a1 1 0 01-1.414 0l-5-5a1 1 0 010-1.414l5-5a1 1 0 111.414 1.414L9.414 10l4.293 4.293a1 1 0 010 1.414z'/>
-                            </svg>
-                        </button>
-                        <DatePicker
-                            selected={currentDate}
-                            onChange={date => setCurrentDate(date)}
-                            customInput={<span className='mx-4 text-gray-700 cursor-pointer'>{formatDate(currentDate)}</span>}
-                        />
-                        <button onClick={handleNextDay} className='bg-gray-200 hover:bg-gray-300 rounded px-4 py-2'>
-                            <svg className='h-4 w-4 fill-current' viewBox='0 0 20 20'>
-                                <path d='M7.707 14.707a1 1 0 01-1.414-1.414L9.586 10 6.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4z' />
-                            </svg>
-                        </button>
+    return(
+        <div className='flex h-screen bg-gray-100'>
+            <div className='flex flex-col w-full overflow-auto'>
+                <div className="flex items-center bg-gray-100 self-center justify-center align-middle w-[90%] ml-16 mt-28 rounded-xl p-10 px-20 flex-col gap-10">
+                    <div className='flex flex-col gap-1 w-full'>
+                        <div className='font-bold ml-2'>Për Fëmijë</div>
+                        {childrenAppointments.map((appointment, index) => 
+                            <div className='flex flex-row justify-between rounded-lg h-[50px] w-full bg-white font-bold shadow-xl'>
+                                <div className='border-4 w-0 h-full border-yellow-400 rounded-full'></div>
+                                <div className='py-2 px-5 flex flex-row gap-10 justify-between h-full w-full items-center align-middle'>
+                                    <span>{appointment.service}</span>
+                                    <span>{appointment.time} min</span>
+                                    <span>€{appointment.price}</span>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                    <div className='flex flex-col gap-1 w-full'>
+                        <div className='font-bold ml-2'>Group Plush</div>
+                        {groupAppointments.map((appointment, index) => 
+                            <div className='flex flex-row justify-between rounded-lg h-[50px] w-full bg-white font-bold shadow-xl'>
+                                <div className='border-4 w-0 h-full border-green-600 rounded-full'></div>
+                                <div className='py-2 px-5 flex flex-row gap-10 justify-between h-full w-full items-center align-middle'>
+                                    <span>{appointment.service}</span>
+                                    <span>{appointment.time} min</span>
+                                    <span>€{appointment.price}</span>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                    <div className='flex flex-col gap-1 w-full'>
+                        <div className='font-bold ml-2'>Për Bebe</div>
+                        {babyAppointments.map((appointment, index) => 
+                            <div className='flex flex-row justify-between rounded-lg h-[50px] w-full bg-white font-bold shadow-xl'>
+                                <div className='border-4 w-0 h-full border-blue-500 rounded-full'></div>
+                                <div className='py-2 px-5 flex flex-row gap-10 justify-between h-full w-full items-center align-middle'>
+                                    <span>{appointment.service}</span>
+                                    <span>{appointment.time} min</span>
+                                    <span>€{appointment.price}</span>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                    <div className='flex flex-col gap-1 w-full'>
+                        <div className='font-bold ml-2'>Për Nënen</div>
+                        {motherAppointments.map((appointment, index) => 
+                            <div className='flex flex-row justify-between rounded-lg h-[50px] w-full bg-white font-bold shadow-xl'>
+                                <div className='border-4 w-0 h-full border-pink-400 rounded-full'></div>
+                                <div className='py-2 px-5 flex flex-row gap-10 justify-between h-full w-full items-center align-middle'>
+                                    <span>{appointment.service}</span>
+                                    <span>{appointment.time} min</span>
+                                    <span>€{appointment.price}</span>
+                                </div>
+                            </div>
+                        )}
                     </div>
                 </div>
-                <table className='table-auto w-full'>
-                    <thead className='bg-gray-100'>
-                        <tr>
-                            <th className='border px-4 py-2'></th>
-                            {employees.map((employee) => (
-                                <th key={employee} className='border px-4 py-2'>{employee}</th>
-                            ))}
-                        </tr>
-                    </thead>
-                    <tbody>
-                    {times.map((time) => (
-                        <tr key={time}>
-                            <td className='border px-4 py-2'>{time}</td>
-                            {employees.map((employee) => (
-                                <DropZone
-                                    key={`${employee}-${time}-${currentDate}`}
-                                    employee={employee}
-                                    time={time}
-                                    date={currentDate}
-                                    moveAppointment={moveAppointment}
-                                >
-                                    {appointments
-                                        .filter(app => app.employee === employee && app.time === time && new Date(currentDate).toLocaleDateString() === new Date(app.date).toLocaleDateString())
-                                        .map(app => (
-                                            <DraggableAppointment key={app.id} appointment={app}/>
-                                        ))}
-                                </DropZone>
-                            ))}
-                        </tr>
-                    ))}
-                    </tbody>
-                </table>
             </div>
-        </DndProvider>
-    );
-}
-
-function DropZone({children, employee, time, date, moveAppointment}) {
-    const [, drop] = useDrop(() => ({
-        accept: ItemTypes.APPOINTMENT,
-        drop: (item) => {
-            moveAppointment(item.id, employee, time, date);
-        },
-    }));
-
-    return (
-        <td ref={drop} className='border px-4 py-2'>
-            {children}
-        </td>
-    );
-}
-
-function DraggableAppointment({appointment}) {
-    const [, drag] = useDrag(() => ({
-        type: ItemTypes.APPOINTMENT,
-        item: {id: appointment.id},
-        collect: (monitor) => ({
-            isDragging: monitor.isDragging(),
-        }),
-    }));
-
-    return (
-        <div ref={drag} className='cursor-move bg-white drop-shadow-lg p-2 m-2'>
-            <p>{appointment.time}</p>
-            <p>{appointment.date.toLocaleDateString()}</p>
-            {appointment.content}
         </div>
-    );
+    )
 }
 
 export default Appointments;

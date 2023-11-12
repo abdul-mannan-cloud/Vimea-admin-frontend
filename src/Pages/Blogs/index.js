@@ -181,9 +181,7 @@ console.log(updatedFormData);
 
 return (
     <div className='flex h-screen bg-gray-100'>
-      <Sidebar />
       <div className='flex flex-col w-full overflow-auto'>
-        <NavBar />
         <div className=' flex flex-col items-center space-y-4 w-full px-20'>
           <div className='flex items-end justify-end mt-32 w-full'>
             <div 

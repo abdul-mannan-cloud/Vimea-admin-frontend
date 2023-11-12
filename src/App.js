@@ -1,6 +1,8 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import NavBar from './Components/navbar';
+import SideBar from './Components/sidebar';
 import Products from './Pages/Product/index';
 import AddProduct from './Pages/Product/addproduct';
 import Blogs from './Pages/Blogs/index';
@@ -21,6 +23,8 @@ import Appointments from "./Pages/Appointments";
 function App() {
   return (
     <Router>
+      <SideBar/>
+      <NavBar />
       <Routes>
       <Route path="/" element={<Home />} />
         <Route path="/products" element={<Products />} />
