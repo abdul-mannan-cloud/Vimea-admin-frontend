@@ -43,7 +43,7 @@ const Sidebar = () => {
       <div 
         onClick={() => {
           setNavItem(2)
-          navigate('/home')
+          navigate('/calendar')
         }}
         className='flex flex-row justify-between gap-2 pl-3 items-center align-middle h-8'>
         <div className=''></div>

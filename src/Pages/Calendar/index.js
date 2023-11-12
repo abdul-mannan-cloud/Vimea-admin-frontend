@@ -60,7 +60,7 @@ function Calendar() {
 
     return (
         <DndProvider backend={HTML5Backend}>
-            <div className='container mx-auto p-4'>
+            <div className='container mx-auto p-4 mt-32 ml-20'>
                 <h1 className='text-2xl font-bold mb-4'>Appointments</h1>
                 {/*change date functionality and next day */}
                 <div className='flex justify-between items-center mb-4'>
