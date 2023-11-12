@@ -27,11 +27,12 @@ const AddClient = () => {
     };
 
     return (
-        <form className='' onSubmit={handleNewFormSubmit} id="formID" encType="multipart/form-data">
+        <form className='pt-40 bg-gray-100' onSubmit={handleNewFormSubmit} id="formID" encType="multipart/form-data">
             <div className='flex h-screen'>
                 <div className='flex flex-col w-full overflow-auto'>
-                    <Container maxWidth="md">
+                    <Container maxWidth="md" className='bg-white rounded-xl p-14'>
                         <Grid container spacing={2} justifyContent="center">
+                            <span className='text-3xl font-bold mb-5'>Employee Details</span>
                             <Grid item xs={12}>
                                 <TextField
                                     name="clientName"

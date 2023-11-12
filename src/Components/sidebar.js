@@ -34,7 +34,7 @@ const Sidebar = () => {
           setNavItem(1)
           navigate('/home')
         }} 
-        className='flex flex-row justify-between gap-2 pl-3 items-center align-middle h-8'>
+        className='flex flex-row justify-between gap-2 pl-3 items-center align-middle h-8 cursor-pointer'>
         <div className=''></div>
         <img src={navItem == 1 ? img1b : img1} className='w-6 h-6' alt='Image 1' />
         <div className={`border-4 rounded-full w-0 h-full ${navItem == 1 ? 'border-[#128F96]' : 'border-transparent'}`}></div>
@@ -45,7 +45,7 @@ const Sidebar = () => {
           setNavItem(2)
           navigate('/calendar')
         }}
-        className='flex flex-row justify-between gap-2 pl-3 items-center align-middle h-8'>
+        className='flex flex-row justify-between gap-2 pl-3 items-center align-middle h-8 cursor-pointer'>
         <div className=''></div>
         <img src={navItem == 2 ? img2b : img2} className='w-6 h-6' alt='Image 2' />
         <div className={`border-4 rounded-full w-0 h-full ${navItem == 2 ? 'border-[#128F96]' : 'border-transparent'}`}></div>
@@ -56,7 +56,7 @@ const Sidebar = () => {
           setNavItem(3)
           navigate('/clients')
         }} 
-        className='flex flex-row justify-between gap-2 pl-3 items-center align-middle h-8'>
+        className='flex flex-row justify-between gap-2 pl-3 items-center align-middle h-8 cursor-pointer'>
         <div className=''></div>
         <img src={navItem == 3 ? img3b : img3} className='w-6 h-6' alt='Image 3' />
         <div className={`border-4 rounded-full w-0 h-full ${navItem == 3 ? 'border-[#128F96]' : 'border-transparent'}`}></div>
@@ -67,7 +67,7 @@ const Sidebar = () => {
           setNavItem(4)
           navigate('/appointments')
           }} 
-        className='flex flex-row justify-between gap-2 pl-3 items-center align-middle h-8'>
+        className='flex flex-row justify-between gap-2 pl-3 items-center align-middle h-8 cursor-pointer'>
         <div className=''></div>
         <img src={navItem == 4 ? img4b : img4} className='w-6 h-6' alt='Image 4' />
         <div className={`border-4 rounded-full w-0 h-full ${navItem == 4 ? 'border-[#128F96]' : 'border-transparent'}`}></div>
@@ -78,7 +78,7 @@ const Sidebar = () => {
           setNavItem(5)
           navigate('/employees')
           }} 
-        className='flex flex-row justify-between gap-2 pl-3 items-center align-middle h-8'>
+        className='flex flex-row justify-between gap-2 pl-3 items-center align-middle h-8 cursor-pointer'>
         <div className=''></div>
         <img src={navItem == 5 ? img5b : img5} className='w-6 h-6' alt='Image 5' />
         <div className={`border-4 rounded-full w-0 h-full ${navItem == 5 ? 'border-[#128F96]' : 'border-transparent'}`}></div>
@@ -89,7 +89,7 @@ const Sidebar = () => {
           setNavItem(6)
           navigate('/blogs')
           }} 
-        className='flex flex-row justify-between gap-2 pl-3 items-center align-middle h-8'>
+        className='flex flex-row justify-between gap-2 pl-3 items-center align-middle h-8 cursor-pointer'>
         <div className=''></div>
         <img src={navItem == 6 ? img6b : img6} className='w-6 h-6' alt='Image 6' />
         <div className={`border-4 rounded-full w-0 h-full ${navItem == 6 ? 'border-[#128F96]' : 'border-transparent'}`}></div>
@@ -100,7 +100,7 @@ const Sidebar = () => {
           setNavItem(10)
           navigate('/products')
           }} 
-        className='flex flex-row justify-between gap-2 pl-3 items-center align-middle h-8'>
+        className='flex flex-row justify-between gap-2 pl-3 items-center align-middle h-8 cursor-pointer'>
         <div className=''></div>
         <img src={navItem == 10 ? img10b : img10} className='w-6 h-6' alt='Image 10' />
         <div className={`border-4 rounded-full w-0 h-full ${navItem == 10 ? 'border-[#128F96]' : 'border-transparent'}`}></div>
@@ -110,7 +110,7 @@ const Sidebar = () => {
           setNavItem(7)
           navigate('/payments')
           }} 
-          className='flex flex-row justify-between gap-2 pl-3 items-center align-middle h-8'>
+          className='flex flex-row justify-between gap-2 pl-3 items-center align-middle h-8 cursor-pointer'>
         <div className=''></div>
         <img src={navItem == 7 ? img7b : img7} className='w-6 h-6' alt='Image 7' />
         <div className={`border-4 rounded-full w-0 h-full ${navItem == 7 ? 'border-[#128F96]' : 'border-transparent'}`}></div>
@@ -121,7 +121,7 @@ const Sidebar = () => {
           setNavItem(8)
           navigate('/orders')
           }} 
-        className='flex flex-row justify-between gap-2 pl-3 items-center align-middle h-8'>
+        className='flex flex-row justify-between gap-2 pl-3 items-center align-middle h-8 cursor-pointer'>
         <div className=''></div>
         <img src={navItem == 8 ? img8b : img8} className='w-6 h-6' alt='Image 8' />
         <div className={`border-4 rounded-full w-0 h-full ${navItem == 8 ? 'border-[#128F96]' : 'border-transparent'}`}></div>
@@ -132,7 +132,7 @@ const Sidebar = () => {
             setNavItem(9)
             navigate('/feedbacks')
             }} 
-          className='flex flex-row justify-between gap-2 pl-3 items-center align-middle h-8'>
+          className='flex flex-row justify-between gap-2 pl-3 items-center align-middle h-8 cursor-pointer'>
         <div className=''></div>
         <img src={navItem == 9 ? img9b : img9} className='w-6 h-6' alt='Image 9' />
         <div className={`border-4 rounded-full w-0 h-full ${navItem == 9 ? 'border-[#128F96]' : 'border-transparent'}`}></div>

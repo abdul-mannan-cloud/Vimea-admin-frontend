@@ -12,12 +12,13 @@ import AWS from 'aws-sdk';
 import addPhoto from '../../resources/addphoto.png'
 import maleIcon from '../../resources/male.png'
 import femaleIcon from '../../resources/female.png'
+import ProductImage from '../../resources/product.png'
 
 const Orders = () => {
     const orders = [
         {
             title : "BABY BIO MANDELÖL 200ml",
-            image : "/product1.png",
+            image : ProductImage,
             date : "12.12.23",
             quantity : 5,
             total: 13,
@@ -31,7 +32,7 @@ const Orders = () => {
         },
         {
             title : "BABY BIO MANDELÖL 200ml",
-            image : "/product1.png",
+            image : ProductImage,
             date : "12.12.23",
             quantity : 5,
             total: 13,
@@ -45,7 +46,7 @@ const Orders = () => {
         },
         {
             title : "BABY BIO MANDELÖL 200ml",
-            image : "/product1.png",
+            image : ProductImage,
             date : "12.12.23",
             quantity : 5,
             total: 13,

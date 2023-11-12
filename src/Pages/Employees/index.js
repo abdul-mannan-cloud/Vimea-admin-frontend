@@ -25,6 +25,44 @@ const Employees = () => {
         setIsRotated((prev) => !prev);
     };
 
+    // const employees = [
+    //     {
+    //         name: 'John Cena',
+    //         email: 'abc@gmail.com',
+    //         phone: '000 000 000 000'
+    //     },
+    //     {
+    //         name: 'Lohn Cena',
+    //         email: 'abc@gmail.com',
+    //         phone: '000 000 000 000'
+    //     },
+    //     {
+    //         name: 'Kohn Cena',
+    //         email: 'abc@gmail.com',
+    //         phone: '000 000 000 000'
+    //     },
+    //     {
+    //         name: 'Aohn Cena',
+    //         email: 'abc@gmail.com',
+    //         phone: '000 000 000 000'
+    //     },
+    //     {
+    //         name: 'Dohn Cena',
+    //         email: 'abc@gmail.com',
+    //         phone: '000 000 000 000'
+    //     },
+    // ]
+
+    const [searchQuery, setSearchQuery] = useState("");
+
+    const filteredEmployees = employees.filter((employee) =>
+        employee.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
+    const handleSearchChange = (e) => {
+        setSearchQuery(e.target.value);
+    };
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -52,8 +90,8 @@ const Employees = () => {
                                     id="search"
                                     type="search"
                                     label="Search"
-                                    // value={searchTerm}
-                                    // onChange={handleChange}
+                                    value={searchQuery}
+                                    onChange={handleSearchChange}
                                     style={{ borderRadius: '20px' }}
                                     InputProps={{
                                         endAdornment: (
@@ -112,7 +150,7 @@ const Employees = () => {
 
                         <div className='flex flex-col gap-3 mt-2 w-full'>
 
-                        {employees.map((employee, index) => (
+                        {filteredEmployees.map((employee, index) => (
                                 <div key={index} className="flex row bg-white rounded-lg py-2 px-8 gap-10 self-start items-center align-middle justify-center w-full">
                                     <div className='w-[50%] flex items-start align-middle justify-start'>
                                         <div className='flex flex-col gap-2 items-center'>
