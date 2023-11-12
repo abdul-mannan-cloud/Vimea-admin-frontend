@@ -173,7 +173,7 @@ return (
                               <div className='w-full flex flex-col gap-5'>
                                 <div className='flex flex-col gap-2'>
                                   <label className='font-semibold text-gray-300'>TITULLI I BLOG-UT</label>
-                                  <input value={formData.blogTitle} onChange={handleInputChange} name="blogTitle" label="Blog Title" variant="outlined" className='w-full rounded-lg p-3 border-[2px] border-gray-200' placeholder='Titulli i Blog'/>
+                                  <input value={formData.blogTitle} onChange={handleInputChange} name="blogTitle" label="Blog Title" variant="outlined" className='w-full rounded-lg p-3 border-[2px] border-gray-200' placeholder='Titulli i Blog-ut'/>
                                 </div>
                                 <div className='flex flex-col gap-2'>
                                   <label className='font-semibold text-gray-300'>PHONE NUMBER</label>
