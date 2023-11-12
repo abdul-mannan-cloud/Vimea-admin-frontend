@@ -67,8 +67,171 @@ const Employees = () => {
             sales: 23,
             userName: 'John1243',
             password: '1234',
-        }
+        },
+        {
+            clientName: 'John',
+            mobileNumber: '000 000 000 000',
+            sales: 23,
+            userName: 'John1243',
+            password: '1234',
+        },
+        {
+            clientName: 'John',
+            mobileNumber: '000 000 000 000',
+            sales: 23,
+            userName: 'John1243',
+            password: '1234',
+        },
+        {
+            clientName: 'John',
+            mobileNumber: '000 000 000 000',
+            sales: 23,
+            userName: 'John1243',
+            password: '1234',
+        },
+        {
+            clientName: 'Johnnnnnnn',
+            mobileNumber: '000 000 000 000',
+            sales: 23,
+            userName: 'John1243',
+            password: '1234',
+        },
+        {
+            clientName: 'Johndsfwe',
+            mobileNumber: '000 000 000 000',
+            sales: 23,
+            userName: 'John1243',
+            password: '1234',
+        },
+        {
+            clientName: 'Johnathen',
+            mobileNumber: '000 000 000 000',
+            sales: 23,
+            userName: 'John1243',
+            password: '1234',
+        },
+        {
+            clientName: 'John',
+            mobileNumber: '000 000 000 000',
+            sales: 23,
+            userName: 'John1243',
+            password: '1234',
+        },
+        {
+            clientName: 'Johndddd',
+            mobileNumber: '000 000 000 000',
+            sales: 23,
+            userName: 'John1243',
+            password: '1234',
+        },
+        {
+            clientName: 'John',
+            mobileNumber: '000 000 000 000',
+            sales: 23,
+            userName: 'John1243',
+            password: '1234',
+        },
+        {
+            clientName: 'Johnewewwe',
+            mobileNumber: '000 000 000 000',
+            sales: 23,
+            userName: 'John1243',
+            password: '1234',
+        },
+        {
+            clientName: 'Johnttttttttt',
+            mobileNumber: '000 000 000 000',
+            sales: 23,
+            userName: 'John1243',
+            password: '1234',
+        },
+        {
+            clientName: 'John',
+            mobileNumber: '000 000 000 000',
+            sales: 23,
+            userName: 'John1243',
+            password: '1234',
+        },
+        {
+            clientName: 'John',
+            mobileNumber: '000 000 000 000',
+            sales: 23,
+            userName: 'John1243',
+            password: '1234',
+        },
+        {
+            clientName: 'Johnrrrrrrrrrrrrrrrr',
+            mobileNumber: '000 000 000 000',
+            sales: 23,
+            userName: 'John1243',
+            password: '1234',
+        },
+        {
+            clientName: 'Johnyyyyy',
+            mobileNumber: '000 000 000 000',
+            sales: 23,
+            userName: 'John1243',
+            password: '1234',
+        },
     ]
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const [searchQuery, setSearchQuery] = useState("");
+
+    const filteredClients = clients.filter((client) =>
+        client.clientName.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
+    const productsPerPage = 10;
+    const totalPages = Math.ceil(filteredClients.length / productsPerPage);
+
+    const startIndex = (currentPage - 1) * productsPerPage;
+    const endIndex = startIndex + productsPerPage;
+
+    const clientsToDisplay = filteredClients.slice(startIndex, endIndex);
+
+    const handleSearchChange = (e) => {
+        setSearchQuery(e.target.value);
+        setCurrentPage(1);
+    };
+
+    const handlePageChange = (newPage) => {
+        setCurrentPage(newPage);
+    };
+
+    const getPageNumbers = () => {
+        const pageNumbers = [];
+        const maxPageButtonsToShow = 5; // Adjust this value as needed
+
+        if (totalPages <= maxPageButtonsToShow) {
+            // Show all pages
+            for (let i = 1; i <= totalPages; i++) {
+                pageNumbers.push(i);
+            }
+        } else {
+            // Show a limited number of pages with ellipsis
+            const leftEllipsis = currentPage > 2;
+            const rightEllipsis = currentPage < totalPages - 1;
+
+            if (leftEllipsis) {
+                pageNumbers.push(1);
+                pageNumbers.push("...");
+            }
+
+            for (let i = currentPage - 1; i <= currentPage + 1; i++) {
+                if (i >= 1 && i <= totalPages) {
+                    pageNumbers.push(i);
+                }
+            }
+
+            if (rightEllipsis) {
+                pageNumbers.push("...");
+                pageNumbers.push(totalPages);
+            }
+        }
+
+        return pageNumbers;
+    };
 
     return(
         <div className='flex h-screen bg-gray-100'>
@@ -82,8 +245,8 @@ const Employees = () => {
                                     id="search"
                                     type="search"
                                     label="Search"
-                                    // value={searchTerm}
-                                    // onChange={handleChange}
+                                    value={searchQuery}
+                                    onChange={handleSearchChange}
                                     style={{ borderRadius: '20px' }}
                                     InputProps={{
                                         endAdornment: (
@@ -138,10 +301,11 @@ const Employees = () => {
 
                         <div className='flex flex-col gap-3 mt-2 w-full bg-white rounded-xl'>
                             
-                            <div className='pl-20 flex flex-row w-full px-10 py-5 border-b border-gray-4400 font-bold'>
+                            <div className='flex flex-row w-full px-5 py-5 border-b border-gray-4400 font-bold'>
                                 <div className='flex flex-row w-[50%] gap-10 justify-start'>
-                                    <div className='w-[20%]'>Client name</div>
-                                    <div className='w-[20%]'>Phone number</div>
+                                    <input type='radio' className='opacity-0' />
+                                    <div className='w-[20%] px-[6px]'>Client name</div>
+                                    <div className='w-[25%] px-[5px]'>Phone number</div>
                                     <div className='ml-10'>Sales</div>
                                 </div>
                                 <div className='flex flex-row w-[50%] gap-10 justify-start'>
@@ -151,19 +315,37 @@ const Employees = () => {
                                 </div>
                             </div>
 
-                            {clients.map((client, index) => (
-                                <div key={index} className="flex flex-row py-2 px-8 gap-10 self-start items-center align-middle w-full">
-                                    <input type='radio' />
-                                    <div>{client.clientName}</div>
-                                    <div>{client.mobileNumber}</div>
-                                    <div>{client.sales}</div>
-                                    <div>12/12/12</div>
-                                    <div>{client.userName}</div>
-                                    <div>**********</div>
+                            {clientsToDisplay.map((client, index) => (
+                                <div key={index} className="flex flex-row py-2 px-5 self-start items-center align-middle w-full">
+                                    <div className='flex flex-row w-[50%] gap-10 justify-start'>
+                                        <input type='radio' />
+                                        <div className='w-[20%] px-[6px]'>{client.clientName}</div>
+                                        <div className='w-[25%] px-[5px]'>{client.mobileNumber}</div>
+                                        <div className='ml-10 font-bold'>{client.sales}€</div>
+                                    </div>
+                                    <div className='flex flex-row w-[50%] gap-10 justify-start'>
+                                        <div className='w-[30%]'>12/12/12</div>
+                                        <div className='w-[30%]'>{client.userName}</div>
+                                        <div className=''>**********</div>
+                                    </div>
                                 </div>
                             ))}
 
 
+                        </div>
+
+                        <div className="flex justify-center mt-4">
+                            {getPageNumbers().map((pageNumber, index) => (
+                                <button
+                                    key={index}
+                                    onClick={() => handlePageChange(pageNumber)}
+                                    className={`mx-2 ${
+                                        currentPage === pageNumber ? "bg-[#128F96] text-white rounded-full py-1 px-3" : "bg-gray-200 text-black rounded-full py-1 px-3"
+                                    } rounded-full`}
+                                >
+                                    {pageNumber}
+                                </button>
+                            ))}
                         </div>
                         
                     </div>
