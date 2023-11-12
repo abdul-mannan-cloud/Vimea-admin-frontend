@@ -18,6 +18,7 @@ import Orders from './Pages/orders/index';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Appointments from "./Pages/Appointments";
 import Calendar from "./Pages/Calendar";
+import Dashboard from "./DashBoard";
 // import Sample from './Components/sample';
 
 
@@ -41,6 +42,7 @@ function App() {
             <Route path="/employees/add" element={<AddEmployee />} />
           <Route path="/appointments" element={<Appointments />} />
           <Route path="/calendar" element={<Calendar />} />
+          <Route path="/dashboard" element={<Dashboard />} />
         {/* <Route path="/login" element={<Login />} />
         <Route path="/view/:id" element={<Details />} /> */}
       </Routes>
