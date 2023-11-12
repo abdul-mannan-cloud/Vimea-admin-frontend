@@ -180,7 +180,7 @@ const handleNewFormSubmit = async (e) => {
                                     <div className='w-full flex flex-col gap-5'>
                                         <div className='flex flex-col gap-2'>
                                             <label className='font-semibold text-gray-300'>Emri i produktit</label>
-                                            <input value={formData.productName} onChange={handleInputChange} name="productName" label="productName" variant="outlined" className='w-full rounded-lg p-3 border-[2px] border-gray-200' placeholder='Blog Title'/>
+                                            <input value={formData.productName} onChange={handleInputChange} name="productName" label="productName" variant="outlined" className='w-full rounded-lg p-3 border-[2px] border-gray-200' placeholder='Emri i Produktit'/>
                                         </div>
                                         <div className='flex flex-row gap-5'>
                                             <div className='flex flex-row gap-3 w-[50%] justify-between'>
