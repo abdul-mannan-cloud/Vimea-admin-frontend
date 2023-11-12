@@ -108,14 +108,19 @@ const handleNewFormSubmit = async (e) => {
         }
     }
 
-    setFormData({
+    // setFormData({
+    //     ...formData,
+    //     imagenames: imageNames,
+    // });
+
+    const updatedFormData = {
         ...formData,
         imagenames: imageNames,
-    });
+    };
 
     console.log(formData);
     try {
-      const response = await axios.post('http://localhost:3001/products/addproduct', formData);
+      const response = await axios.post('http://localhost:3001/products/addproduct', updatedFormData);
     } catch (error) {
       console.error(error);
     }
