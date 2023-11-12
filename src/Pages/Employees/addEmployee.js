@@ -45,9 +45,7 @@ const Employee = () => {
 
     return(
         <div className='flex h-screen bg-gray-100'>
-            <Sidebar />
             <div className='flex flex-col w-full overflow-auto'>
-                <NavBar />
                 <div className='mt-32 w-[50%] self-center mx-auto items-start justify-start'>
                     <button onClick={() => navigate('/employees')} className='py-2 px-5 rounded-lg bg-[#128F96] font-bold text-white hover:bg-cyan-700 transition-all duration-200'>Back</button>
                 </div>

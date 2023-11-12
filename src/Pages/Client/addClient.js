@@ -29,9 +29,7 @@ const AddClient = () => {
     return (
         <form className='' onSubmit={handleNewFormSubmit} id="formID" encType="multipart/form-data">
             <div className='flex h-screen'>
-                <Sidebar />
                 <div className='flex flex-col w-full overflow-auto'>
-                    <NavBar />
                     <Container maxWidth="md">
                         <Grid container spacing={2} justifyContent="center">
                             <Grid item xs={12}>

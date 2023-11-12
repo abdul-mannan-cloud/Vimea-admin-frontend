@@ -43,9 +43,7 @@ const Employees = () => {
 
     return(
         <div className='flex h-screen bg-gray-100'>
-            <Sidebar />
             <div className='flex flex-col w-full overflow-auto'>
-                <NavBar />
                 <div className="flex items-center bg-gray-100 self-center justify-center align-middle w-[90%] ml-16 mt-32 rounded-xl p-10 px-20">
                     <div className="w-full flex flex-col">
                         <div className='flex flex-row w-full justify-between'>

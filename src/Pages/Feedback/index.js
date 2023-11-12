@@ -90,9 +90,7 @@ const Feedback = () => {
 
 return(
     <div className='flex h-screen bg-gray-100'>
-        <Sidebar />
         <div className='flex flex-col w-full overflow-auto'>
-            <NavBar />
             <div className="flex items-center bg-white self-center justify-center align-middle w-[80%] ml-16 mt-32 rounded-xl p-10 px-20">
                 <div className="w-full flex flex-col">
                     <div className="flex flex-row justify-between border-gray-500 border-b-2 pb-10">

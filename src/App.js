@@ -1,6 +1,8 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import NavBar from './Components/navbar';
+import SideBar from './Components/sidebar';
 import Products from './Pages/Product/index';
 import AddProduct from './Pages/Product/addproduct';
 import Blogs from './Pages/Blogs/index';
@@ -14,12 +16,16 @@ import Employees from './Pages/Employees/index';
 import AddEmployee from './Pages/Employees/addEmployee';
 import Orders from './Pages/orders/index';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Appointments from "./Pages/Appointments";
+import Calendar from "./Pages/Calendar";
 // import Sample from './Components/sample';
 
 
 function App() {
   return (
     <Router>
+      <SideBar/>
+      <NavBar />
       <Routes>
       <Route path="/" element={<Home />} />
         <Route path="/products" element={<Products />} />
@@ -33,6 +39,8 @@ function App() {
         <Route path="/payments" element={<Payments />} />
         <Route path="/employees" element={<Employees />} />
             <Route path="/employees/add" element={<AddEmployee />} />
+          <Route path="/appointments" element={<Appointments />} />
+          <Route path="/calendar" element={<Calendar />} />
         {/* <Route path="/login" element={<Login />} />
         <Route path="/view/:id" element={<Details />} /> */}
       </Routes>
