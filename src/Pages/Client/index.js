@@ -67,8 +67,114 @@ const Employees = () => {
     //         sales: 23,
     //         userName: 'John1243',
     //         password: '1234',
-    //     }
+    //     },
+    //     {
+    //         clientName: 'John',
+    //         mobileNumber: '000 000 000 000',
+    //         sales: 23,
+    //         userName: 'John1243',
+    //         password: '1234',
+    //     },
+    //     {
+    //         clientName: 'John',
+    //         mobileNumber: '000 000 000 000',
+    //         sales: 23,
+    //         userName: 'John1243',
+    //         password: '1234',
+    //     },
+    //     {
+    //         clientName: 'John',
+    //         mobileNumber: '000 000 000 000',
+    //         sales: 23,
+    //         userName: 'John1243',
+    //         password: '1234',
+    //     },
+    //     {
+    //         clientName: 'Johnnnnnnn',
+    //         mobileNumber: '000 000 000 000',
+    //         sales: 23,
+    //         userName: 'John1243',
+    //         password: '1234',
+    //     },
+    //     {
+    //         clientName: 'Johndsfwe',
+    //         mobileNumber: '000 000 000 000',
+    //         sales: 23,
+    //         userName: 'John1243',
+    //         password: '1234',
+    //     },
+    //     {
+    //         clientName: 'Johnathen',
+    //         mobileNumber: '000 000 000 000',
+    //         sales: 23,
+    //         userName: 'John1243',
+    //         password: '1234',
+    //     },
+    //     {
+    //         clientName: 'John',
+    //         mobileNumber: '000 000 000 000',
+    //         sales: 23,
+    //         userName: 'John1243',
+    //         password: '1234',
+    //     },
+    //     {
+    //         clientName: 'Johndddd',
+    //         mobileNumber: '000 000 000 000',
+    //         sales: 23,
+    //         userName: 'John1243',
+    //         password: '1234',
+    //     },
+    //     {
+    //         clientName: 'John',
+    //         mobileNumber: '000 000 000 000',
+    //         sales: 23,
+    //         userName: 'John1243',
+    //         password: '1234',
+    //     },
+    //     {
+    //         clientName: 'Johnewewwe',
+    //         mobileNumber: '000 000 000 000',
+    //         sales: 23,
+    //         userName: 'John1243',
+    //         password: '1234',
+    //     },
+    //     {
+    //         clientName: 'Johnttttttttt',
+    //         mobileNumber: '000 000 000 000',
+    //         sales: 23,
+    //         userName: 'John1243',
+    //         password: '1234',
+    //     },
+    //     {
+    //         clientName: 'John',
+    //         mobileNumber: '000 000 000 000',
+    //         sales: 23,
+    //         userName: 'John1243',
+    //         password: '1234',
+    //     },
+    //     {
+    //         clientName: 'John',
+    //         mobileNumber: '000 000 000 000',
+    //         sales: 23,
+    //         userName: 'John1243',
+    //         password: '1234',
+    //     },
+    //     {
+    //         clientName: 'Johnrrrrrrrrrrrrrrrr',
+    //         mobileNumber: '000 000 000 000',
+    //         sales: 23,
+    //         userName: 'John1243',
+    //         password: '1234',
+    //     },
+    //     {
+    //         clientName: 'Johnyyyyy',
+    //         mobileNumber: '000 000 000 000',
+    //         sales: 23,
+    //         userName: 'John1243',
+    //         password: '1234',
+    //     },
     // ]
+    
     const [clients, setClients] = useState([]);
 
     useEffect(() => {
@@ -93,6 +199,64 @@ const Employees = () => {
         getClients();
     }, []);
 
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const [searchQuery, setSearchQuery] = useState("");
+
+    const filteredClients = clients.filter((client) =>
+        client.clientName.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
+    const productsPerPage = 10;
+    const totalPages = Math.ceil(filteredClients.length / productsPerPage);
+
+    const startIndex = (currentPage - 1) * productsPerPage;
+    const endIndex = startIndex + productsPerPage;
+
+    const clientsToDisplay = filteredClients.slice(startIndex, endIndex);
+
+    const handleSearchChange = (e) => {
+        setSearchQuery(e.target.value);
+        setCurrentPage(1);
+    };
+
+    const handlePageChange = (newPage) => {
+        setCurrentPage(newPage);
+    };
+
+    const getPageNumbers = () => {
+        const pageNumbers = [];
+        const maxPageButtonsToShow = 5; // Adjust this value as needed
+
+        if (totalPages <= maxPageButtonsToShow) {
+            // Show all pages
+            for (let i = 1; i <= totalPages; i++) {
+                pageNumbers.push(i);
+            }
+        } else {
+            // Show a limited number of pages with ellipsis
+            const leftEllipsis = currentPage > 2;
+            const rightEllipsis = currentPage < totalPages - 1;
+
+            if (leftEllipsis) {
+                pageNumbers.push(1);
+                pageNumbers.push("...");
+            }
+
+            for (let i = currentPage - 1; i <= currentPage + 1; i++) {
+                if (i >= 1 && i <= totalPages) {
+                    pageNumbers.push(i);
+                }
+            }
+
+            if (rightEllipsis) {
+                pageNumbers.push("...");
+                pageNumbers.push(totalPages);
+            }
+        }
+
+        return pageNumbers;
+    };
 
     return(
         <div className='flex h-screen bg-gray-100'>
