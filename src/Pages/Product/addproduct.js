@@ -134,7 +134,7 @@ const handleNewFormSubmit = async (e) => {
                     <div className='flex flex-col w-full overflow-auto'>
                         <div className='flex flex-col items-center mt-32 align-middle justify-center gap-5'>
                             <div className='w-2/3 items-start justify-start'>
-                                <button onClick={() => navigate('/products')} className='py-2 px-5 rounded-lg bg-[#128F96] font-bold text-white hover:bg-cyan-700 transition-all duration-200'>Back</button>
+                                <button onClick={() => navigate('/products')} className='py-2 px-5 rounded-lg bg-[#128F96] font-bold text-white hover:bg-cyan-700 transition-all duration-200'>Kthehu</button>
                             </div>
                             <div className='items-center w-2/3 bg-white rounded-lg h-18 '>
                                 <div className='flex items-center justify-between p-5 '>
