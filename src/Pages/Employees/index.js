@@ -15,48 +15,31 @@ import AWS from 'aws-sdk';
 import femaleIcon from '../../resources/female.png'
 
 const Employees = () => {
-
     const [dropDown, setDropDown] = useState(false);
     const [isRotated, setIsRotated] = useState(false);
-    const toggle = () => {
-        setDropDown(old => !old);
-        setIsRotated(!isRotated);
-    }
-    const transClass = dropDown
-        ?
-        "flex"
-        :
-        "hidden";
-
-    const employees = [
-        {
-            name: 'Daim Hotie',
-            phone: '000 000 000',
-            email: 'abc@gamil.com',
-        },
-        {
-            name: 'Daim Hotie',
-            phone: '000 000 000',
-            email: 'abc@gamil.com',
-        },
-        {
-            name: 'Daim Hotie',
-            phone: '000 000 000',
-            email: 'abc@gamil.com',
-        },
-        {
-            name: 'Daim Hotie',
-            phone: '000 000 000',
-            email: 'abc@gamil.com',
-        },
-        {
-            name: 'Daim Hotie',
-            phone: '000 000 000',
-            email: 'abc@gamil.com',
-        },
-    ]
-
+    const [employees, setEmployees] = useState([]);
     const navigate = useNavigate();
+
+    const toggle = () => {
+        setDropDown((prev) => !prev);
+        setIsRotated((prev) => !prev);
+    };
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get('http://localhost:3001/employee/getallemployee');
+                setEmployees(response.data);
+            } catch (error) {
+                console.error('Error fetching employees:', error.message);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    const transClass = dropDown ? 'flex' : 'hidden';
+
 
     return(
         <div className='flex h-screen bg-gray-100'>
@@ -131,11 +114,18 @@ const Employees = () => {
 
                         <div className='flex flex-col gap-3 mt-2 w-full'>
 
-                            {employees.map((employee, index) => 
-                                <div className="flex row bg-white rounded-lg py-2 px-8 gap-10 self-start items-center align-middle justify-center w-full">
+                        {employees.map((employee, index) => (
+                                <div key={index} className="flex row bg-white rounded-lg py-2 px-8 gap-10 self-start items-center align-middle justify-center w-full">
                                     <div className='w-[50%] flex items-start align-middle justify-start'>
                                         <div className='flex flex-col gap-2 items-center'>
-                                            <div className='h-[70px] w-[70px] border border-[#128F96] rounded-full flex items-center justify-center align-middle text-4xl font-bold text-[#128F96]'><span>DH</span></div>
+                                            <div className='h-[70px] w-[70px] border border-[#128F96] rounded-full flex items-center justify-center align-middle text-4xl font-bold text-[#128F96]'>
+                                                <span>
+                                                    {employee.name.length === 1
+                                                        ? employee.name.toUpperCase() 
+                                                        : `${employee.name[0].toUpperCase()}${employee.last_name ? employee.last_name[0].toUpperCase() : ''}`
+                                                    }
+                                                </span>
+                                            </div>
                                             <div className='text-[#128F96]'>{employee.name}</div>
                                         </div>
                                     </div>
@@ -144,7 +134,8 @@ const Employees = () => {
                                         <span>{employee.phone}</span>
                                     </div>
                                 </div>
-                            )}
+                            ))}
+
 
                         </div>
                         

@@ -12,10 +12,10 @@ const AddClient = () => {
         password: '',
     });
 
-    const handleNewFormSubmit = (e) => {
-        
-        
+    const handleNewFormSubmit = (e) => {    
         e.preventDefault();
+        
+
     };
 
     const handleInputChange = (e) => {

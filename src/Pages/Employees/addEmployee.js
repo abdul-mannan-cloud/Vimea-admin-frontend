@@ -32,6 +32,16 @@ const Employee = () => {
             [name]: value,
         }));
     };
+    
+    const handleAddEmployee = async () => {
+        try {
+            const response = await axios.post('http://localhost:3001/employee/addemployee', employeeData);
+            console.log('Employee added successfully:', response.data);
+            navigate('/employees');
+        } catch (error) {
+            console.error('Error adding employee:', error.message);
+        }
+    };
 
     return(
         <div className='flex h-screen bg-gray-100'>
@@ -60,8 +70,10 @@ const Employee = () => {
                         </div>
                     </div>
                     <div className='w-full px-10'>
-                        <button className='w-full rounded-lg bg-[#128F96] py-2 text-white font-bold shadow-lg'>Add</button>
-                    </div>
+            <button onClick={handleAddEmployee} className='w-full rounded-lg bg-[#128F96] py-2 text-white font-bold shadow-lg'>
+                Add
+            </button>
+        </div>
                 </div>
             </div>
         </div>
