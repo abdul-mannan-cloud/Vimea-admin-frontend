@@ -318,7 +318,7 @@ const Employees = () => {
                                 <div className='flex flex-row'>
                                     <div  onClick={() => navigate('/clients/add')} className='py-2 px-3 h-12 flex flex-row gap-3 items-center align-middle bg-[#128F96] rounded-lg cursor-pointer hover:bg-cyan-700 transition-all duration-200'>
                                         <img src={plusIcon} className='w-[25px] h-[25px]' />
-                                        <span className='font-bold text-white'>SHTO PUNTORIN</span>
+                                        <span className='font-bold text-white'>SHTO KLIENTIN</span>
                                     </div>
                                 </div>
                             </div>
@@ -329,14 +329,14 @@ const Employees = () => {
                             <div className='flex flex-row w-full px-5 py-5 border-b border-gray-4400 font-bold'>
                                 <div className='flex flex-row w-[50%] gap-10 justify-start'>
                                     <input type='radio' className='opacity-0' />
-                                    <div className='w-[20%] px-[6px]'>Client name</div>
-                                    <div className='w-[25%] px-[5px]'>Phone number</div>
-                                    <div className='ml-10'>Sales</div>
+                                    <div className='w-[20%] px-[6px]'>Emri i Klientit</div>
+                                    <div className='w-[25%] px-[5px]'>Numri i Telefonitr</div>
+                                    <div className='ml-10'>Shitje</div>
                                 </div>
                                 <div className='flex flex-row w-[50%] gap-10 justify-start'>
-                                    <div className='w-[30%]'>Created at</div>
-                                    <div className='w-[30%]'>Username</div>
-                                    <div className=''>Password</div>
+                                    <div className='w-[30%]'>Krijuar në</div>
+                                    <div className='w-[30%]'>Emri i User-it</div>
+                                    <div className=''>Fjalëkalimi</div>
                                 </div>
                             </div>
 
