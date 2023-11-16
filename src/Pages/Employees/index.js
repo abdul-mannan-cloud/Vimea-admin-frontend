@@ -6,12 +6,13 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import axios from 'axios';
 import { useRef } from 'react';
-import { Container, InputAdornment, TextField } from "@mui/material";
+import { Container, InputAdornment, TextField, Button } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 import arrowIcon from '../../resources/arrowIcon.png';
 import plusIcon from '../../resources/Plus.png';
 import AWS from 'aws-sdk';
-
 import femaleIcon from '../../resources/female.png'
 
 const Employees = () => {
@@ -52,6 +53,22 @@ const Employees = () => {
     //         phone: '000 000 000 000'
     //     },
     // ]
+
+
+    const handleEdit = (employeeId) => {
+        navigate(`/employees/edit/${employeeId}`);
+    };
+
+    const handleDelete = async (employeeId) => {
+        try {
+            console.log(employeeId)
+            await axios.delete(`http://localhost:3001/employee/deleteemployee/${employeeId}`);
+            
+            setEmployees((prevEmployees) => prevEmployees.filter((employee) => employee._id !== employeeId));
+        } catch (error) {
+            console.error('Error deleting employee:', error.message);
+        }
+    };
 
     const [searchQuery, setSearchQuery] = useState("");
 
@@ -168,6 +185,23 @@ const Employees = () => {
                                     <div className='flex flex-col w-[50%]'>
                                         <span>{employee.email}</span>
                                         <span>{employee.phone}</span>
+                                    </div>
+                                    <div className='flex flex-col w-[20%]'>
+                                        <Button
+                                            variant="outlined"
+                                            startIcon={<EditIcon />}
+                                            onClick={() => handleEdit(employee._id)}
+                                        >
+                                            Edit
+                                        </Button>
+                                        <br/>
+                                        <Button
+                                            variant="outlined"
+                                            startIcon={<DeleteIcon />}
+                                            onClick={() => handleDelete(employee._id)}
+                                        >
+                                            Delete
+                                        </Button>
                                     </div>
                                 </div>
                             ))}
