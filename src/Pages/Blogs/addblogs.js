@@ -127,7 +127,7 @@ return (
                 <div className='flex flex-col w-full overflow-auto'>
                     <div className='flex flex-col items-center mt-10 align-middle justify-center gap-5'>
                       <div className='w-2/3 items-start justify-start'>
-                        <button onClick={() => navigate('/blogs')} className='py-2 px-5 rounded-lg bg-[#128F96] font-bold text-white hover:bg-cyan-700 transition-all duration-200'>Back</button>
+                        <button onClick={() => navigate('/blogs')} className='py-2 px-5 rounded-lg bg-[#128F96] font-bold text-white hover:bg-cyan-700 transition-all duration-200'>Kthehu</button>
                       </div>
                         <div className='items-center w-2/3 bg-white rounded-lg h-18 '>
                             <div className='flex items-center justify-between p-5 '>
@@ -173,7 +173,7 @@ return (
                               <div className='w-full flex flex-col gap-5'>
                                 <div className='flex flex-col gap-2'>
                                   <label className='font-semibold text-gray-300'>TITULLI I BLOG-UT</label>
-                                  <input value={formData.blogTitle} onChange={handleInputChange} name="blogTitle" label="Blog Title" variant="outlined" className='w-full rounded-lg p-3 border-[2px] border-gray-200' placeholder='Blog Title'/>
+                                  <input value={formData.blogTitle} onChange={handleInputChange} name="blogTitle" label="Blog Title" variant="outlined" className='w-full rounded-lg p-3 border-[2px] border-gray-200' placeholder='Titulli i Blog-ut'/>
                                 </div>
                                 <div className='flex flex-col gap-2'>
                                   <label className='font-semibold text-gray-300'>PHONE NUMBER</label>

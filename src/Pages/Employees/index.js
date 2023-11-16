@@ -89,7 +89,7 @@ const Employees = () => {
                                 <TextField 
                                     id="search"
                                     type="search"
-                                    label="Search"
+                                    label="Kërko"
                                     value={searchQuery}
                                     onChange={handleSearchChange}
                                     style={{ borderRadius: '20px' }}
@@ -145,7 +145,7 @@ const Employees = () => {
                         </div>
 
                         <div className='mt-10'>
-                            <span className='text-xl font-bold'>Team Members</span>
+                            <span className='text-xl font-bold'>Stafi</span>
                         </div>
 
                         <div className='flex flex-col gap-3 mt-2 w-full'>

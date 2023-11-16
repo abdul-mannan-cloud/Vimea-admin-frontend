@@ -32,11 +32,11 @@ const AddClient = () => {
                 <div className='flex flex-col w-full overflow-auto'>
                     <Container maxWidth="md" className='bg-white rounded-xl p-14'>
                         <Grid container spacing={2} justifyContent="center">
-                            <span className='text-3xl font-bold mb-5'>Employee Details</span>
+                            <span className='text-3xl font-bold mb-5'>Detajet e Klientit</span>
                             <Grid item xs={12}>
                                 <TextField
                                     name="clientName"
-                                    label="Client Name"
+                                    label="Emri i Klientit"
                                     variant="outlined"
                                     fullWidth
                                     value={formData.clientName}
@@ -46,7 +46,7 @@ const AddClient = () => {
                             <Grid item xs={12}>
                                 <TextField
                                     name="mobileNumber"
-                                    label="Mobile Number"
+                                    label="Numri i Telefonit"
                                     variant="outlined"
                                     fullWidth
                                     value={formData.mobileNumber}
@@ -56,7 +56,7 @@ const AddClient = () => {
                             <Grid item xs={12}>
                                 <TextField
                                     name="userName"
-                                    label="User Name"
+                                    label="Emri i User-it"
                                     variant="outlined"
                                     fullWidth
                                     value={formData.userName}
@@ -66,7 +66,7 @@ const AddClient = () => {
                             <Grid item xs={12}>
                                 <TextField
                                     name="password"
-                                    label="Password"
+                                    label="Fjalëkalimi"
                                     type="password"
                                     variant="outlined"
                                     fullWidth
@@ -76,7 +76,7 @@ const AddClient = () => {
                             </Grid>
                             <Grid item xs={12}>
                                 <Button type="submit" variant="contained" color="primary" fullWidth>
-                                    Add Client
+                                    Shto Klientin
                                 </Button>
                             </Grid>
                         </Grid>

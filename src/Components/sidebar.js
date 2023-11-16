@@ -2,11 +2,11 @@ import React, { createContext, useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 // import your images
 import img1 from '../resources/1.png';
-import img1b from '../resources/🦆 icon _home_.png';
+import img1b from '../resources/icon_home_.png';
 import img2 from '../resources/2.png';
 import img2b from '../resources/Group 18.png';
 import img3 from '../resources/3.png';
-import img3b from '../resources/🦆 icon _person_.png';
+import img3b from '../resources/icon_person_.png';
 import img4 from '../resources/4.png';
 import img4b from '../resources/Bookmark.png';
 import img5 from '../resources/5.png';

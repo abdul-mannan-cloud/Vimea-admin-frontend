@@ -24,7 +24,7 @@ return (
                 <TextField 
                     id="search"
                     type="search"
-                    label="Search"
+                    label="Kërko"
                     // value={searchTerm}
                     // onChange={handleChange}
                     InputProps={{
