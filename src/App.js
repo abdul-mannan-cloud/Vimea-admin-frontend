@@ -15,6 +15,7 @@ import Payments from './Pages/Payments/index';
 import Employees from './Pages/Employees/index';
 import AddEmployee from './Pages/Employees/addEmployee';
 import Orders from './Pages/orders/index';
+import Login from './Pages/Login/index'
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Appointments from "./Pages/Appointments";
 import Calendar from "./Pages/Calendar";
@@ -27,7 +28,8 @@ function App() {
       <SideBar/>
       <NavBar />
       <Routes>
-      <Route path="/" element={<Home />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/signin" element={<Login />} />
         <Route path="/products" element={<Products />} />
           <Route path="/products/add" element={<AddProduct/>}/>
         <Route path="/blogs" element={<Blogs />} />
