@@ -29,7 +29,7 @@ function App() {
       <SideBar/>
       <NavBar />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/home5" element={<Dashboard />} />
         <Route path="/signin" element={<Login />} />
         <Route path="/products" element={<Products />} />
           <Route path="/products/add" element={<AddProduct/>}/>

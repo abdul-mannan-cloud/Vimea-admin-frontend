@@ -239,8 +239,8 @@ const handleNewFormSubmit = async (e) => {
                                 <div className='w-[40%] flex flex-col gap-2 '>
                                     <label className='font-semibold text-gray-300'>Përshkrimi</label>
                                         <textarea
-                                            label="To satisfy"
-                                            name="toSatisfy"
+                                            label="description"
+                                            name="description"
                                             value={formData.description}
                                             onChange={handleInputChange}
                                             multiline
