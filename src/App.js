@@ -14,6 +14,7 @@ import Feedback from './Pages/Feedback/index';
 import Payments from './Pages/Payments/index';
 import Employees from './Pages/Employees/index';
 import AddEmployee from './Pages/Employees/addEmployee';
+import EditEmployee from './Pages/Employees/editEmployee';
 import Orders from './Pages/orders/index';
 import Login from './Pages/Login/index'
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -41,7 +42,8 @@ function App() {
         <Route path="/orders" element={<Orders />} />
         <Route path="/payments" element={<Payments />} />
         <Route path="/employees" element={<Employees />} />
-            <Route path="/employees/add" element={<AddEmployee />} />
+  `          <Route path="/employees/add" element={<AddEmployee />} />
+            <Route path="/employees/edit/:id" element={<EditEmployee />} />
           <Route path="/appointments" element={<Appointments />} />
           <Route path="/calendar" element={<Calendar />} />
           <Route path="/dashboard" element={<Dashboard />} />
