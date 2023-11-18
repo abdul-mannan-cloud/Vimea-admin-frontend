@@ -309,32 +309,6 @@ return(
                                     </div>
                                 </div>
                             </div>
-                            <div className="flex flex-col gap-2">
-                                <span className="text-xs font-bold">PAYMENT DETAILS</span>
-                                <div className="flex flex-row text-xs gap-5 p-3 border-2 border-gray-300 rounded-lg">
-                                    <div className="flex flex-col">
-                                        <span>Card:</span>
-                                        <span>Date of transaction:</span>
-                                        <span>Aprovation code:</span>
-                                    </div>
-                                    <div className="flex flex-col">
-                                    </div>
-                                </div>  
-                            </div>
-                            <div className="flex flex-col gap-2">
-                                <span className="text-xs font-bold">Billing Adress</span>
-                                <div className="flex flex-row text-xs gap-5 p-3 border-2 border-gray-300 rounded-lg">
-                                    <div className="flex flex-col">
-                                        <span>Adress:</span>
-                                        <span>City:</span>
-                                        <span>State:</span>
-                                        <span>Postal code:</span>
-                                    </div>
-                                    <div className="flex flex-col">
-
-                                    </div>
-                                </div>  
-                            </div>
                         </div>
                     </div>
 

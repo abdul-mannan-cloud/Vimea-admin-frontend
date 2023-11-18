@@ -28,7 +28,16 @@ const Orders = () => {
             address : "Str.noname nr.5",
             city : "Prishtina",
             state : "Kosova",
-            postalCode : 10000
+            postalCode : 10000,
+            products : [
+                {
+                    mainImage: ProductImage,
+                    name: "Product",
+                    price: 20,
+                    quantity: 4,
+
+                }
+            ]
         },
         {
             title : "BABY BIO MANDELÖL 200ml",
@@ -42,7 +51,23 @@ const Orders = () => {
             address : "Str.noname nr.5",
             city : "Prishtina",
             state : "Kosova",
-            postalCode : 10000
+            postalCode : 10000,
+            products : [
+                {
+                    mainImage: ProductImage,
+                    name: "Product",
+                    price: 20,
+                    quantity: 4,
+
+                },
+                {
+                    mainImage: ProductImage,
+                    name: "Product",
+                    price: 20,
+                    quantity: 4,
+
+                },
+            ]
         },
         {
             title : "BABY BIO MANDELÖL 200ml",
@@ -56,7 +81,30 @@ const Orders = () => {
             address : "Str.noname nr.5",
             city : "Prishtina",
             state : "Kosova",
-            postalCode : 10000
+            postalCode : 10000,
+            products : [
+                {
+                    mainImage: ProductImage,
+                    name: "Product",
+                    price: 20,
+                    quantity: 4,
+
+                },
+                {
+                    mainImage: ProductImage,
+                    name: "Product",
+                    price: 20,
+                    quantity: 4,
+
+                },
+                {
+                    mainImage: ProductImage,
+                    name: "Product",
+                    price: 20,
+                    quantity: 4,
+
+                }
+            ]
         },
     ]
 
@@ -121,19 +169,22 @@ const Orders = () => {
                                     </div>  
                                 </div>
                                 <div className="flex flex-col gap-2">
-                                    <span className="text-xs font-bold">PAYMENT DETAILS</span>
-                                    <div className="flex flex-row text-xs gap-5 p-3 border-2 border-gray-300 rounded-lg">
-                                        <div className="flex flex-col">
-                                            <span>Card:</span>
-                                            <span>Date of transaction:</span>
-                                            <span>Aprovation code:</span>
-                                        </div>
-                                        <div className="flex flex-col">
-                                            <span>{order.card}</span>
-                                            <span>{order.trasactionDate}</span>
-                                            <span>{order.code}</span>
-                                        </div>
-                                    </div>  
+                                    <span className="text-xs font-bold">Detajet e Produktit</span>
+                                    <div
+                                        className="flex flex-col text-xs gap-5 p-3 border-2 border-gray-300 rounded-lg w-[300px]">
+                                        {
+                                            order.products.map(product =>
+                                                <div className="flex flex-row gap-10">
+                                                    <img src={product.mainImage} className="w-[40px]" alt="Product image"/>
+                                                    <div className="flex flex-col">
+                                                        <span>{product.name}</span>
+                                                        <span>Saisa: {product.quantity}</span>
+                                                        <span>Qmimi: {product.price}</span>
+                                                    </div>
+                                                </div>
+                                            )
+                                        }
+                                    </div>
                                 </div>
                                 <div className="flex flex-col gap-2">
                                     <span className="text-xs font-bold">Billing Adress</span>
