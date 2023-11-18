@@ -240,7 +240,11 @@ const handleNewFormSubmit = async (e) => {
                                 <div className='w-[40%] flex flex-col gap-2 '>
                                     <label className='font-semibold text-gray-300'>Përshkrimi</label>
                                         <textarea
+<<<<<<< HEAD
                                             label="Description"
+=======
+                                            label="description"
+>>>>>>> 1a13ad446df3b4da6cd4399ac9c019bae0107ae8
                                             name="description"
                                             value={formData.description}
                                             onChange={handleInputChange}
