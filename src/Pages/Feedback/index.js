@@ -15,68 +15,47 @@ import femaleIcon from '../../resources/female.png'
 
 const Feedback = () => {
 
-    const feedbacks = [
-        {
-            email: 'abc@gmail.com',
-            gender: 'male',
-            age: 12,
-            buy: 'PO',
-            feedback1: 2,
-            feedback2: 4,
-            feedback3: 2,
-            feedback4: 1,
-            feedback5: 5,
-            descrption1: 'cernfuiervube vieuwbc eriubv eriucbiwq biewqf owq efwq ciewc eci e ciq cew qcuwebqc weubcwe ci rci w qciew qc we cwe ck qc  ubqwefbewqfb bqcwu weq i  ibwebiwefiwfqwefi wqoefnno wqeofwe',
-            descrption2: 'cernfuiervube vieuwbc eriubv eriucbiwq',
-            service: '1',
-            source: 'Facebook'
-        },
-        {
-            email: 'abc@gmail.com',
-            gender: 'female',
-            age: 12,
-            buy: 'PO',
-            feedback1: 2,
-            feedback2: 4,
-            feedback3: 2,
-            feedback4: 1,
-            feedback5: 5,
-            descrption1: 'cernfuiervube vieuwbc eriubv eriucbiwq',
-            descrption2: 'cernfuiervube vieuwbc eriubv eriucbiwq',
-            service: '1',
-            source: 'Mjeku im / Pediatri i bebes'
-        },
-        {
-            email: 'abc@gmail.com',
-            gender: 'male',
-            age: 12,
-            buy: 'PO',
-            feedback1: 2,
-            feedback2: 4,
-            feedback3: 2,
-            feedback4: 1,
-            feedback5: 5,
-            descrption1: 'cernfuiervube vieuwbc eriubv eriucbiwq',
-            descrption2: 'cernfuiervube vieuwbc eriubv eriucbiwq',
-            service: '1',
-            source: 'Instagram'
-        },
-        {
-            email: 'abc@gmail.com',
-            gender: 'female',
-            age: 12,
-            buy: 'PO',
-            feedback1: 2,
-            feedback2: 4,
-            feedback3: 2,
-            feedback4: 1,
-            feedback5: 5,
-            descrption1: 'cernfuiervube vieuwbc eriubv eriucbiwq',
-            descrption2: 'cernfuiervube vieuwbc eriubv eriucbiwq',
-            service: '1',
-            source: 'Miget'
-        }
-    ]
+    // {
+    // "email":"abdulmannankhan1000@gmail.com"  email 
+    // "gender":"male"  gender
+    // "age":"03263"  age
+    // "service":"Masazhin për beba" 
+    // "purchase":"Yes"  buy
+    // "experience":1  feedback1
+    // "benefits":2  feedack2
+    // "prices":2  feedback3
+    // "appointments":4  feedback4
+    // "recommendation":1  feedback5    
+    // "suggestion":"asds"  descrption1
+    // "improvement":"asdsd"  descrption2
+    // ]
+
+
+    const [feedbacks, setFeedbacks] = useState([]);
+
+    useEffect(() => {
+        fetch('http://localhost:3001/feedback/')
+            .then(response => response.json())
+            .then(data => {
+                const newFeedbacks = data.map(item => ({
+                    email: item.email,
+                    gender: item.gender,
+                    age: item.age,
+                    buy: item.purchase,
+                    feedback1: item.experience,
+                    feedback2: item.benefits,
+                    feedback3: item.prices,
+                    feedback4: item.appointments,
+                    feedback5: item.recommendation,
+                    descrption1: item.suggestion,
+                    descrption2: item.improvement,
+                    service: item.service,
+                    source: item.source
+                }));
+                setFeedbacks(newFeedbacks);
+            })
+            .catch(error => console.error('Error:', error));
+    }, []); 
 
     const [divStates, setDivStates] = useState(Array(feedbacks.length).fill(false));
 
@@ -309,32 +288,8 @@ return(
                                     </div>
                                 </div>
                             </div>
-                            <div className="flex flex-col gap-2">
-                                <span className="text-xs font-bold">PAYMENT DETAILS</span>
-                                <div className="flex flex-row text-xs gap-5 p-3 border-2 border-gray-300 rounded-lg">
-                                    <div className="flex flex-col">
-                                        <span>Card:</span>
-                                        <span>Date of transaction:</span>
-                                        <span>Aprovation code:</span>
-                                    </div>
-                                    <div className="flex flex-col">
-                                    </div>
-                                </div>  
-                            </div>
-                            <div className="flex flex-col gap-2">
-                                <span className="text-xs font-bold">Billing Adress</span>
-                                <div className="flex flex-row text-xs gap-5 p-3 border-2 border-gray-300 rounded-lg">
-                                    <div className="flex flex-col">
-                                        <span>Adress:</span>
-                                        <span>City:</span>
-                                        <span>State:</span>
-                                        <span>Postal code:</span>
-                                    </div>
-                                    <div className="flex flex-col">
+                           
 
-                                    </div>
-                                </div>  
-                            </div>
                         </div>
                     </div>
 
