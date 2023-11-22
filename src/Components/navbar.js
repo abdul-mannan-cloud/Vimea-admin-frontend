@@ -20,35 +20,6 @@ return (
         />   
     </div>  
     <div className='flex flex-row gap-10'>
-        <div className='mt-1 rounded-lg'> 
-                <TextField 
-                    id="search"
-                    type="search"
-                    label="Kërko"
-                    // value={searchTerm}
-                    // onChange={handleChange}
-                    InputProps={{
-                        endAdornment: (
-                        <InputAdornment position="start">
-                            <SearchIcon color=''/>
-                        </InputAdornment>
-                        ),
-                    }}
-                />
-        </div>
-        <div className='relative p-3 mt-1'>
-            <img
-                src={bellIcon}
-                width="35"
-                height="35"
-                alt="Logo"
-            />
-            <div className='absolute top-1 right-1 rounded-full bg-white w-7 h-7 text-center items-center justify-center p-[2px] z-50'>
-                <div className='bg-[#128F96] rounded-full'>
-                    <span className='text-white'>1</span>
-                </div>
-            </div>   
-        </div>
         <div>
             {
                 login

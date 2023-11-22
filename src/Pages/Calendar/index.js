@@ -4,9 +4,9 @@ import {HTML5Backend} from 'react-dnd-html5-backend';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import Avatar from 'react-avatar';
+import axios from "axios";
 
 const times = ['7 AM', '8 AM', '9 AM', '10 AM', '11 AM', '12 PM', '1 PM'];
-const employees = ['Employee 1', 'Employee 2', 'Employee 3','Employee 4','Employee 5','Employee 6'];
 
 const initialAppointments = [
     {id: 1, employee: 'Employee 1', date: new Date('2023-11-13'), time: '9 AM', content: 'Meeting'},
@@ -20,8 +20,20 @@ const ItemTypes = {
 
 function Calendar() {
     const [currentDate, setCurrentDate] = useState(new Date());
+    const [employees,setEmployees] = useState([]);
     const [appointments, setAppointments] = useState(initialAppointments);
     const [selectedEmployee, setSelectedEmployee] = useState('');
+
+    const getData = async () => {
+        const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/employee/getallemployee`);
+        if (res.status === 200) {
+            setEmployees(res.data)
+        }
+    }
+
+    useEffect(() => {
+        getData()
+    },[])
 
     const formatDate = (date) => {
         const year = date.getFullYear();
@@ -61,14 +73,14 @@ function Calendar() {
                 <div className='flex justify-between items-center mb-4'>
                     <div className='flex items-center gap-5'>
                         <select
-                            value={selectedEmployee}
+                            value={selectedEmployee.name}
                             onChange={(e) => setSelectedEmployee(e.target.value)}
                             className="p-2 border rounded"
                         >
                             <option value="">All Employees</option>
                             {employees.map((employee) => (
-                                <option key={employee} value={employee}>
-                                    {employee}
+                                <option key={employee._id} value={employee.name}>
+                                    {employee.name}
                                 </option>
                             ))}
                         </select>
@@ -101,8 +113,8 @@ function Calendar() {
                         {employees.map((employee) => (
                             <th key={employee} className='border px-4 py-2 '>
                                 <div className="flex flex-col justify-center items-center">
-                                    <Avatar name={employee} size="100" round={true}/>
-                                    {employee}
+                                    <Avatar name={employee.name} size="100" round={true}/>
+                                    {employee.name}
                                 </div>
                             </th>
                         ))}
@@ -114,14 +126,14 @@ function Calendar() {
                             <td className='border px-4 py-2 h-32'>{time}</td>
                             {employees.map((employee) => (
                                 <DropZone
-                                    key={`${employee}-${time}-${currentDate}`}
-                                    employee={employee}
+                                    key={`${employee._id}-${time}-${currentDate}`}
+                                    employee={employee.name}
                                     time={time}
                                     date={currentDate}
                                     moveAppointment={moveAppointment}
                                 >
                                     {appointments
-                                        .filter(app =>( selectedEmployee === '' || app.employee === selectedEmployee) && app.employee === employee && app.time === time && new Date(currentDate).toLocaleDateString() === new Date(app.date).toLocaleDateString())
+                                        .filter(app =>( selectedEmployee === '' || app.employee.name === selectedEmployee) && app.employee.name === employee.name && app.time === time && new Date(currentDate).toLocaleDateString() === new Date(app.date).toLocaleDateString())
                                         .map(app => (
                                             <DraggableAppointment key={app.id} appointment={app}/>
                                         ))}
