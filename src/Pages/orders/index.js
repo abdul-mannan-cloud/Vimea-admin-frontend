@@ -58,7 +58,7 @@ const Orders = () => {
     const [orders, setOrders] = useState([]);
 
     const getData = async ()=>{
-        const response = await axios.get('http://localhost:3001/order/orders/')
+        const response = await axios.get('process.env.REACT_APP_BACKEND_URL/order/orders/')
         let data = response.data;
         let newOrders = [];
         data = data.map((item, index) => {

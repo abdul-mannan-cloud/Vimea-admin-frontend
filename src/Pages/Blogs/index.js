@@ -25,7 +25,7 @@ const [selectedBlogs, setSelectedBlogs] = useState(null);
 useEffect(() => {
 const fetchBlogs = async () => {
     try {
-    const response = await axios.get('http://localhost:3001/blogs/getallblogs');
+    const response = await axios.get('process.env.REACT_APP_BACKEND_URL/blogs/getallblogs');
     setBlogs(response.data.blogs);
     console.log(blogs);
     } catch (error) {
@@ -64,7 +64,7 @@ const handleProductClick = (blog) => {
   const onDeleteClick = async () => {
     if (selectedBlogs) {
       try {
-        const response = await axios.delete(`http://localhost:3001/blogs/deleteblog/${selectedBlogs._id}`);
+        const response = await axios.delete(`process.env.REACT_APP_BACKEND_URL/blogs/deleteblog/${selectedBlogs._id}`);
         console.log(response.data); 
       } catch (error) {
         console.error('Error deleting product:', error);
@@ -168,7 +168,7 @@ const handleNewFormSubmit = async (e) => {
 console.log(updatedFormData);
 
     try {
-         await axios.post('http://localhost:3001/blogs/editblog', updatedFormData);
+         await axios.post('process.env.REACT_APP_BACKEND_URL/blogs/editblog', updatedFormData);
     } catch (error) {
       console.error(error);
     }

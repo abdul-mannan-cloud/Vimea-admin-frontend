@@ -18,7 +18,7 @@ const EditEmployee = () => {
         const fetchEmployeeDetails = async () => {
             try {
                 console.log(id);
-                const response = await axios.get(`http://localhost:3001/employee/getemployee/${id}`);
+                const response = await axios.get(`process.env.REACT_APP_BACKEND_URL/employee/getemployee/${id}`);
                 setEmployeeData(response.data);
             } catch (error) {
                 console.error('Error fetching employee details:', error.message);
@@ -38,7 +38,7 @@ const EditEmployee = () => {
 
     const handleEditEmployee = async () => {
         try {
-            const response = await axios.post(`http://localhost:3001/employee/editemployee/${id}`, employeeData);
+            const response = await axios.post(`process.env.REACT_APP_BACKEND_URL/employee/editemployee/${id}`, employeeData);
             console.log('Employee edited successfully:', response.data);
             navigate('/employees');
         } catch (error) {

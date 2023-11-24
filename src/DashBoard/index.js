@@ -25,15 +25,15 @@ const Dashboard = () => {
         }
 
         //appointments data
-        // const appointmentTodayRes = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/appointment/today`);
-        // const totalAppointmentRes = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/appointment/appointments`);
-        // if (appointmentTodayRes.status === 200) {
-        //     setTodayAppointments(appointmentTodayRes.data.length);
-        // }
-        // if (totalAppointmentRes.status === 200) {
-        //     setAppointments(totalAppointmentRes.data.length);
-        // }
-        //
+        const appointmentTodayRes = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/appointment/gettodayappointments`);
+        const totalAppointmentRes = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/appointment/getallappointments`);
+        if (appointmentTodayRes.status === 200) {
+            setTodayAppointments(appointmentTodayRes.data.length);
+        }
+        if (totalAppointmentRes.status === 200) {
+            setAppointments(totalAppointmentRes.data.length);
+        }
+
 
         // table orders data
        const today = new Date();
@@ -56,20 +56,20 @@ const Dashboard = () => {
         setSalesData(dailyOrderCounts);
 
         // table appointments data
-        // const lastWeekAppointments = totalAppointmentRes.data.filter(appointment => {
-        //     const appointmentDate = new Date(appointment.date);
-        //     return appointmentDate >= oneWeekAgo && appointmentDate <= today;
-        // });
-        //
-        // const dailyAppointmentCounts = Array(7).fill(0); // Initialize an array with 7 elements (representing days of the week) with initial count 0
-        //
-        // lastWeekAppointments.forEach(appointment => {
-        //     const appointmentDate = new Date(appointment.date);
-        //     const dayOfWeek = appointmentDate.getDay(); // 0 (Sunday) to 6 (Saturday)
-        //
-        //     dailyAppointmentCounts[dayOfWeek]++;
-        // });
-        // setAppointmentsData(dailyAppointmentCounts);
+        const lastWeekAppointments = totalAppointmentRes.data.filter(appointment => {
+            const appointmentDate = new Date(appointment.date);
+            return appointmentDate >= oneWeekAgo && appointmentDate <= today;
+        });
+
+        const dailyAppointmentCounts = Array(7).fill(0); // Initialize an array with 7 elements (representing days of the week) with initial count 0
+
+        lastWeekAppointments.forEach(appointment => {
+            const appointmentDate = new Date(appointment.date);
+            const dayOfWeek = appointmentDate.getDay(); // 0 (Sunday) to 6 (Saturday)
+
+            dailyAppointmentCounts[dayOfWeek]++;
+        });
+        setAppointmentsData(dailyAppointmentCounts);
 
     }
 
@@ -82,8 +82,17 @@ const Dashboard = () => {
             <div className="flex flex-wrap justify-around">
                 {/* Donut Charts */}
                 <div className="bg-white drop-shadow-lg p-4 flex flex-col justify-center gap-2 rounded-lg w-[40vw]">
-                    <h2 className="text-4xl font-bold text-start">8</h2>
-                    <h1 className="text-4xl font-bold text-[#34D399]">Total Appointments</h1>
+                    <div className="flex flex-row gap-10">
+                        <div>
+                            <h2 className="text-4xl font-bold text-start">{todayAppointments}</h2>
+                            <h1 className="text-4xl font-bold text-[#34D399]">Today's Appointments</h1>
+                        </div>
+                        <div className="border-[1px] min-h-max border-gray-200"></div>
+                        <div>
+                            <h2 className="text-4xl font-bold text-start">{appointments}</h2>
+                            <h1 className="text-4xl font-bold text-[#34D399]">Total Appointments</h1>
+                        </div>
+                    </div>
                 </div>
                 <div className="bg-white drop-shadow-lg p-4 flex flex-col justify-center gap-2 rounded-lg w-[40vw]">
                     <div className="flex flex-row gap-10">
@@ -102,7 +111,7 @@ const Dashboard = () => {
             </div>
             <div className="flex flex-wrap justify-around mt-8">
                 {/* Bar Charts */}
-                <BarChart title="Total Appointments" data={[44, 55, 41, 67, 22, 43, 21]}/>
+                <BarChart title="Total Appointments" data={appointmentsData}/>
                 <BarChart title="Total Sales" data={salesData}/>
             </div>
         </div>

@@ -5,11 +5,12 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import Avatar from 'react-avatar';
 import axios from "axios";
+import app from "../../App";
 
-const times = ['7 AM', '8 AM', '9 AM', '10 AM', '11 AM', '12 PM', '1 PM'];
+const times = ['7:00', '8:00', '9:00', '10:00', '11:00', '12:00', '1:00'];
 
 const initialAppointments = [
-    {id: 1, employee: 'Employee 1', date: new Date('2023-11-13'), time: '9 AM', content: 'Meeting'},
+    {id: 1, employee: 'Muhammad Awais', date: new Date('2023-11-24'), time: '9:00', content: 'Meeting'},
     {id: 2, employee: 'Employee 2', date: new Date('2023-11-13'), time: '10 AM', content: 'Meeting'},
     {id: 3, employee: 'Employee 2', date: new Date('2023-11-12'), time: '7 AM', content: 'Meeting'},
 ];
@@ -29,11 +30,55 @@ function Calendar() {
         if (res.status === 200) {
             setEmployees(res.data)
         }
+        const appointmentRes = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/appointment/getallappointments`);
+        if(appointmentRes.status === 200) {
+            console.log(appointmentRes.data)
+            setAppointments(appointmentRes.data.map(appointment => {
+                return {
+                    id: appointment._id,
+                    employee: appointment.employee?appointment.employee:res.data[0].name,
+                    date: new Date(appointment.date),
+                    time: appointment.time,
+                    content: appointment.content
+                }
+            }))
+        }
+    }
+
+    function convertTimeTo24HourFormat(timeString) {
+        const [time, period] = timeString.split(' ');
+
+        let [hours, minutes] = time.split(':');
+
+        if (period === 'PM' && hours < 12) {
+            hours = parseInt(hours, 10) + 12;
+        } else if (period === 'AM' && hours === '12') {
+            hours = '00';
+        }
+
+        return `${hours}:${minutes}`;
+    }
+
+    function compareTimes(time1, time2) {
+        const formattedTime1 = convertTimeTo24HourFormat(time1);
+        const formattedTime2 = convertTimeTo24HourFormat(time2);
+
+        if (formattedTime1 < formattedTime2) {
+            return 1
+        } else if (formattedTime1 > formattedTime2) {
+            return -1
+        } else {
+            return 0
+        }
     }
 
     useEffect(() => {
         getData()
     },[])
+
+    useEffect(() => {
+
+    }, [appointments]);
 
     const formatDate = (date) => {
         const year = date.getFullYear();
@@ -42,13 +87,24 @@ function Calendar() {
         return `${year}-${month}-${day}`;
     };
 
-    const moveAppointment = useCallback((id, newEmployee, newTime, newDate) => {
+    const updateAppointment = async (appointment) => {
+        const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/appointment/editappointment/${appointment.id}`, appointment);
+        if (res.status === 200) {
+            console.log('Appointment updated successfully');
+        }
+    }
+
+    const moveAppointment = useCallback(async (id, newEmployee, newTime, newDate) => {
+        let appointmentTemp = null
         setAppointments(prevAppointments => prevAppointments.map(appointment => {
             if (appointment.id === id) {
-                return { ...appointment, employee: newEmployee, time: newTime, date: newDate };
+                appointmentTemp = appointment
+                return {...appointment, employee: newEmployee, time: newTime, date: newDate};
             }
             return appointment;
         }));
+        if(appointmentTemp)
+            await updateAppointment(appointmentTemp)
     }, [setAppointments]);
 
     const handlePrevDay = () => {
@@ -62,6 +118,9 @@ function Calendar() {
         date.setDate(currentDate.getDate() + 1);
         setCurrentDate(date);    };
 
+    useEffect(()=>{
+        console.log(appointments)
+    })
     // const formatDate = (date) => {
     //     return date.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
     // };
@@ -132,8 +191,9 @@ function Calendar() {
                                     date={currentDate}
                                     moveAppointment={moveAppointment}
                                 >
+
                                     {appointments
-                                        .filter(app =>( selectedEmployee === '' || app.employee.name === selectedEmployee) && app.employee.name === employee.name && app.time === time && new Date(currentDate).toLocaleDateString() === new Date(app.date).toLocaleDateString())
+                                        .filter(app =>( selectedEmployee === '' || app.employee === selectedEmployee) && app.employee === employee.name && compareTimes(app.time,time)===0 && new Date(currentDate).toLocaleDateString() === new Date(app.date).toLocaleDateString())
                                         .map(app => (
                                             <DraggableAppointment key={app.id} appointment={app}/>
                                         ))}

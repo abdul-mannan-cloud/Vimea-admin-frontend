@@ -34,7 +34,7 @@ const Feedback = () => {
     const [feedbacks, setFeedbacks] = useState([]);
 
     useEffect(() => {
-        fetch('http://localhost:3001/feedback/')
+        fetch('process.env.REACT_APP_BACKEND_URL/feedback/')
             .then(response => response.json())
             .then(data => {
                 const newFeedbacks = data.map(item => ({

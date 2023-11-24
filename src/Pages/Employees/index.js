@@ -62,7 +62,7 @@ const Employees = () => {
     const handleDelete = async (employeeId) => {
         try {
             console.log(employeeId)
-            await axios.delete(`http://localhost:3001/employee/deleteemployee/${employeeId}`);
+            await axios.delete(`process.env.REACT_APP_BACKEND_URL/employee/deleteemployee/${employeeId}`);
             
             setEmployees((prevEmployees) => prevEmployees.filter((employee) => employee._id !== employeeId));
         } catch (error) {
@@ -83,7 +83,7 @@ const Employees = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get('http://localhost:3001/employee/getallemployee');
+                const response = await axios.get('process.env.REACT_APP_BACKEND_URL/employee/getallemployee');
                 setEmployees(response.data);
             } catch (error) {
                 console.error('Error fetching employees:', error.message);
