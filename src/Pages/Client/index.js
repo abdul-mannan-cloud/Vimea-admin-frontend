@@ -262,8 +262,8 @@ const Employees = () => {
         <div className='flex h-screen bg-gray-100'>
             <div className='flex flex-col w-full overflow-auto'>
                 <div className="flex items-center bg-gray-100 self-center justify-center align-middle w-[90%] ml-16 mt-32 rounded-xl p-10 px-20">
-                    <div className="w-full flex flex-col">
-                        <div className='flex flex-row w-full justify-between items-center align-middle'>
+                    <div className="flex flex-col w-full">
+                        <div className='flex flex-row items-center justify-between w-full align-middle'>
                             <div className='text-2xl font-bold'>Lista e Klientëve</div>
                             <div className='mt-1 rounded-lg'> 
                                 <TextField 
@@ -283,7 +283,7 @@ const Employees = () => {
                                 />
                             </div>
                             <div className='flex flex-row gap-5'>
-                                <div className="relative flex flex-row gap-5">
+                                {/*<div className="relative flex flex-row gap-5">
                                     <div
                                         onClick={(e) => {toggle()}}
                                         className='border border-[#128F96] py-2 px-3 h-12 flex flex-row gap-3 items-center align-middle justify-center cursor-pointer rounded-lg'
@@ -314,7 +314,7 @@ const Employees = () => {
                                             }}
                                         >b</p>
                                     </div>
-                                </div>
+                                </div>*/}
                                 <div className='flex flex-row'>
                                     <div  onClick={() => navigate('/clients/add')} className='py-2 px-3 h-12 flex flex-row gap-3 items-center align-middle bg-[#128F96] rounded-lg cursor-pointer hover:bg-cyan-700 transition-all duration-200'>
                                         <img src={plusIcon} className='w-[25px] h-[25px]' />
@@ -324,9 +324,9 @@ const Employees = () => {
                             </div>
                         </div>
 
-                        <div className='flex flex-col gap-3 mt-2 w-full bg-white rounded-xl'>
+                        <div className='flex flex-col w-full gap-3 mt-2 bg-white rounded-xl'>
                             
-                            <div className='flex flex-row w-full px-5 py-5 border-b border-gray-4400 font-bold'>
+                            <div className='flex flex-row w-full px-5 py-5 font-bold border-b border-gray-4400'>
                                 <div className='flex flex-row w-[50%] gap-10 justify-start'>
                                     <input type='radio' className='opacity-0' />
                                     <div className='w-[20%] px-[6px]'>Emri i Klientit</div>
@@ -341,7 +341,7 @@ const Employees = () => {
                             </div>
 
                             {clientsToDisplay.map((client, index) => (
-                                <div key={index} className="flex flex-row py-2 px-5 self-start items-center align-middle w-full">
+                                <div key={index} className="flex flex-row items-center self-start w-full px-5 py-2 align-middle">
                                     <div className='flex flex-row w-[50%] gap-10 justify-start'>
                                         <input type='radio' />
                                         <div className='w-[20%] px-[6px]'>{client.clientName}</div>
