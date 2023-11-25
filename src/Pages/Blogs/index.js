@@ -43,7 +43,7 @@ const handleProductClick = (blog) => {
       setFormData({
         blogTitle: '',
         phoneNumber: '',
-        toSatisfy: '',
+        description: '',
         coverimage: '',
         images: [],
       });
@@ -53,7 +53,7 @@ const handleProductClick = (blog) => {
       setFormData({
         blogTitle: blog.blogTitle || '',
         phoneNumber: blog.phoneNumber ||'',
-        toSatisfy: blog.toSatisfy ||'',
+        description: blog.description ||'',
         coverimage: blog.coverimage || '',
         images: blog.images || [],
       });
@@ -119,7 +119,7 @@ const fileInput = useRef(null);
 const [formData, setFormData] = useState({
     blogTitle: '',
     phoneNumber: '',
-    toSatisfy: '',
+    description: '',
     coverimage: '',
     images: [],
 });
@@ -182,8 +182,8 @@ console.log(updatedFormData);
 return (
     <div className='flex h-screen bg-gray-100'>
       <div className='flex flex-col w-full overflow-auto'>
-        <div className=' flex flex-col items-center space-y-4 w-full px-20'>
-          <div className='flex items-end justify-end mt-32 w-full'>
+        <div className='flex flex-col items-center w-full px-20 space-y-4 '>
+          <div className='flex items-end justify-end w-full mt-32'>
             <div 
               onClick={() => navigate('/blogs/add')}
               className='flex gap-3 px-3 py-2 bg-[#128F96] rounded-xl justify-center items-center hover:bg-cyan-700 transition-all duration-200 cursor-pointer'
@@ -202,10 +202,10 @@ return (
                 }`}
                 onClick={() => handleProductClick(blog)}
               >
-                <h2 className='font-bold text-2xl'>{blog.blogTitle}</h2>
+                <h2 className='text-2xl font-bold'>{blog.blogTitle}</h2>
                 <p className='text-xl'>{blog.phoneNumber}</p>
                 <p className='text-xl'>{blog.phoneNumber}</p>
-                {/* <p> {blog.toSatisfy}</p> */}
+                {/* <p> {blog.description}</p> */}
                 <div className='flex flex-row gap-5'>
                   <img src={`https://vimea.nyc3.cdn.digitaloceanspaces.com/${blog.coverimage}`}  className='w-[100px] h-[100px] rounded-lg' alt='Product image 1' />
                   <img src={`https://vimea.nyc3.cdn.digitaloceanspaces.com/${blog.images[0]}`} className='w-[100px] h-[100px] rounded-lg' alt='Product image 2' />
@@ -215,7 +215,7 @@ return (
               </div>
               {selectedBlogs === blog && (
                 <form
-                  className='border rounded-lg w-full mb-4'
+                  className='w-full mb-4 border rounded-lg'
                   onSubmit={handleNewFormSubmit}
                   id='formID'
                   encType='multipart/form-data'
@@ -223,8 +223,8 @@ return (
         <div className='flex justify-center'>
                     <div className='p-4 max-w-7xl w-3/3 l-1/3 h-[450px] rounded-lg bg-white flex justify-between'>
                         <div>
-                        <div className='p-10 flex justify-between items-center '>
-                            <div className='flex justify-end items-center'>
+                        <div className='flex items-center justify-between p-10 '>
+                            <div className='flex items-center justify-end'>
                     <div className="col-span-1">
                             <input
                                 type="file"
@@ -241,10 +241,10 @@ return (
                             </div>
                         </div>
                             <TextField value={formData.blogTitle} onChange={handleInputChange} name="productName" label="productName" variant="outlined" className='mb-4 w-[300px]' />
-                            <div className='flex flex-auto pt-4 pb-4 justify-between '>
+                            <div className='flex justify-between flex-auto pt-4 pb-4 '>
                                 <TextField value={formData.phoneNumber} onChange={handleInputChange} name="phoneNumber" label="Phone Number" variant="outlined" className='mb-4 w-[300px]' />
                                 </div>
-                            <div className='flex justify-center items-center'>
+                            <div className='flex items-center justify-center'>
   <Button
     type="submit"
     variant="contained"
@@ -276,7 +276,7 @@ return (
                             <TextField
                                 label="To satisfy"
                                 name="description"
-                                value={formData.toSatisfy}
+                                value={formData.description}
                                 onChange={handleInputChange}
                                 multiline
                                 rows={4}
@@ -293,7 +293,7 @@ return (
     id="coverImage"
     onChange={(e) => setFormData({ ...formData, coverimage: e.target.files[0] })}
 />
-<div className='pl-5 pt-2'>
+<div className='pt-2 pl-5'>
 <img src={AddPhoto} alt='Product' className=' border border-teal-500 rounded-lg w-[150px] h-[50px] mb-4 ' />
 </div>
 </div>
