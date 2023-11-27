@@ -36,7 +36,7 @@ const Employee = () => {
     const handleAddEmployee = async () => {
         try {
             console.log("Adding an employee...");
-            const response = await axios.post('process.env.REACT_APP_BACKEND_URL/employee/addemployee', employeeData);
+            const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/employee/addemployee`, employeeData);
             console.log('Employee added successfully:', response.data);
             navigate('/employees');
         } catch (error) {

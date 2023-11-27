@@ -98,7 +98,7 @@ function Calendar() {
         let appointmentTemp = null
         setAppointments(prevAppointments => prevAppointments.map(appointment => {
             if (appointment.id === id) {
-                appointmentTemp = appointment
+                appointmentTemp = {...appointment, employee: newEmployee, time: newTime, date: newDate};
                 return {...appointment, employee: newEmployee, time: newTime, date: newDate};
             }
             return appointment;

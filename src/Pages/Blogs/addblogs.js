@@ -110,7 +110,7 @@ const handleNewFormSubmit = async (e) => {
   
     try {
       console.log("Blog adding...");
-      await axios.post('process.env.REACT_APP_BACKEND_URL/blogs/addblog', updatedFormData);
+      await axios.post(`${process.env.REACT_APP_BACKEND_URL}/blogs/addblog`, updatedFormData);
       console.log("Blog added");
     } catch (error) {
       console.error(error);
