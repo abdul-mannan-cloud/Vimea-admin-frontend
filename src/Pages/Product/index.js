@@ -24,7 +24,7 @@ const [selectedProduct, setSelectedProduct] = useState(null);
 useEffect(() => {
 const fetchProducts = async () => {
     try {
-    const response = await axios.get('process.env.REACT_APP_BACKEND_URL/products/getallproducts');
+    const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/products/getallproducts`);
     setProducts(response.data.products);
     } catch (error) {
     console.error('Error fetching products:', error);
@@ -38,7 +38,7 @@ fetchProducts();
   const onDeleteClick = async () => {
     if (selectedProduct) {
       try {
-        const response = await axios.delete(`process.env.REACT_APP_BACKEND_URL/products/deleteproduct/${selectedProduct._id}`);
+        const response = await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/products/deleteproduct/${selectedProduct._id}`);
         console.log(response.data); 
       } catch (error) {
         console.error('Error deleting product:', error);
@@ -186,7 +186,7 @@ const handleNewFormSubmit = async (e) => {
 console.log(updatedFormData);
 
   try {
-    await axios.post('process.env.REACT_APP_BACKEND_URL/products/editproduct', updatedFormData);
+    await axios.post(`${process.env.REACT_APP_BACKEND_URL}/products/editproduct`, updatedFormData);
   } catch (error) {
     console.error(error);
   }
