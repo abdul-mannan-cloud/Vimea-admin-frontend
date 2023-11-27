@@ -132,8 +132,8 @@ const handleNewFormSubmit = async (e) => {
         <form className='' onSubmit={handleNewFormSubmit} id="formID" enctype="multipart/form-data">
             <div className='flex h-screen bg-gray-100'>
                     <div className='flex flex-col w-full overflow-auto'>
-                        <div className='flex flex-col items-center mt-32 align-middle justify-center gap-5'>
-                            <div className='w-2/3 items-start justify-start'>
+                        <div className='flex flex-col items-center justify-center gap-5 mt-32 align-middle'>
+                            <div className='items-start justify-start w-2/3'>
                                 <button onClick={() => navigate('/products')} className='py-2 px-5 rounded-lg bg-[#128F96] font-bold text-white hover:bg-cyan-700 transition-all duration-200'>Kthehu</button>
                             </div>
                             <div className='items-center w-2/3 bg-white rounded-lg h-18 '>
@@ -156,7 +156,7 @@ const handleNewFormSubmit = async (e) => {
                                     <div className='flex items-center justify-end'>
                                         <div className="col-span-1">
                                             <label className="block w-[100px] h-[100px] cursor-pointer">
-                                                <div className="flex w-full h-full bg-gray-300 items-center justify-center align-middle flex-col gap-1 rounded-lg">
+                                                <div className="flex flex-col items-center justify-center w-full h-full gap-1 align-middle bg-gray-300 rounded-lg">
                                                     <img src={camera} className='w-[30px] h-[30px]' />
                                                     <span className='text-sm font-bold text-[#128F96]'>Add Images</span>
                                                     <input
@@ -164,7 +164,7 @@ const handleNewFormSubmit = async (e) => {
                                                     name="image"
                                                     id="image"
                                                     multiple
-                                                    className="absolute clip rect-0 border-0 p-0 m-0 -ml-1 w-1 h-1 overflow-hidden whitespace-nowrap inset-0 opacity-0"
+                                                    className="absolute inset-0 w-1 h-1 p-0 m-0 -ml-1 overflow-hidden border-0 opacity-0 clip rect-0 whitespace-nowrap"
                                                     onChange={(e) => {
                                                         setFormData({ ...formData, images: e.target.files });                                          
                                                     }}
@@ -176,12 +176,16 @@ const handleNewFormSubmit = async (e) => {
                                 </div>
                             </div>
 
-                            <div className='p-5 w-2/3 rounded-lg bg-white flex justify-between flex-row gap-10 h-full'>
+                            <div className='flex flex-row justify-between w-2/3 h-full gap-10 p-5 bg-white rounded-lg'>
                                 <div className='w-[30%] flex flex-col gap-10 justify-between h-full'>
-                                    <div className='w-full flex flex-col gap-5'>
+                                    <div className='flex flex-col w-full gap-5'>
                                         <div className='flex flex-col gap-2'>
                                             <label className='font-semibold text-gray-300'>Emri i produktit</label>
                                             <input value={formData.productName} onChange={handleInputChange} name="productName" label="productName" variant="outlined" className='w-full rounded-lg p-3 border-[2px] border-gray-200' placeholder='Emri i Produktit'/>
+                                        </div>
+                                        <div className='flex flex-col gap-2'>
+                                            <label className='font-semibold text-gray-300'>Category</label>
+                                            <input value={formData.productName} onChange={handleInputChange} name="type" label="type" variant="outlined" className='w-full rounded-lg p-3 border-[2px] border-gray-200' placeholder=''/>
                                         </div>
                                         <div className='flex flex-row gap-5'>
                                             <div className='flex flex-row gap-3 w-[50%] justify-between'>
@@ -195,8 +199,8 @@ const handleNewFormSubmit = async (e) => {
                                                 </div>
                                             </div>
                                             <div className='flex flex-col w-[50%] gap-2'>
-                                                <label className='font-semibold text-gray-300 w-full'>Sasia (ml)</label>
-                                                <div className='flex flex-row gap-2 w-full justify-between'>
+                                                <label className='w-full font-semibold text-gray-300'>Sasia (ml)</label>
+                                                <div className='flex flex-row justify-between w-full gap-2'>
                                                     <div className={`border border-gray-200 py-2 px-[2px] rounded-lg`}>10ml</div>
                                                     <div className={`border border-gray-200 py-2 px-[2px] rounded-lg`}>15ml</div>
                                                     <div className={`border border-gray-200 py-2 px-[2px] rounded-lg`}>30ml</div>
@@ -205,10 +209,10 @@ const handleNewFormSubmit = async (e) => {
                                         </div>
                                     </div>
 
-                                    {/*<div className='flex flex-auto pt-4 pb-4 justify-between '>
+                                    {/*<div className='flex justify-between flex-auto pt-4 pb-4 '>
                                         <TextField label="type" name="type" value={formData.type} onChange={handleInputChange} variant="outlined" className='mb-2 w-[100px]' />
                                     </div>
-                                    <div className='flex flex-auto pb-4 justify-between  '>
+                                    <div className='flex justify-between flex-auto pb-4 '>
                                         <TextField label="Size 1" name="size1" value={formData.size1} onChange={handleInputChange} variant="outlined" className='mb-2 w-[100px] ' />
                                         <TextField label="Size 2" name="size2" value={formData.size2} onChange={handleInputChange} variant="outlined" className='mb-2 w-[100px]' />
                                         <TextField label="Size 3" name="size3" value={formData.size3} onChange={handleInputChange} variant="outlined" className='mb-2 w-[100px]' />
@@ -233,7 +237,7 @@ const handleNewFormSubmit = async (e) => {
                                         }}
                                         >
                                         <img src={saveIcon} className='w-[20px] h-[20px]' />
-                                        <span className='text-white font-bold'>Rauj</span>
+                                        <span className='font-bold text-white'>Rauj</span>
                                     </Button>
                                 </div>
                                 
@@ -255,12 +259,12 @@ const handleNewFormSubmit = async (e) => {
                                         {
                                         formData.coverimage == ''
                                         ? 
-                                            <div className='w-full h-full rounded-lg bg-gray-300'>
+                                            <div className='w-full h-full bg-gray-300 rounded-lg'>
 
                                             </div>
                                         : 
                                             <div className='w-full h-full'>
-                                            <img className='cover w-full h-full rounded-lg' coverimage src={URL.createObjectURL(formData.coverimage)} />
+                                            <img className='w-full h-full rounded-lg cover' coverimage src={URL.createObjectURL(formData.coverimage)} />
                                             </div>
                                         }
                                     </div>
@@ -274,7 +278,7 @@ const handleNewFormSubmit = async (e) => {
                                                 name="image"
                                                 id="image"
                                                 multiple
-                                                className="absolute clip rect-0 border-0 p-0 m-0 -ml-1 w-1 h-1 overflow-hidden whitespace-nowrap inset-0 opacity-0"
+                                                className="absolute inset-0 w-1 h-1 p-0 m-0 -ml-1 overflow-hidden border-0 opacity-0 clip rect-0 whitespace-nowrap"
                                                 onChange={(e) => setFormData({ ...formData, coverimage: e.target.files[0] })}
                                                 />
                                             </div>

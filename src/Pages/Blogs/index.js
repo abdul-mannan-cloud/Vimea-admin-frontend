@@ -25,8 +25,10 @@ const [selectedBlogs, setSelectedBlogs] = useState(null);
 useEffect(() => {
 const fetchBlogs = async () => {
     try {
-    const response = await axios.get('process.env.REACT_APP_BACKEND_URL/blogs/getallblogs');
+    const response = await axios.get('process.env.REACT_APP_BACKEND_URL//blogs/getallblogs');
     setBlogs(response.data.blogs);
+    console.log("printing blogs...");  
+    console.log(response.data.blogs);
     console.log(blogs);
     } catch (error) {
     console.error('Error fetching blogs:', error);
@@ -35,6 +37,10 @@ const fetchBlogs = async () => {
 fetchBlogs();
 }, []);
 
+// useEffect(() => {
+//   console.log("printning in use effect")
+//   console.log(blogs);
+// }, [blogs]);
 
 const handleProductClick = (blog) => {
     if (selectedBlogs === blog) {
@@ -42,7 +48,6 @@ const handleProductClick = (blog) => {
       setShowForm(false);
       setFormData({
         blogTitle: '',
-        phoneNumber: '',
         description: '',
         coverimage: '',
         images: [],
@@ -52,7 +57,6 @@ const handleProductClick = (blog) => {
         setShowForm(true);
       setFormData({
         blogTitle: blog.blogTitle || '',
-        phoneNumber: blog.phoneNumber ||'',
         description: blog.description ||'',
         coverimage: blog.coverimage || '',
         images: blog.images || [],
@@ -118,7 +122,6 @@ const handleProductClick = (blog) => {
 const fileInput = useRef(null);
 const [formData, setFormData] = useState({
     blogTitle: '',
-    phoneNumber: '',
     description: '',
     coverimage: '',
     images: [],
@@ -194,7 +197,7 @@ return (
           </div>
           
           
-          {blogs.map((blog, index) => (
+          {blogs && blogs.map((blog, index) => (
             <div key={index} className='w-full px-16'>
               <div
                 className={`border shadow-lg p-5 px-10 gap-10 rounded-lg w-full h-[120px] flex items-center justify-between bg-white ${
