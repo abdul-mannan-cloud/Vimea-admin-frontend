@@ -100,8 +100,8 @@ const Employees = () => {
         <div className='flex h-screen bg-gray-100'>
             <div className='flex flex-col w-full overflow-auto'>
                 <div className="flex items-center bg-gray-100 self-center justify-center align-middle w-[90%] ml-16 mt-32 rounded-xl p-10 px-20">
-                    <div className="w-full flex flex-col">
-                        <div className='flex flex-row w-full justify-between'>
+                    <div className="flex flex-col w-full">
+                        <div className='flex flex-row justify-between w-full'>
                             <div className='mt-1 rounded-lg'> 
                                 <TextField 
                                     id="search"
@@ -165,12 +165,12 @@ const Employees = () => {
                             <span className='text-xl font-bold'>Stafi</span>
                         </div>
 
-                        <div className='flex flex-col gap-3 mt-2 w-full'>
+                        <div className='flex flex-col w-full gap-3 mt-2'>
 
                         {filteredEmployees.map((employee, index) => (
-                                <div key={index} className="flex row bg-white rounded-lg py-2 px-8 gap-10 self-start items-center align-middle justify-center w-full">
+                                <div key={index} className="flex items-center self-start justify-center w-full gap-10 px-8 py-2 align-middle bg-white rounded-lg row">
                                     <div className='w-[50%] flex items-start align-middle justify-start'>
-                                        <div className='flex flex-col gap-2 items-center'>
+                                        <div className='flex flex-col items-center gap-2'>
                                             <div className='h-[70px] w-[70px] border border-[#128F96] rounded-full flex items-center justify-center align-middle text-4xl font-bold text-[#128F96]'>
                                                 <span>
                                                     {employee.name.length === 1

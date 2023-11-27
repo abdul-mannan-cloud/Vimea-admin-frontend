@@ -15,7 +15,6 @@ const AddBlog = () => {
 const fileInput = useRef(null);
 const [formData, setFormData] = useState({
     blogTitle: '',
-    phoneNumber: '',
     description: '',
     coverimage: '',
     images: [],
@@ -110,7 +109,9 @@ const handleNewFormSubmit = async (e) => {
   console.log(updatedFormData);
   
     try {
-       await axios.post('process.env.REACT_APP_BACKEND_URL/blogs/addblog', updatedFormData);
+      console.log("Blog adding...");
+      await axios.post('process.env.REACT_APP_BACKEND_URL/blogs/addblog', updatedFormData);
+      console.log("Blog added");
     } catch (error) {
       console.error(error);
     }
@@ -202,8 +203,8 @@ return (
                               <label className='font-semibold text-gray-300'>Kontenti</label>
                                 <textarea
                                     label="To satisfy"
-                                    name="toSatisfy"
-                                    value={formData.description}
+                                    name="description"
+
                                     onChange={handleInputChange}
                                     multiline
                                     rows={4}
