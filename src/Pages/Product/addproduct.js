@@ -120,7 +120,7 @@ const handleNewFormSubmit = async (e) => {
 
     console.log(formData);
     try {
-      const response = await axios.post('process.env.REACT_APP_BACKEND_URL/products/addproduct', updatedFormData);
+      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/products/addproduct`, updatedFormData);
     } catch (error) {
       console.error(error);
     }
