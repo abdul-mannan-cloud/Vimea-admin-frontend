@@ -21,9 +21,7 @@ const [formData, setFormData] = useState({
     price: '',
     quantity: '',
     type: '',
-    size1: '',
-    size2: '',
-    size3: '',
+    size: '',
     description: '',
     coverimage: '',
     images: [],
@@ -121,6 +119,12 @@ const handleNewFormSubmit = async (e) => {
     console.log(formData);
     try {
       const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/products/addproduct`, updatedFormData);
+      if(response.status === 200) {
+        console.log('Product added successfully');
+        navigate('/products');
+      }else{
+        console.log('Product not added');
+      }
     } catch (error) {
       console.error(error);
     }
@@ -184,26 +188,28 @@ const handleNewFormSubmit = async (e) => {
                                             <input value={formData.productName} onChange={handleInputChange} name="productName" label="productName" variant="outlined" className='w-full rounded-lg p-3 border-[2px] border-gray-200' placeholder='Emri i Produktit'/>
                                         </div>
                                         <div className='flex flex-col gap-2'>
-                                            <label className='font-semibold text-gray-300'>Category</label>
-                                            <input value={formData.productName} onChange={handleInputChange} name="type" label="type" variant="outlined" className='w-full rounded-lg p-3 border-[2px] border-gray-200' placeholder=''/>
+                                            <label className='font-semibold text-gray-300'>Type</label>
+                                            <input value={formData.type} onChange={handleInputChange} name="type" label="type" variant="outlined" className='w-full rounded-lg p-3 border-[2px] border-gray-200' placeholder=''/>
                                         </div>
                                         <div className='flex flex-row gap-5'>
                                             <div className='flex flex-row gap-3 w-[50%] justify-between'>
                                                 <div className='flex flex-col gap-2'>
                                                     <label className='font-semibold text-gray-300'>Çmimi</label>
-                                                    <input name="price" label="" value={formData.price} onChange={handleInputChange} variant="outlined" className='w-[60px] border border-gray-200 p-2 rounded-lg' />
+                                                    <input name="price" label="" type="number" value={formData.price} onChange={handleInputChange} variant="outlined" className='w-[60px] border border-gray-200 p-2 rounded-lg' />
                                                 </div>
                                                 <div className='flex flex-col gap-2'>
                                                     <label className='font-semibold text-gray-300'>Stoku</label>
-                                                    <input label="" name="quantity" value={formData.quantity} onChange={handleInputChange} variant="outlined" className='w-[60px] border border-gray-200 p-2 rounded-lg' />
+                                                    <input label="" name="quantity" type="number" value={formData.quantity} onChange={handleInputChange} variant="outlined" className='w-[60px] border border-gray-200 p-2 rounded-lg' />
                                                 </div>
                                             </div>
                                             <div className='flex flex-col w-[50%] gap-2'>
                                                 <label className='w-full font-semibold text-gray-300'>Sasia (ml)</label>
                                                 <div className='flex flex-row justify-between w-full gap-2'>
-                                                    <div className={`border border-gray-200 py-2 px-[2px] rounded-lg`}>10ml</div>
-                                                    <div className={`border border-gray-200 py-2 px-[2px] rounded-lg`}>15ml</div>
-                                                    <div className={`border border-gray-200 py-2 px-[2px] rounded-lg`}>30ml</div>
+                                                    <div onClick={()=>setFormData({...formData,size:'10ml'})} className={`border border-gray-200 cursor-pointer py-2 px-[2px] rounded-lg ${formData.size==='10ml'?'bg-teal-500':''}`}>10ml</div>
+                                                    <div onClick={()=>setFormData({...formData,size:'15ml'})} className={`border border-gray-200 cursor-pointer py-2 px-[2px] rounded-lg ${formData.size === '15ml' ? 'bg-teal-500' : ''}`}>15ml</div>
+                                                    <div onClick={()=> {
+                                                        setFormData({...formData, size: '30ml'})
+                                                    }} className={`border border-gray-200 cursor-pointer py-2 px-[2px] rounded-lg ${formData.size === '30ml' ? 'bg-teal-500' : ''}`}>30ml</div>
                                                 </div>
                                             </div>
                                         </div>
