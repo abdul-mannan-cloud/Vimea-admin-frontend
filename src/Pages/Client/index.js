@@ -180,7 +180,7 @@ const Employees = () => {
     useEffect(() => {
         const getClients = async () => {
             try {
-                const { data } = await axios.get('process.env.REACT_APP_BACKEND_URL/client/getallclients');
+                const { data } = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/client/getallclients`);
                 const transformedClients = data.map((user) => {
                     return {
                         clientName: user.firstName + ' ' + user.lastName,

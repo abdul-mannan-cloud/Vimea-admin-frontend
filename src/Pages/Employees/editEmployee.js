@@ -18,7 +18,7 @@ const EditEmployee = () => {
         const fetchEmployeeDetails = async () => {
             try {
                 console.log(id);
-                const response = await axios.get(`process.env.REACT_APP_BACKEND_URL/employee/getemployee/${id}`);
+                const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/employee/getemployee/${id}`);
                 setEmployeeData(response.data);
             } catch (error) {
                 console.error('Error fetching employee details:', error.message);
@@ -45,6 +45,8 @@ const EditEmployee = () => {
             console.error('Error editing employee:', error.message);
         }
     };
+
+    console.log(id)
 
     return (
         <div className='flex h-screen bg-gray-100'>

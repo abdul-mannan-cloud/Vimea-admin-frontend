@@ -1,18 +1,6 @@
 import React, { useState } from 'react';
-import NavBar from '../../Components/navbar';
-import Sidebar from '../../Components/sidebar';
-import AddBlogs from '../../resources/addBlogs.png';
-import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import axios from 'axios';
-import { TextField, Button } from '@mui/material';
-import { useRef } from 'react';
-import DeleteIcon from '@mui/icons-material/Delete';
-import AWS from 'aws-sdk';
-import addPhoto from '../../resources/addphoto.png'
-import maleIcon from '../../resources/male.png'
-import femaleIcon from '../../resources/female.png'
-import ProductImage from '../../resources/product.png'
 import {format} from 'date-fns';
 
 const Orders = () => {
@@ -59,7 +47,7 @@ const Orders = () => {
     const [orders, setOrders] = useState([]);
 
     const getData = async ()=>{
-        const response = await axios.get('process.env.REACT_APP_BACKEND_URL/order/orders/')
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/order/orders/`)
         let data = response.data;
         let newOrders = [];
         data = data.map((item, index) => {
