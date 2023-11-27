@@ -58,7 +58,10 @@ return (
                             <div className="border-b-2 border-gray-300"></div>
                             <div className="flex flex-col gap-2 p-2">
                                 <span className='text-md font-bold'>Settings</span>
-                                <span className='text-md font-bold'>Logout</span>
+                                <span onClick={()=>{
+                                    localStorage.clear();
+                                    window.location.href = '/login'
+                                }} className='text-md font-bold'>Logout</span>
                             </div>
                         </div>}
                     </div>
