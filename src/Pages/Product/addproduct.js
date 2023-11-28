@@ -45,8 +45,8 @@ const AddProduct = () => {
     const spacesEndpoint = new AWS.Endpoint('nyc3.digitaloceanspaces.com');
     const s3 = new AWS.S3({
         endpoint: spacesEndpoint,
-        accessKeyId: 'DO00B86B2J6M8JRAFFMR',
-        secretAccessKey: 'XxvAhR8M2aF8ZYDliQ5kuvDvKEMwIr1BKUKJi7g7Bv4'
+        accessKeyId: `${process.env.REACT_APP_DO_SPACES_KEY}`,
+        secretAccessKey: `${process.env.REACT_APP_DO_SPACES_SECRET}`,
     });
 
     const bucketName = 'vimea';
@@ -60,13 +60,6 @@ const AddProduct = () => {
             Bucket: bucketName,
             Key: uniqueFileName,
             ACL: 'public-read',
-            CORSConfiguration: {
-                CORSRules: [{
-                    AllowedHeaders: ['*'], AllowedMethods:
-                        ['GET', 'PUT', 'POST', 'DELETE', 'HEAD'], AllowedOrigins:
-                        ['*'], MaxAgeSeconds: 3000
-                }]
-            },
         };
 
 
@@ -127,7 +120,7 @@ const AddProduct = () => {
         console.log(formData);
         try {
             const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/products/addproduct`, updatedFormData);
-            if (response.status === 200) {
+            if (response.status === 200 || response.status === 201) {
                 console.log('Product added successfully');
                 navigate('/products');
             } else {
