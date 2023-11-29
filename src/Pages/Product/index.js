@@ -39,7 +39,7 @@ const Products = () => {
         if (selectedProduct) {
             try {
                 const response = await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/products/deleteproduct/${selectedProduct._id}`);
-                console.log(response.data);
+                setProducts(products.filter(product => product._id !== selectedProduct._id));
             } catch (error) {
                 console.error('Error deleting product:', error);
             }
@@ -219,11 +219,11 @@ const Products = () => {
                                 <p> {product.type}</p>
                                 <p>Є {product.price}</p>
                                 <div className='flex flex-row gap-5'>
-                                    <img src={`https://vimea.nyc3.cdn.digitaloceanspaces.com/${product.mainImage}`}
-                                         className='w-[100px] h-[100px] rounded-lg' alt='Product image 1'/>
                                     <img src={`https://vimea.nyc3.cdn.digitaloceanspaces.com/${product.addonImages[0]}`}
+                                         className='w-[100px] h-[100px] rounded-lg' alt='Product image 1'/>
+                                    <img src={`https://vimea.nyc3.cdn.digitaloceanspaces.com/${product.addonImages[1]}`}
                                          className='w-[100px] h-[100px] rounded-lg' alt='Product image 2'/>
-                                    <img src={`https://vimea.nyc3.cdn.digitaloceanspaces.com/${product.addonImages[3]}`}
+                                    <img src={`https://vimea.nyc3.cdn.digitaloceanspaces.com/${product.addonImages[2]}`}
                                          className='w-[100px] h-[100px] rounded-lg' alt='Product image 3'/>
                                 </div>
                             </div>
