@@ -25,7 +25,7 @@ const Blogs = () => {
     useEffect(() => {
         const fetchBlogs = async () => {
             try {
-                const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}//blogs/getallblogs`);
+                const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/blogs/getallblogs`);
                 setBlogs(response.data.blogs);
                 console.log("printing blogs...");  
     console.log(response.data.blogs);
@@ -249,13 +249,8 @@ const [formData, setFormData] = useState({
                                                     </div>
                                                 </div>
                                                 <TextField value={formData.blogTitle} onChange={handleInputChange}
-                                                           name="productName" label="productName" variant="outlined"
+                                                           name="blogTitle" label="Blog Title" variant="outlined"
                                                            className='mb-4 w-[300px]'/>
-                                                <div className='flex justify-between flex-auto pt-4 pb-4 '>
-                                                    <TextField value={formData.phoneNumber} onChange={handleInputChange}
-                                                               name="phoneNumber" label="Phone Number"
-                                                               variant="outlined" className='mb-4 w-[300px]'/>
-                                                </div>
                                                 <div className='flex items-center justify-center'>
                                                     <div className="flex flex-row gap-5">
                                                         <Button
@@ -283,7 +278,7 @@ const [formData, setFormData] = useState({
                                             </div>
                                             <div className='pt-32 pl-8'>
                                                 <TextField
-                                                    label="To satisfy"
+                                                    label="Description"
                                                     name="description"
                                                     value={formData.description}
                                                     onChange={handleInputChange}

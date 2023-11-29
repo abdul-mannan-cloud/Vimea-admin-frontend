@@ -340,8 +340,11 @@ const Products = () => {
                                                     <img src={AddPhoto} alt='Product'
                                                          className=' border border-teal-500 rounded-lg w-[150px] h-[50px] mb-4 '/>
                                                 </div>
+
                                             </div>
+
                                         </div>
+
                                         <input type="file" ref={fileInput} style={{display: 'none'}}
                                                onChange={handleFileChange}/>
                                     </div>
