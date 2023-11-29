@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import NavBar from '../../Components/navbar';
 import Sidebar from '../../Components/sidebar';
 import {TextField, Button} from '@mui/material';
@@ -87,14 +87,22 @@ const AddProduct = () => {
         e.preventDefault();
         let imageNames = [];
 
-        const imageUploadResponse = await uploadImage(formData.images[0], 'main-image');
-        if (imageUploadResponse.success) {
-            console.log(`Main image uploaded with filename: ${imageUploadResponse.filename}`);
-            imageNames.push(imageUploadResponse.filename);
-        } else {
-            console.error(`Failed to upload main image: ${imageUploadResponse.error}`);
+        if(formData.productName === '' || formData.price === '' || formData.quantity === '' || formData.type === '' || formData.size === '' || formData.description === '' || formData.images.length === 0){
+            alert("Ploteso te gjitha fushat");
             return;
         }
+
+        if(formData.images[0]){
+            const imageUploadResponse = await uploadImage(formData.images[0], 'main-image');
+            if (imageUploadResponse.success) {
+                console.log(`Main image uploaded with filename: ${imageUploadResponse.filename}`);
+                imageNames.push(imageUploadResponse.filename);
+            } else {
+                console.error(`Failed to upload main image: ${imageUploadResponse.error}`);
+                return;
+            }
+        }
+
 
         for (let i = 0; i < formData.images.length; i++) {
             const imageUploadResponse = await uploadImage(formData.images[i], 'add-on-image');
@@ -117,7 +125,6 @@ const AddProduct = () => {
             imagenames: imageNames,
         };
 
-        console.log(formData);
         try {
             const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/products/addproduct`, updatedFormData);
             if (response.status === 200 || response.status === 201) {
@@ -175,7 +182,9 @@ const AddProduct = () => {
                                                     multiple
                                                     className="absolute inset-0 w-1 h-1 p-0 m-0 -ml-1 overflow-hidden border-0 opacity-0 clip rect-0 whitespace-nowrap"
                                                     onChange={(e) => {
-                                                        setFormData({...formData, images: e.target.files});
+                                                        console.log(e.target.files)
+                                                        console.log(e.target.files.length)
+                                                        setFormData({...formData, images: e.target.files ? [...e.target.files] : []});
                                                     }}
                                                 />
                                             </div>
@@ -235,15 +244,6 @@ const AddProduct = () => {
                                         </div>
                                     </div>
                                 </div>
-
-                                {/*<div className='flex justify-between flex-auto pt-4 pb-4 '>
-                                        <TextField label="type" name="type" value={formData.type} onChange={handleInputChange} variant="outlined" className='mb-2 w-[100px]' />
-                                    </div>
-                                    <div className='flex justify-between flex-auto pb-4 '>
-                                        <TextField label="Size 1" name="size1" value={formData.size1} onChange={handleInputChange} variant="outlined" className='mb-2 w-[100px] ' />
-                                        <TextField label="Size 2" name="size2" value={formData.size2} onChange={handleInputChange} variant="outlined" className='mb-2 w-[100px]' />
-                                        <TextField label="Size 3" name="size3" value={formData.size3} onChange={handleInputChange} variant="outlined" className='mb-2 w-[100px]' />
-                                    </div>*/}
 
                                 <Button type="submit"
                                         variant="contained"
@@ -317,10 +317,14 @@ const AddProduct = () => {
                                     </label>
                                 </div>
                             </div>
+
                         </div>
 
+
                     </div>
+
                 </div>
+
                 <input type="file" ref={fileInput} onChange={handleFileChange} style={{display: 'none'}}/>
             </div>
         </form>
