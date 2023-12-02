@@ -7,13 +7,7 @@ import Avatar from 'react-avatar';
 import axios from "axios";
 import app from "../../App";
 
-const times = ['7:00', '8:00', '9:00', '10:00', '11:00', '12:00', '1:00'];
-
-const initialAppointments = [
-    {id: 1, employee: 'Muhammad Awais', date: new Date('2023-11-24'), time: '9:00', content: 'Meeting'},
-    {id: 2, employee: 'Employee 2', date: new Date('2023-11-13'), time: '10 AM', content: 'Meeting'},
-    {id: 3, employee: 'Employee 2', date: new Date('2023-11-12'), time: '7 AM', content: 'Meeting'},
-];
+const times = ['7:00', '8:00', '9:00', '10:00', '11:00', '12:00', '13:00','14:00','15:00','16:00','17:00','18:00','19:00','20:00','21:00'];
 
 const ItemTypes = {
     APPOINTMENT: 'appointment',
@@ -22,7 +16,7 @@ const ItemTypes = {
 function Calendar() {
     const [currentDate, setCurrentDate] = useState(new Date());
     const [employees,setEmployees] = useState([]);
-    const [appointments, setAppointments] = useState(initialAppointments);
+    const [appointments, setAppointments] = useState([]);
     const [selectedEmployee, setSelectedEmployee] = useState('');
 
     const getData = async () => {
@@ -32,8 +26,16 @@ function Calendar() {
         }
         const appointmentRes = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/appointment/getallappointments`);
         if(appointmentRes.status === 200) {
-            console.log(appointmentRes.data)
             setAppointments(appointmentRes.data.map(appointment => {
+                return {
+                    id: appointment._id,
+                    employee: appointment.employee?appointment.employee:res.data[0].name,
+                    date: new Date(appointment.date),
+                    time: appointment.time,
+                    content: appointment.content
+                }
+            }))
+            console.log(appointmentRes.data.map(appointment => {
                 return {
                     id: appointment._id,
                     employee: appointment.employee?appointment.employee:res.data[0].name,
@@ -116,7 +118,8 @@ function Calendar() {
     const handleNextDay = () => {
         const date = new Date(currentDate);
         date.setDate(currentDate.getDate() + 1);
-        setCurrentDate(date);    };
+        setCurrentDate(date);
+    };
 
     useEffect(()=>{
         console.log(appointments)

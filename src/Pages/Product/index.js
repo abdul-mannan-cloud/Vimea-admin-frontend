@@ -20,6 +20,7 @@ const Products = () => {
     const [products, setProducts] = useState([]);
     const [showForm, setShowForm] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState(null);
+    const [showImageInput, setShowImageInput] = useState(false);
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -97,9 +98,7 @@ const Products = () => {
                 price: '',
                 quantity: '',
                 type: '',
-                size1: '',
-                size2: '',
-                size3: '',
+                size: '',
                 description: '',
                 coverimage: '',
                 images: [],
@@ -113,12 +112,10 @@ const Products = () => {
                 price: product.price || '',
                 quantity: product.quantity || '',
                 type: product.type || '',
-                size1: (product.size && product.size[0]) || '',
-                size2: (product.size && product.size[1]) || '',
-                size3: (product.size && product.size[2]) || '',
+                size1: (product.size) || '',
                 description: product.description || '',
                 coverimage: product.coverimage || '',
-                images: product.images || [],
+                images: product.addonImages || [],
             });
         }
     };
@@ -134,9 +131,7 @@ const Products = () => {
         price: '',
         quantity: '',
         type: '',
-        size1: '',
-        size2: '',
-        size3: '',
+        size : '',
         description: '',
         coverimage: '',
         images: [],
@@ -150,20 +145,46 @@ const Products = () => {
         }));
     };
 
+    const handleImageDelete = (index) => {
+        const updatedImages = [...formData.images];
+        const deletedImage = updatedImages.splice(index, 1)[0];
+
+        if (deletedImage instanceof File) {
+            // If the deleted image is a file (newly added), do any necessary cleanup.
+            // For example, you might want to remove it from the file input.
+            // fileInput.current.value = null;
+
+        } else {
+            // If the deleted image is a link (existing), you may want to perform any necessary cleanup on the server.
+            // For example, you might want to delete the image from your storage.
+            // Make a server request if needed.
+        }
+
+        setFormData({
+            ...formData,
+            images: updatedImages,
+        });
+    };
+
     const handleNewFormSubmit = async (e) => {
         e.preventDefault();
         let imageNames = [];
 
-        const imageUploadResponse = await uploadImage(formData.images[0], 'main-image');
-        if (imageUploadResponse.success) {
-            console.log(`Main image uploaded with filename: ${imageUploadResponse.filename}`);
-            imageNames.push(imageUploadResponse.filename);
-        } else {
-            console.error(`Failed to upload main image: ${imageUploadResponse.error}`);
-            return;
+        if (formData.images[0]) {
+            if(typeof formData.images[0] !== 'string') {
+                const imageUploadResponse = await uploadImage(formData.images[0], 'main-image');
+                if (imageUploadResponse.success) {
+                    console.log(`Main image uploaded with filename: ${imageUploadResponse.filename}`);
+                    imageNames.push(imageUploadResponse.filename);
+                } else {
+                    console.error(`Failed to upload main image: ${imageUploadResponse.error}`);
+                    return;
+                }
+            }
         }
 
         for (let i = 0; i < formData.images.length; i++) {
+            if(typeof formData.images[i] === 'string') continue;
             const imageUploadResponse = await uploadImage(formData.images[i], 'add-on-image');
             if (imageUploadResponse.success) {
                 console.log(`Add-on image uploaded with filename: ${imageUploadResponse.filename}`);
@@ -179,10 +200,15 @@ const Products = () => {
             imagenames: imageNames,
         };
 
-        console.log(updatedFormData);
-
         try {
-            await axios.post(`${process.env.REACT_APP_BACKEND_URL}/products/editproduct`, updatedFormData);
+            const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/products/editproduct`, updatedFormData);
+            if (res.status == 200) {
+                // update the state
+                const updatedProducts = [...products];
+                const productIndex = updatedProducts.findIndex(product => product._id === selectedProduct._id);
+                updatedProducts[productIndex] = res.data.updatedProduct;
+                setProducts(updatedProducts);
+            }
         } catch (error) {
             console.error(error);
         }
@@ -236,25 +262,8 @@ const Products = () => {
                                 >
                                     <div className='flex justify-center'>
                                         <div
-                                            className='p-4 max-w-7xl w-3/3 l-1/3 h-[450px] rounded-lg bg-white flex justify-between'>
+                                            className='p-4 max-w-7xl w-3/3 l-1/3 rounded-lg bg-white flex justify-between'>
                                             <div>
-                                                <div className='p-10 flex justify-between items-center '>
-                                                    <div className='flex justify-end items-center'>
-                                                        <div className="col-span-1">
-                                                            <input
-                                                                type="file"
-                                                                name="image"
-                                                                id="image"
-                                                                multiple
-                                                                className="h-10 border p-1.5 mt-1 rounded px-4 w-full bg-gray-50"
-                                                                onChange={(e) => {
-                                                                    setFormData({...formData, images: e.target.files})
-                                                                }}
-                                                            />
-
-                                                        </div>
-                                                    </div>
-                                                </div>
                                                 <TextField value={formData.productName} onChange={handleInputChange}
                                                            name="productName" label="productName" variant="outlined"
                                                            className='mb-4 w-[300px]'/>
@@ -269,16 +278,23 @@ const Products = () => {
                                                                onChange={handleInputChange} variant="outlined"
                                                                className='mb-2 mr-2'/>
                                                 </div>
-                                                    <div className='flex flex-row w-[50%] gap-2'>
-                                                        <label className='w-full font-semibold text-gray-300'>Sasia (ml)</label>
-                                                        <div className='flex flex-row justify-between w-full gap-2 mb-5'>
-                                                            <div onClick={()=>setFormData({...formData,size:'10ml'})} className={`border border-gray-200 cursor-pointer py-2 px-[2px] rounded-lg ${formData.size==='10ml'?'bg-teal-500':''}`}>10ml</div>
-                                                            <div onClick={()=>setFormData({...formData,size:'15ml'})} className={`border border-gray-200 cursor-pointer py-2 px-[2px] rounded-lg ${formData.size === '15ml' ? 'bg-teal-500' : ''}`}>15ml</div>
-                                                            <div onClick={()=> {
-                                                                setFormData({...formData, size: '30ml'})
-                                                            }} className={`border border-gray-200 cursor-pointer py-2 px-[2px] rounded-lg ${formData.size === '30ml' ? 'bg-teal-500' : ''}`}>30ml</div>
+                                                <div className='flex flex-row w-[50%] gap-2'>
+                                                    <label className='w-full font-semibold text-gray-300'>Sasia
+                                                        (ml)</label>
+                                                    <div className='flex flex-row justify-between w-full gap-2 mb-5'>
+                                                        <div onClick={() => setFormData({...formData, size: '10ml'})}
+                                                             className={`border border-gray-200 cursor-pointer py-2 px-[2px] rounded-lg ${formData.size === '10ml' ? 'bg-teal-500' : ''}`}>10ml
+                                                        </div>
+                                                        <div onClick={() => setFormData({...formData, size: '15ml'})}
+                                                             className={`border border-gray-200 cursor-pointer py-2 px-[2px] rounded-lg ${formData.size === '15ml' ? 'bg-teal-500' : ''}`}>15ml
+                                                        </div>
+                                                        <div onClick={() => {
+                                                            setFormData({...formData, size: '30ml'})
+                                                        }}
+                                                             className={`border border-gray-200 cursor-pointer py-2 px-[2px] rounded-lg ${formData.size === '30ml' ? 'bg-teal-500' : ''}`}>30ml
                                                         </div>
                                                     </div>
+                                                </div>
                                                 <div className='flex justify-center items-center'>
                                                     <div className="flex flex-row gap-5">
                                                         <Button
@@ -310,7 +326,47 @@ const Products = () => {
                                                         </Button>
                                                     </div>
                                                 </div>
-
+                                                <div className="flex flex-col gap-5">
+                                                    <h1 className="text-2xl font-bold">Add-on Images</h1>
+                                                    <div className="flex gap-10">
+                                                        {
+                                                            formData.images.map((image, index) => (
+                                                                    <div className="flex flex-col max-w-[250px] gap-3">
+                                                                        {typeof image === 'string' ? (
+                                                                            <img
+                                                                                src={`https://vimea.nyc3.cdn.digitaloceanspaces.com/${image}`}
+                                                                                className='w-[250px] h-[250px] rounded-lg'
+                                                                                alt={image}
+                                                                            />
+                                                                        ) : (
+                                                                            <img
+                                                                                src={URL.createObjectURL(image)}
+                                                                                className='w-[250px] h-[250px] rounded-lg'
+                                                                                alt={image.name}
+                                                                            />
+                                                                        )}
+                                                                        <button type="button" onClick={() => {
+                                                                            handleImageDelete(index)
+                                                                            setSelectedProduct(product);
+                                                                        }} className="bg-red-500 text-white rounded-lg px-2 py-1">
+                                                                            Delete
+                                                                        </button>
+                                                                    </div>
+                                                                ))
+                                                        }
+                                                        <div onClick={() => setShowImageInput(!showImageInput)}
+                                                             className="text-xl cursor-pointer hover:shadow-lg h-10 px-3 pt-1 place-self-center rounded-full border-2 border-black">
+                                                            +
+                                                        </div>
+                                                        {showImageInput && <input type='file' onChange={(e) => {
+                                                            setShowImageInput(false);
+                                                            setFormData({
+                                                                ...formData,
+                                                                images: [...formData.images, e.target.files[0]]
+                                                            });
+                                                        }} className={``}/>}
+                                                    </div>
+                                                </div>
                                             </div>
                                             <div className='pt-32 pl-8'>
                                                 <TextField

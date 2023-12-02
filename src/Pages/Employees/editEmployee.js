@@ -11,7 +11,8 @@ const EditEmployee = () => {
     const [employeeData, setEmployeeData] = useState({
         name: '',
         email: '',
-        phone: ''
+        phone: '',
+        password: '',
     });
 
     useEffect(() => {
@@ -68,7 +69,11 @@ const EditEmployee = () => {
                             </div>
                             <div className='flex flex-col gap-2 w-full'>
                                 <label>Numri i telefonit i/ punonjësit</label>
-                                <input className='border rounded-lg border-gray-400 shadow-lg py-2 px-3 w-full' name='phone'value={employeeData.phone} id='phone' onChange={handleInputChange}></input>
+                                <input className='border rounded-lg border-gray-400 shadow-lg py-2 px-3 w-full' name='phone' value={employeeData.phone} id='phone' onChange={handleInputChange}></input>
+                            </div>
+                            <div className='flex flex-col gap-2 w-full'>
+                                <label>Password</label>
+                                <input className='border rounded-lg border-gray-400 shadow-lg py-2 px-3 w-full' name='password' value={employeeData.password} id='password' onChange={handleInputChange}></input>
                             </div>
                         </div>
                     </div>

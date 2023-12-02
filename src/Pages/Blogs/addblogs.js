@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import NavBar from '../../Components/navbar';
 import Sidebar from '../../Components/sidebar';
 import {TextField, Button} from '@mui/material';
@@ -16,7 +16,6 @@ const AddBlog = () => {
     const [formData, setFormData] = useState({
         blogTitle: '',
         description: '',
-        coverimage: '',
         images: [],
         imagenames: []
     });
@@ -77,19 +76,12 @@ const AddBlog = () => {
         });
     };
 
+
     const handleNewFormSubmit = async (e) => {
         e.preventDefault();
         let imageNames = [];
-        if (formData.blogTitle == '' || formData.description == '' || formData.coverimage == '' || formData.images.length == 0) {
+        if (formData.blogTitle == '' || formData.description == '' || formData.images.length == 0) {
             alert('Ploteso te gjitha fushat!');
-            return;
-        }
-        const imageUploadResponse = await uploadImage(formData.images[0], 'blog-main-image');
-        if (imageUploadResponse.success) {
-            console.log(`Main image uploaded with filename: ${imageUploadResponse.filename}`);
-            imageNames.push(imageUploadResponse.filename);
-        } else {
-            console.error(`Failed to upload main image: ${imageUploadResponse.error}`);
             return;
         }
 
@@ -113,8 +105,12 @@ const AddBlog = () => {
 
         try {
             console.log("Blog adding...");
-            await axios.post(`${process.env.REACT_APP_BACKEND_URL}/blogs/addblog`, updatedFormData);
+            const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/blogs/addblog`, updatedFormData);
             console.log("Blog added");
+            if(res.status === 201){
+                alert('Blogu u shtua me sukses!');
+            }
+            navigate('/blogs');
         } catch (error) {
             console.error(error);
         }
@@ -122,7 +118,6 @@ const AddBlog = () => {
         e.target.reset();
         return false;
     };
-
 
     return (
         <form className='mt-20' onSubmit={handleNewFormSubmit} id="formID" enctype="multipart/form-data">
@@ -138,14 +133,12 @@ const AddBlog = () => {
                             <div className='flex items-center justify-between p-5 '>
                                 <h2 className='text-2xl font-bold'>Add Blog</h2>
                                 {
-                                    Array.isArray(formData.images) && formData.images.length > 0 && (
+                                    formData.images.length > 0 && (
                                         <div className='flex flex-row gap-3'>
-                                            {formData.images.map((image, index) => (
+                                            {Array.from(formData.images).map((image, index) => (
                                                 <div key={index}>
-                                                    {/* Display each image or its details here */}
                                                     <img src={URL.createObjectURL(image)} className='w-[50px] h-[50px]'
                                                          alt={`Image ${index}`}/>
-                                                    {/* You can add more details or customization as needed */}
                                                 </div>
                                             ))}
                                         </div>
@@ -220,42 +213,6 @@ const AddBlog = () => {
                                     variant="outlined"
                                     className=' rounded-lg border-[2px] border-gray-200 p-2 w-full'
                                 />
-                            </div>
-                            <div className='w-[15%] flex flex-col gap-3'>
-                                <div className='w-full h-[200px]'>
-                                    {
-                                        formData.coverimage == ''
-                                            ?
-                                            <div className='w-full h-full bg-gray-300 rounded-lg'>
-
-                                            </div>
-                                            :
-                                            <div className='w-full h-full'>
-                                                <img className='w-full h-full rounded-lg cover' coverimage
-                                                     src={URL.createObjectURL(formData.coverimage)}/>
-                                            </div>
-                                    }
-                                </div>
-                                <div className="col-span-1">
-                                    <label className="block cursor-pointer">
-                                        <div
-                                            className="flex w-full h-full items-center justify-center align-middle flex-row p-2 gap-3 rounded-lg border border-[#128F96]">
-                                            <img src={camera} className='w-[20px] h-[30px]'/>
-                                            <span className='font-bold text-[#128F96] text-md'>Shto Foto</span>
-                                            <input
-                                                type="file"
-                                                name="image"
-                                                id="image"
-                                                multiple
-                                                className="absolute inset-0 w-1 h-1 p-0 m-0 -ml-1 overflow-hidden border-0 opacity-0 clip rect-0 whitespace-nowrap"
-                                                onChange={(e) => setFormData({
-                                                    ...formData,
-                                                    coverimage: e.target.files[0]
-                                                })}
-                                            />
-                                        </div>
-                                    </label>
-                                </div>
                             </div>
                         </div>
 
