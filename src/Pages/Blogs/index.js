@@ -24,6 +24,12 @@ const Blogs = () => {
     const [showImageInput, setShowImageInput] = useState(false);
 
     useEffect(() => {
+        if(localStorage.getItem('token') === null){
+            navigate('/login')
+        }
+    }, []);
+
+    useEffect(() => {
         const fetchBlogs = async () => {
             try {
                 const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/blogs/getallblogs`);

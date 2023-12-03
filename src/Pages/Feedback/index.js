@@ -15,23 +15,14 @@ import femaleIcon from '../../resources/female.png'
 
 const Feedback = () => {
 
-    // {
-    // "email":"abdulmannankhan1000@gmail.com"  email 
-    // "gender":"male"  gender
-    // "age":"03263"  age
-    // "service":"Masazhin për beba" 
-    // "purchase":"Yes"  buy
-    // "experience":1  feedback1
-    // "benefits":2  feedack2
-    // "prices":2  feedback3
-    // "appointments":4  feedback4
-    // "recommendation":1  feedback5    
-    // "suggestion":"asds"  descrption1
-    // "improvement":"asdsd"  descrption2
-    // ]
-
-
     const [feedbacks, setFeedbacks] = useState([]);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if(localStorage.getItem('token') === null){
+            navigate('/login')
+        }
+    }, []);
 
     useEffect(() => {
         fetch(`${process.env.REACT_APP_BACKEND_URL}/feedback/`)

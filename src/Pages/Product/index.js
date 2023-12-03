@@ -22,6 +22,13 @@ const Products = () => {
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [showImageInput, setShowImageInput] = useState(false);
 
+
+    useEffect(() => {
+        if(localStorage.getItem('token') === null){
+            navigate('/login')
+        }
+    }, []);
+
     useEffect(() => {
         const fetchProducts = async () => {
             try {

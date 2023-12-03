@@ -21,39 +21,17 @@ const Employees = () => {
     const [employees, setEmployees] = useState([]);
     const navigate = useNavigate();
 
+
+    useEffect(() => {
+        if(localStorage.getItem('token') === null){
+            navigate('/login')
+        }
+    }, []);
+
     const toggle = () => {
         setDropDown((prev) => !prev);
         setIsRotated((prev) => !prev);
     };
-
-    // const employees = [
-    //     {
-    //         name: 'John Cena',
-    //         email: 'abc@gmail.com',
-    //         phone: '000 000 000 000'
-    //     },
-    //     {
-    //         name: 'Lohn Cena',
-    //         email: 'abc@gmail.com',
-    //         phone: '000 000 000 000'
-    //     },
-    //     {
-    //         name: 'Kohn Cena',
-    //         email: 'abc@gmail.com',
-    //         phone: '000 000 000 000'
-    //     },
-    //     {
-    //         name: 'Aohn Cena',
-    //         email: 'abc@gmail.com',
-    //         phone: '000 000 000 000'
-    //     },
-    //     {
-    //         name: 'Dohn Cena',
-    //         email: 'abc@gmail.com',
-    //         phone: '000 000 000 000'
-    //     },
-    // ]
-
 
     const handleEdit = (employeeId) => {
         navigate(`/employees/edit/${employeeId}`);

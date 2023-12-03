@@ -24,7 +24,16 @@ const Employee = () => {
     });
     
     const navigate = useNavigate();
-    
+
+    useEffect(() => {
+        if(localStorage.getItem('token') === null){
+            navigate('/login')
+        }
+        if(localStorage.getItem('role') !== 'admin'){
+            alert('You are not authorized to view this page')
+            navigate('/employees')
+        }
+    }, []);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;

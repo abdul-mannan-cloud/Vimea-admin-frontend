@@ -47,7 +47,7 @@ return (
                     </div>
                     <div className="flex flex-col">
                         <button onClick={()=>setDropdown(!dropdown)}><img src={arrow}></img></button>
-                        {dropdown && <div className="absolute mt-10 right-10 w-40 shadow-lg bg-white flex flex-col gap-2">
+                        {dropdown && <div id='dropdown' className="absolute mt-10 right-10 w-40 shadow-lg bg-white flex flex-col gap-2">
                             <div className="flex flex-row items-center gap-2 p-2">
                                 <img src={profile} className='w-[50px] h-[50px]'/>
                                 <div className='flex flex-col justify-between py-1 h-[50px]'>
@@ -57,7 +57,6 @@ return (
                             </div>
                             <div className="border-b-2 border-gray-300"></div>
                             <div className="flex flex-col gap-2 p-2">
-                                <span className='text-md font-bold'>Settings</span>
                                 <span onClick={()=>{
                                     localStorage.clear();
                                     window.location.href = '/login'

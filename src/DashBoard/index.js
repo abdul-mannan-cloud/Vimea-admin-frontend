@@ -2,6 +2,7 @@
 import React, {useEffect, useState} from 'react';
 import BarChart from '../Components/barChart';
 import axios from "axios";
+import {useNavigate} from "react-router-dom";
 
 const Dashboard = () => {
 
@@ -11,6 +12,13 @@ const Dashboard = () => {
     const [todaySales, setTodaySales] = useState(0);
     const [appointmentsData, setAppointmentsData] = useState([44, 55, 41, 67, 22, 43, 21]);
     const [salesData, setSalesData] = useState([44, 55, 41, 67, 22, 43, 21]);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if(localStorage.getItem('token') === null){
+            navigate('/login')
+        }
+    }, []);
 
     const getData = async () => {
 
