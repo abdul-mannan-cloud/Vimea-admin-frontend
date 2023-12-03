@@ -21,6 +21,7 @@ export default function Login () {
             localStorage.setItem('role', res.data.role)
             localStorage.setItem('email', res.data.email)
             localStorage.setItem('name', res.data.name)
+            alert('You are logged in')
             window.location.href = '/calendar'
         }else{
             alert('Something went wrong')
@@ -50,7 +51,7 @@ export default function Login () {
                         <span className="font-bold text-[#128F96]">Keni harruar fjalëkalimin ?</span>
   </Link>*/}
                     </div>
-                    <button onClick={handleSubmit} className="w-full p-3 font-bold text-center text-white rounded-lg bg-[#128F96] hover:bg-cyan-700 duration-300 transition-all">Kyqu</button>
+                    <button type="button" onClick={handleSubmit} className="w-full p-3 font-bold text-center text-white rounded-lg bg-[#128F96] hover:bg-cyan-700 duration-300 transition-all">Kyqu</button>
                     {/*<Link href="/signup" className="w-full p-3 font-bold text-center text-white bg-gray-400 rounded-lg hover:bg-gray-500 duration-300 transition-all">Krijo një Llogari</Link>*/}
                 </form>
                 

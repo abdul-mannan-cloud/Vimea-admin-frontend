@@ -2,73 +2,23 @@ import React, { useState } from 'react';
 import { useEffect } from 'react';
 import axios from 'axios';
 import {format} from 'date-fns';
+import {useNavigate} from "react-router-dom";
 
 const Orders = () => {
-    // const orders = [
-    //     {
-    //         title : "BABY BIO MANDELÖL 200ml",
-    //         image : ProductImage,
-    //         date : "12.12.23",
-    //         quantity : 5,
-    //         total: 13,
-    //         card : "MC,XXXXXX3421",
-    //         trasactionDate : "12.12.23",
-    //         code : "123456",
-    //         address : "Str.noname nr.5",
-    //         city : "Prishtina",
-    //         state : "Kosova",
-    //         postalCode : 10000,
-    //         products : [
-    //             {
-    //                 mainImage: ProductImage,
-    //                 name: "Product",
-    //                 price: 20,
-    //                 quantity: 4,
-
-    //             },
-    //             {
-    //                 mainImage: ProductImage,
-    //                 name: "Product",
-    //                 price: 20,
-    //                 quantity: 4,
-
-    //             },
-    //             {
-    //                 mainImage: ProductImage,
-    //                 name: "Product",
-    //                 price: 20,
-    //                 quantity: 4,
-
-    //             }
-    //         ]
-    //     },
-    // ]
 
     const [orders, setOrders] = useState([]);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        if(localStorage.getItem('token') === null){
+            navigate('/login')
+        }
+    }, []);
 
     const getData = async ()=>{
         const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/order/orders/`)
         let data = response.data;
-        let newOrders = [];
-        data = data.map((item, index) => {
-            console.log(item.products[0]?.name);  
-            console.log(item.products[0]?.mainImage);
-            console.log(item.date);
-            console.log(item.products.reduce((total, product) => total + parseInt(product.quantity), 0),);
-            console.log(item.products.reduce((total, product) => total + parseInt(product.price) * parseInt(product.quantity), 0));
-            console.log(item.shippingAddress);
-            console.log( item.postalCode);
-
-            const  products = item.products.map(product => ({
-                mainImage: product.mainImage,
-                name: product.name,
-                price: parseInt(product.price.$numberInt),
-                quantity: parseInt(product.quantity.$numberInt)
-            }))
-
-            console.log(products);
-        })
-
+        console.log(data)
         setOrders(data);
     }
 
@@ -103,8 +53,8 @@ const Orders = () => {
                         <div className="flex flex-col border-gray-500 border-b-2 py-6 w-[90%] self-start">
                             <div className="flex flex-row items-center justify-between align-middle ">
                                 <div className="flex flex-row w-[70%] md:w-fit items-center align-middle gap-5 md:gap-12">
-                                    <img src={order.image} alt="product-img" className="w-[75px] h-[75px]" />
-                                    <span className="text-xl">{order.title}</span>
+                                    <img src={`${process.env.REACT_APP_IMAGE_URL}/${order.products[0].mainImage}`} alt="product-img" className="w-[75px] h-[75px]" />
+                                    <span className="text-xl">{order._id}</span>
                                 </div>
                                 {
                                     divStates[index]
@@ -130,7 +80,7 @@ const Orders = () => {
                                             <span>ORDER TOTAL:</span>
                                         </div>
                                         <div className="flex flex-col">
-                                            <span>{format(order.date, 'yyyy-MM-dd')}</span>
+                                            <span>{format(new Date(order.date), 'yyyy-MM-dd')}</span>
                                             <span>{order.quantity}</span>
                                             <span>{order.total}</span>
                                         </div>
@@ -143,7 +93,7 @@ const Orders = () => {
                                         {
                                             order.products.map(product =>
                                                 <div className="flex flex-row gap-10">
-                                                    <img src={product.mainImage} className="w-[40px]" alt="Product image"/>
+                                                    <img src={`${process.env.REACT_APP_IMAGE_URL}/${order.products[0].mainImage}`} className="w-[40px]" alt="Product image"/>
                                                     <div className="flex flex-col">
                                                         <span>{product.name}</span>
                                                         <span>Saisa: {product.quantity}</span>
@@ -154,19 +104,15 @@ const Orders = () => {
                                         }
                                     </div>
                                 </div>
-                                <div className="flex flex-col gap-2">
+                                <div className="flex flex-col gap-2 ">
                                     <span className="text-xs font-bold">Billing Adress</span>
                                     <div className="flex flex-row gap-5 p-3 text-xs border-2 border-gray-300 rounded-lg">
                                         <div className="flex flex-col">
                                             <span>Adress:</span>
-                                            <span>City:</span>
-                                            <span>State:</span>
                                             <span>Postal code:</span>
                                         </div>
                                         <div className="flex flex-col">
-                                            <span>{order.address}</span>
-                                            <span>{order.city}</span>
-                                            <span>{order.state}</span>
+                                            <span>{order.shippingAddress}</span>
                                             <span>{order.postalCode}</span>
                                         </div>
                                     </div>  

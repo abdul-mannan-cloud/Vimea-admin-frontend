@@ -5,7 +5,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import Avatar from 'react-avatar';
 import axios from "axios";
-import app from "../../App";
+import {useNavigate} from "react-router-dom";
 
 const times = ['7:00', '8:00', '9:00', '10:00', '11:00', '12:00', '13:00','14:00','15:00','16:00','17:00','18:00','19:00','20:00','21:00'];
 
@@ -74,6 +74,7 @@ function Calendar() {
         }
     }
 
+    const navigate = useNavigate()
     useEffect(() => {
         getData()
     },[])
@@ -88,8 +89,16 @@ function Calendar() {
         const day = String(date.getDate()).padStart(2, '0');
         return `${year}-${month}-${day}`;
     };
-
+    useEffect(() => {
+        if(localStorage.getItem('token') === null){
+            navigate('/login')
+        }
+    }, []);
     const updateAppointment = async (appointment) => {
+        if(localStorage.getItem('role') !== 'admin'){
+            alert('You are not authorized to update anything')
+            return;
+        }
         const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/appointment/editappointment/${appointment.id}`, appointment);
         if (res.status === 200) {
             console.log('Appointment updated successfully');

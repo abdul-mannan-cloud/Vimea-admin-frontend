@@ -16,6 +16,15 @@ const EditEmployee = () => {
     });
 
     useEffect(() => {
+        if(localStorage.getItem('token') === null){
+            navigate('/login')
+        }
+        if(localStorage.getItem('role') !== 'admin'){
+            navigate('/employees')
+        }
+    }, []);
+
+    useEffect(() => {
         const fetchEmployeeDetails = async () => {
             try {
                 console.log(id);
@@ -25,7 +34,6 @@ const EditEmployee = () => {
                 console.error('Error fetching employee details:', error.message);
             }
         };
-
         fetchEmployeeDetails();
     }, [id]);
 

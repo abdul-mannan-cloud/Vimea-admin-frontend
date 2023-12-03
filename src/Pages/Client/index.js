@@ -1,18 +1,11 @@
 import React, { useState } from 'react';
-import NavBar from '../../Components/navbar';
-import Sidebar from '../../Components/sidebar';
-import AddBlogs from '../../resources/addBlogs.png';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import axios from 'axios';
-import { useRef } from 'react';
 import { Container, InputAdornment, TextField } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import arrowIcon from '../../resources/arrowIcon.png';
 import plusIcon from '../../resources/Plus.png';
-import AWS from 'aws-sdk';
-
-import femaleIcon from '../../resources/female.png'
+import editIcon from '../../resources/pencil.svg';
 
 const Employees = () => {
     const [dropDown, setDropDown] = useState(false);
@@ -24,156 +17,6 @@ const Employees = () => {
         setIsRotated((prev) => !prev);
     };
     const transClass = dropDown ? 'flex' : 'hidden';
-
-    // const clients = [
-    //     {
-    //         clientName: 'John',
-    //         mobileNumber: '000 000 000 000',
-    //         sales: 23,
-    //         userName: 'John1243',
-    //         password: '1234',
-    //     },
-    //     {
-    //         clientName: 'John',
-    //         mobileNumber: '000 000 000 000',
-    //         sales: 23,
-    //         userName: 'John1243',
-    //         password: '1234',
-    //     },
-    //     {
-    //         clientName: 'John',
-    //         mobileNumber: '000 000 000 000',
-    //         sales: 23,
-    //         userName: 'John1243',
-    //         password: '1234',
-    //     },
-    //     {
-    //         clientName: 'John',
-    //         mobileNumber: '000 000 000 000',
-    //         sales: 23,
-    //         userName: 'John1243',
-    //         password: '1234',
-    //     },
-    //     {
-    //         clientName: 'John',
-    //         mobileNumber: '000 000 000 000',
-    //         sales: 23,
-    //         userName: 'John1243',
-    //         password: '1234',
-    //     },
-    //     {
-    //         clientName: 'John',
-    //         mobileNumber: '000 000 000 000',
-    //         sales: 23,
-    //         userName: 'John1243',
-    //         password: '1234',
-    //     },
-    //     {
-    //         clientName: 'John',
-    //         mobileNumber: '000 000 000 000',
-    //         sales: 23,
-    //         userName: 'John1243',
-    //         password: '1234',
-    //     },
-    //     {
-    //         clientName: 'John',
-    //         mobileNumber: '000 000 000 000',
-    //         sales: 23,
-    //         userName: 'John1243',
-    //         password: '1234',
-    //     },
-    //     {
-    //         clientName: 'John',
-    //         mobileNumber: '000 000 000 000',
-    //         sales: 23,
-    //         userName: 'John1243',
-    //         password: '1234',
-    //     },
-    //     {
-    //         clientName: 'Johnnnnnnn',
-    //         mobileNumber: '000 000 000 000',
-    //         sales: 23,
-    //         userName: 'John1243',
-    //         password: '1234',
-    //     },
-    //     {
-    //         clientName: 'Johndsfwe',
-    //         mobileNumber: '000 000 000 000',
-    //         sales: 23,
-    //         userName: 'John1243',
-    //         password: '1234',
-    //     },
-    //     {
-    //         clientName: 'Johnathen',
-    //         mobileNumber: '000 000 000 000',
-    //         sales: 23,
-    //         userName: 'John1243',
-    //         password: '1234',
-    //     },
-    //     {
-    //         clientName: 'John',
-    //         mobileNumber: '000 000 000 000',
-    //         sales: 23,
-    //         userName: 'John1243',
-    //         password: '1234',
-    //     },
-    //     {
-    //         clientName: 'Johndddd',
-    //         mobileNumber: '000 000 000 000',
-    //         sales: 23,
-    //         userName: 'John1243',
-    //         password: '1234',
-    //     },
-    //     {
-    //         clientName: 'John',
-    //         mobileNumber: '000 000 000 000',
-    //         sales: 23,
-    //         userName: 'John1243',
-    //         password: '1234',
-    //     },
-    //     {
-    //         clientName: 'Johnewewwe',
-    //         mobileNumber: '000 000 000 000',
-    //         sales: 23,
-    //         userName: 'John1243',
-    //         password: '1234',
-    //     },
-    //     {
-    //         clientName: 'Johnttttttttt',
-    //         mobileNumber: '000 000 000 000',
-    //         sales: 23,
-    //         userName: 'John1243',
-    //         password: '1234',
-    //     },
-    //     {
-    //         clientName: 'John',
-    //         mobileNumber: '000 000 000 000',
-    //         sales: 23,
-    //         userName: 'John1243',
-    //         password: '1234',
-    //     },
-    //     {
-    //         clientName: 'John',
-    //         mobileNumber: '000 000 000 000',
-    //         sales: 23,
-    //         userName: 'John1243',
-    //         password: '1234',
-    //     },
-    //     {
-    //         clientName: 'Johnrrrrrrrrrrrrrrrr',
-    //         mobileNumber: '000 000 000 000',
-    //         sales: 23,
-    //         userName: 'John1243',
-    //         password: '1234',
-    //     },
-    //     {
-    //         clientName: 'Johnyyyyy',
-    //         mobileNumber: '000 000 000 000',
-    //         sales: 23,
-    //         userName: 'John1243',
-    //         password: '1234',
-    //     },
-    // ]
     
     const [clients, setClients] = useState([]);
 
@@ -183,6 +26,7 @@ const Employees = () => {
                 const { data } = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/client/getallclients`);
                 const transformedClients = data.map((user) => {
                     return {
+                        id: user._id,
                         clientName: user.firstName + ' ' + user.lastName,
                         mobileNumber: user.contactNumber,
                         sales: user.orders.length, 
@@ -223,6 +67,27 @@ const Employees = () => {
     const handlePageChange = (newPage) => {
         setCurrentPage(newPage);
     };
+
+    const editClient = (client) => {
+        navigate(`/clients/edit/${client.id}`)
+    }
+    useEffect(() => {
+        if(localStorage.getItem('token') === null){
+            navigate('/login')
+        }
+    }, []);
+    const deleteClient = async (client) => {
+        try {
+            const response = await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/client/deleteclient/${client.id}`);
+            if(response.status === 200){
+                //update client state
+                const newClients = clients.filter((c) => c.id !== client.id);
+                setClients(newClients);
+            }
+        } catch (error) {
+            console.error('Error deleting client:', error.message);
+        }
+    }
 
     const getPageNumbers = () => {
         const pageNumbers = [];
@@ -283,38 +148,6 @@ const Employees = () => {
                                 />
                             </div>
                             <div className='flex flex-row gap-5'>
-                                {/*<div className="relative flex flex-row gap-5">
-                                    <div
-                                        onClick={(e) => {toggle()}}
-                                        className='border border-[#128F96] py-2 px-3 h-12 flex flex-row gap-3 items-center align-middle justify-center cursor-pointer rounded-lg'
-                                    >
-                                        <span>Option</span>
-                                        <img
-                                            src={arrowIcon}
-                                            className={`w-3 h-2 transition-transform ${
-                                            isRotated ? 'rotate-180' : '' // Add rotate-180 class conditionally
-                                            }`}
-                                            alt=''
-                                        />
-                                    </div>
-
-                                    <div className={`absolute top-10 z-30 w-[200px] flex flex-col py-4 bg-[#FAF8F5] rounded-md ${transClass}`}>
-                                        <p
-                                            className="px-4 py-1 hover:bg-zinc-300 hover:text-zinc-500"
-                                            value="a"
-                                            onClick={(e)=>{
-                                                {toggle()}
-                                            }}
-                                        >a</p>
-                                        <p
-                                            className="px-4 py-1 hover:bg-zinc-300 hover:text-zinc-500"
-                                            value="b"
-                                            onClick={(e)=>{
-                                                {toggle()}
-                                            }}
-                                        >b</p>
-                                    </div>
-                                </div>*/}
                                 <div className='flex flex-row'>
                                     <div  onClick={() => navigate('/clients/add')} className='py-2 px-3 h-12 flex flex-row gap-3 items-center align-middle bg-[#128F96] rounded-lg cursor-pointer hover:bg-cyan-700 transition-all duration-200'>
                                         <img src={plusIcon} className='w-[25px] h-[25px]' />
@@ -328,22 +161,21 @@ const Employees = () => {
                             
                             <div className='flex flex-row w-full px-5 py-5 font-bold border-b border-gray-4400'>
                                 <div className='flex flex-row w-[50%] gap-10 justify-start'>
-                                    <input type='radio' className='opacity-0' />
                                     <div className='w-[20%] px-[6px]'>Emri i Klientit</div>
-                                    <div className='w-[25%] px-[5px]'>Numri i Telefonitr</div>
+                                    <div className='w-[20%] px-[5px]'>Numri i Telefonitr</div>
                                     <div className='ml-10'>Shitje</div>
                                 </div>
                                 <div className='flex flex-row w-[50%] gap-10 justify-start'>
                                     <div className='w-[30%]'>Krijuar në</div>
                                     <div className='w-[30%]'>Emri i User-it</div>
                                     <div className=''>Fjalëkalimi</div>
+                                    <div className='w-[30%]'>Actions</div>
                                 </div>
                             </div>
 
                             {clientsToDisplay.map((client, index) => (
                                 <div key={index} className="flex flex-row items-center self-start w-full px-5 py-2 align-middle">
                                     <div className='flex flex-row w-[50%] gap-10 justify-start'>
-                                        <input type='radio' />
                                         <div className='w-[20%] px-[6px]'>{client.clientName}</div>
                                         <div className='w-[25%] px-[5px]'>{client.mobileNumber}</div>
                                         <div className='ml-10 font-bold'>{client.sales}€</div>
@@ -352,6 +184,14 @@ const Employees = () => {
                                         <div className='w-[30%]'>12/12/12</div>
                                         <div className='w-[30%]'>{client.userName}</div>
                                         <div className=''>**********</div>
+                                        <div className='flex '>
+                                            <button onClick={() => editClient(client)} className='py-2 px-3 h-12 flex flex-row gap-3 items-center align-middle bg-[#128F96] rounded-lg cursor-pointer hover:bg-cyan-700 transition-all duration-200'>
+                                                <img src={editIcon} className='w-[20px] h-[20px]' />
+                                            </button>
+                                            <button onClick={()=>deleteClient(client)} className='py-2 px-3 h-12 flex flex-row gap-3 items-center align-middle bg-red-500  rounded-lg cursor-pointer hover:bg-red-700 transition-all duration-200'>
+                                                <span className="text-white">X</span>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             ))}

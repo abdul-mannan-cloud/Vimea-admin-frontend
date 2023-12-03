@@ -30,6 +30,16 @@ const AddProduct = () => {
 
     const navigate = useNavigate();
 
+    useEffect(() => {
+        if(localStorage.getItem('token') === null){
+            navigate('/login')
+        }
+        if(localStorage.getItem('role') !== 'admin'){
+            alert('You are not authorized to view this page')
+            navigate('/home')
+        }
+    }, []);
+
     const handleFileChange = (index, e) => {
         const file = e.target.files;
     };

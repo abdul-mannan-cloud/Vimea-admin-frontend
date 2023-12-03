@@ -1,37 +1,53 @@
 import React, {useEffect, useState} from 'react';
-import NavBar from '../../Components/navbar';
-import Sidebar from '../../Components/sidebar';
 import { TextField, Button, Container, Grid } from '@mui/material';
 import axios from "axios";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 
-const AddClient = () => {
+const EditClient = () => {
+    const {id} = useParams()
+
     const [formData, setFormData] = useState({
-        clientName: '',
-        mobileNumber: '',
+        email: '',
+        firstName: '',
+        lastName: '',
+        contactNumber: '',
         sales: 0,
-        userName: '',
         password: '',
     });
-
-    const navigate = useNavigate();
 
     useEffect(() => {
         if(localStorage.getItem('token') === null){
             navigate('/login')
         }
         if(localStorage.getItem('role') !== 'admin'){
-            alert('You are not authorized to view this page')
             navigate('/clients')
         }
     }, []);
 
+    useEffect(() => {
+        const fetchClientDetails = async () => {
+            try {
+                const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/client/getclient/${id}`);
+                setFormData(response.data);
+            } catch (error) {
+                console.error('Error fetching client details:', error.message);
+            }
+        };
+        fetchClientDetails();
+    }, []);
+
+    const navigate = useNavigate();
+
     const handleNewFormSubmit = async (e) => {
         e.preventDefault();
-        const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/client/addclient`, formData);
-        if(res.status === 200){
+        if (formData.clientName === '' || formData.mobileNumber === '' || formData.userName === '' || formData.password === '') {
+            alert('Ju lutem plotësoni të gjitha fushat!');
+            return;
+        }
+        const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/client/editClient`, formData);
+        if (res.status === 200) {
             alert('Klienti u shtua me sukses!');
-            navigate('/clients');
+            navigate('/clients')
         }
     };
 
@@ -56,7 +72,17 @@ const AddClient = () => {
                                     label="Emri i Klientit"
                                     variant="outlined"
                                     fullWidth
-                                    value={formData.clientName}
+                                    value={formData.firstName}
+                                    onChange={handleInputChange}
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    name="clientName"
+                                    label="Emri i Klientit"
+                                    variant="outlined"
+                                    fullWidth
+                                    value={formData.lastName}
                                     onChange={handleInputChange}
                                 />
                             </Grid>
@@ -66,7 +92,7 @@ const AddClient = () => {
                                     label="Numri i Telefonit"
                                     variant="outlined"
                                     fullWidth
-                                    value={formData.mobileNumber}
+                                    value={formData.contactNumber}
                                     onChange={handleInputChange}
                                 />
                             </Grid>
@@ -76,7 +102,7 @@ const AddClient = () => {
                                     label="Emri i User-it"
                                     variant="outlined"
                                     fullWidth
-                                    value={formData.userName}
+                                    value={formData.email}
                                     onChange={handleInputChange}
                                 />
                             </Grid>
@@ -104,4 +130,4 @@ const AddClient = () => {
     );
 };
 
-export default AddClient;
+export default EditClient;
