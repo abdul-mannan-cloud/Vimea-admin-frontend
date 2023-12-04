@@ -16,6 +16,7 @@ import femaleIcon from '../../resources/female.png'
 const Feedback = () => {
 
     const [feedbacks, setFeedbacks] = useState([]);
+    const [realFeedbacks, setRealFeedbacks] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -28,7 +29,9 @@ const Feedback = () => {
         fetch(`${process.env.REACT_APP_BACKEND_URL}/feedback/`)
             .then(response => response.json())
             .then(data => {
+                setRealFeedbacks(data)
                 const newFeedbacks = data.map(item => ({
+                    id: item._id,
                     email: item.email,
                     gender: item.gender,
                     age: item.age,
@@ -41,7 +44,8 @@ const Feedback = () => {
                     descrption1: item.suggestion,
                     descrption2: item.improvement,
                     service: item.service,
-                    source: item.source
+                    source: item.source,
+                    approved: item.approved
                 }));
                 setFeedbacks(newFeedbacks);
             })
@@ -107,6 +111,71 @@ return(
                                 <div className='flex flex-col gap-[4px] items-center justify-center text-center'>
                                     <label className='text-[#128F96] text-xs w-[120px]'>A keni blerë produkte të vimeas</label>
                                     <div className={`p-2 bg-[#128F96] text-white rounded-lg w-[50px] flex items-center justify-center`}><span>{feedback.buy}</span></div>
+                                </div>
+                                <div className='flex flex-col gap-[4px] items-center justify-center text-center'>
+                                    {!feedback.approved && <button  onClick={() => {
+                                        let updatedFeedback = realFeedbacks.find(item => item._id !== feedback.id);
+                                        fetch(`${process.env.REACT_APP_BACKEND_URL}/feedback`, {
+                                            method: 'PUT',
+                                            headers: {
+                                                'Content-Type': 'application/json',
+                                                'Authorization': `Bearer ${localStorage.getItem('token')}`
+                                            },
+                                            body: JSON.stringify({
+                                                ...updatedFeedback,
+                                                approved: true
+                                            })
+                                        })
+                                            .then(response => response.json())
+                                            .then(data => {
+                                                //update state
+                                                const newFeedbacks = feedbacks.map(item => {
+                                                    if (item.id === feedback.id) {
+                                                        return {
+                                                            ...item,
+                                                            approved: true
+                                                        }
+                                                    }
+                                                    return item;
+                                                })
+                                                setFeedbacks(newFeedbacks);
+                                                console.log('Success:', data);
+                                            })
+                                            .catch((error) => {
+                                                console.error('Error:', error);
+                                            });
+                                    }} className='bg-[#128F96] text-white rounded-lg px-3 py-2 hover:bg-teal-700'>Approve</button>}
+                                    {feedback.approved && <button onClick={() => {
+                                        let updatedFeedback = realFeedbacks.find(item => item._id !== feedback.id);
+                                        fetch(`${process.env.REACT_APP_BACKEND_URL}/feedback`, {
+                                            method: 'PUT',
+                                            headers: {
+                                                'Content-Type': 'application/json',
+                                                'Authorization': `Bearer ${localStorage.getItem('token')}`
+                                            },
+                                            body: JSON.stringify({
+                                                ...updatedFeedback,
+                                                approved: false
+                                            })
+                                        })
+                                            .then(response => response.json())
+                                            .then(data => {
+                                                const newFeedbacks = feedbacks.map(item => {
+                                                    if (item.id === feedback.id) {
+                                                        return {
+                                                            ...item,
+                                                            approved: false
+                                                        }
+                                                    }
+                                                    return item;
+                                                })
+                                                setFeedbacks(newFeedbacks);
+                                                console.log('Success:', data);
+                                            })
+                                            .catch((error) => {
+                                                console.error('Error:', error);
+                                            });
+                                    }} className='bg-red-500 text-white rounded-lg px-3 py-2 hover:bg-red-700'>DisApprove</button>}
                                 </div>
                             </div>
                             {
