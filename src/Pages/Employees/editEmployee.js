@@ -47,7 +47,7 @@ const EditEmployee = () => {
 
     const handleEditEmployee = async () => {
         try {
-            const response = await axios.post(`process.env.REACT_APP_BACKEND_URL/employee/editemployee/${id}`, employeeData);
+            const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/employee/editemployee/${id}`, employeeData);
             console.log('Employee edited successfully:', response.data);
             navigate('/employees');
         } catch (error) {

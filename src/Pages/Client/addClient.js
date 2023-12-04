@@ -7,10 +7,11 @@ import {useNavigate} from "react-router-dom";
 
 const AddClient = () => {
     const [formData, setFormData] = useState({
-        clientName: '',
-        mobileNumber: '',
+        email: '',
+        firstName: '',
+        lastName: '',
+        contactNumber: '',
         sales: 0,
-        userName: '',
         password: '',
     });
 
@@ -52,31 +53,41 @@ const AddClient = () => {
                             <span className='text-3xl font-bold mb-5'>Detajet e Klientit</span>
                             <Grid item xs={12}>
                                 <TextField
-                                    name="clientName"
-                                    label="Emri i Klientit"
+                                    name="firstName"
+                                    label="First Name"
                                     variant="outlined"
                                     fullWidth
-                                    value={formData.clientName}
+                                    value={formData.firstName}
                                     onChange={handleInputChange}
                                 />
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField
-                                    name="mobileNumber"
+                                    name="lastName"
+                                    label="Last Name"
+                                    variant="outlined"
+                                    fullWidth
+                                    value={formData.lastName}
+                                    onChange={handleInputChange}
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    name="contactNumber"
                                     label="Numri i Telefonit"
                                     variant="outlined"
                                     fullWidth
-                                    value={formData.mobileNumber}
+                                    value={formData.contactNumber}
                                     onChange={handleInputChange}
                                 />
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField
-                                    name="userName"
-                                    label="Emri i User-it"
+                                    name="email"
+                                    label="Emri i Email"
                                     variant="outlined"
                                     fullWidth
-                                    value={formData.userName}
+                                    value={formData.email}
                                     onChange={handleInputChange}
                                 />
                             </Grid>

@@ -1,6 +1,6 @@
 // Dashboard.js
 import React, {useEffect, useState} from 'react';
-import BarChart from '../Components/barChart';
+import BarChart from '../../Components/barChart';
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
 
@@ -87,7 +87,7 @@ const Dashboard = () => {
 
     return (
         <div className="container mx-auto mt-20 p-4">
-            <div className="flex flex-wrap justify-around">
+            <div className="flex gap-20 justify-around">
                 {/* Donut Charts */}
                 <div className="bg-white drop-shadow-lg p-4 flex flex-col justify-center gap-2 rounded-lg w-[40vw]">
                     <div className="flex flex-row gap-10">

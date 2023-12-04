@@ -18,7 +18,7 @@ import Login from './Pages/Login/index'
 import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
 import Appointments from "./Pages/Appointments";
 import Calendar from "./Pages/Calendar";
-import Dashboard from "./DashBoard";
+import Dashboard from "./Pages/DashBoard";
 import {Details} from "@mui/icons-material";
 
 function App() {
