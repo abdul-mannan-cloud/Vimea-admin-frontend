@@ -69,10 +69,7 @@ return(
                 <div className="w-full flex flex-col">
                     <div className="flex flex-row justify-between border-gray-500 border-b-2 pb-10">
                         <span className="text-4xl font-bold">VLERSIMET</span>
-                        <div className='flex flex-row gap-10'>
-                            <div className='rounded-lg border border-gray-200 p-3 px-7 font-bold text-xl'>Aktiviteti Sot</div>
-                            <div className='rounded-lg shadow-lg p-3 px-7 font-bold text-xl'>Aktiviteti Sot</div>
-                        </div>
+                        
                     </div>
 
                     {feedbacks.map((feedback, index) => 
@@ -144,7 +141,7 @@ return(
                                             .catch((error) => {
                                                 console.error('Error:', error);
                                             });
-                                    }} className='bg-[#128F96] text-white rounded-lg px-3 py-2 hover:bg-teal-700'>Approve</button>}
+                                    }} className='bg-[#128F96] text-white rounded-lg px-3 py-2 hover:bg-teal-700'>Aprovo</button>}
                                     {feedback.approved && <button onClick={() => {
                                         let updatedFeedback = realFeedbacks.find(item => item._id !== feedback.id);
                                         fetch(`${process.env.REACT_APP_BACKEND_URL}/feedback`, {
@@ -302,7 +299,7 @@ return(
                                     </div>
                                 </div>
                                 <div className='w-[350px] flex flex-col gap-2'>
-                                    <label className="text-[#128F96]">4.Sa jeni të kënaqur me procesin e realizimit të terminave në VIMEA?</label>
+                                    <label className="text-[#128F96]">5.Sa jeni të kënaqur me procesin e realizimit të terminave në VIMEA?</label>
                                     <textarea readOnly value={feedback.descrption1} className='rounded border h-[80px] border-gray-400 px-2 overflow-y-hidden'></textarea>
                                 </div>
                                 <div className='w-[350px] flex flex-col gap-2'>
