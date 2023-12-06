@@ -169,7 +169,7 @@ const Employees = () => {
                                     <div className='w-[30%]'>Krijuar në</div>
                                     <div className='w-[30%]'>Emri i User-it</div>
                                     <div className=''>Fjalëkalimi</div>
-                                    <div className='w-[30%]'>Actions</div>
+                                    <div className=''>Actions</div>
                                 </div>
                             </div>
 

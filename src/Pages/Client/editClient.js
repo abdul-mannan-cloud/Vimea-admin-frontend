@@ -110,7 +110,7 @@ const EditClient = () => {
                                 <TextField
                                     name="password"
                                     label="Fjalëkalimi"
-                                    type="password"
+                                    type="text"
                                     variant="outlined"
                                     fullWidth
                                     value={formData.password}
@@ -119,7 +119,7 @@ const EditClient = () => {
                             </Grid>
                             <Grid item xs={12}>
                                 <Button type="submit" variant="contained" color="primary" fullWidth>
-                                    Shto Klientin
+                                    Edito Klientin
                                 </Button>
                             </Grid>
                         </Grid>
