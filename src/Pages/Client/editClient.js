@@ -119,7 +119,7 @@ const EditClient = () => {
                             </Grid>
                             <Grid item xs={12}>
                                 <Button type="submit" variant="contained" color="primary" fullWidth>
-                                    Shto Klientin
+                                    Edito Klientin
                                 </Button>
                             </Grid>
                         </Grid>
