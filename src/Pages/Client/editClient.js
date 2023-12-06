@@ -110,7 +110,7 @@ const EditClient = () => {
                                 <TextField
                                     name="password"
                                     label="Fjalëkalimi"
-                                    type="password"
+                                    type="text"
                                     variant="outlined"
                                     fullWidth
                                     value={formData.password}
