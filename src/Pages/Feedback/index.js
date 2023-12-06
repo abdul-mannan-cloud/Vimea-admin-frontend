@@ -114,7 +114,8 @@ return(
                                 </div>
                                 <div className='flex flex-col gap-[4px] items-center justify-center text-center'>
                                     {!feedback.approved && <button  onClick={() => {
-                                        let updatedFeedback = realFeedbacks.find(item => item._id !== feedback.id);
+                                        let updatedFeedback = realFeedbacks.find(item => item._id === feedback.id);
+                                        console.log(updatedFeedback)
                                         fetch(`${process.env.REACT_APP_BACKEND_URL}/feedback`, {
                                             method: 'PUT',
                                             headers: {
@@ -146,7 +147,7 @@ return(
                                             });
                                     }} className='bg-[#128F96] text-white rounded-lg px-3 py-2 hover:bg-teal-700'>Approve</button>}
                                     {feedback.approved && <button onClick={() => {
-                                        let updatedFeedback = realFeedbacks.find(item => item._id !== feedback.id);
+                                        let updatedFeedback = realFeedbacks.find(item => item._id === feedback.id);
                                         fetch(`${process.env.REACT_APP_BACKEND_URL}/feedback`, {
                                             method: 'PUT',
                                             headers: {
