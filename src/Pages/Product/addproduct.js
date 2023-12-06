@@ -238,19 +238,18 @@ const AddProduct = () => {
                                         </div>
                                         <div className='flex flex-col w-[50%] gap-2'>
                                             <label className='w-full font-semibold text-gray-300'>Sasia (ml)</label>
-                                            <div className='flex flex-row justify-between w-full gap-2'>
-                                                <div onClick={() => setFormData({...formData, size: '10ml'})}
-                                                     className={`border border-gray-200 cursor-pointer py-2 px-[2px] rounded-lg ${formData.size === '10ml' ? 'bg-teal-500' : ''}`}>10ml
-                                                </div>
-                                                <div onClick={() => setFormData({...formData, size: '15ml'})}
-                                                     className={`border border-gray-200 cursor-pointer py-2 px-[2px] rounded-lg ${formData.size === '15ml' ? 'bg-teal-500' : ''}`}>15ml
-                                                </div>
-                                                <div onClick={() => {
-                                                    setFormData({...formData, size: '30ml'})
-                                                }}
-                                                     className={`border border-gray-200 cursor-pointer py-2 px-[2px] rounded-lg ${formData.size === '30ml' ? 'bg-teal-500' : ''}`}>30ml
-                                                </div>
-                                            </div>
+                                            <input
+        type='text'
+        value={formData.size.replace('ml', '')} // Extracts the numeric value
+        onChange={(e) => {
+            const value = e.target.value.trim(); // Remove whitespace
+            if (!isNaN(value) && value !== '') {
+                setFormData({...formData, size: `${value}ml`}); // Combines the numeric value with 'ml'
+            }
+        }}
+        className='border border-gray-200 py-2 px-[2px] rounded-lg'
+        placeholder='Enter size (e.g. 10ml)'
+    />
                                         </div>
                                     </div>
                                 </div>
