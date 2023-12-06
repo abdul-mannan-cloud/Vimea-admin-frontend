@@ -232,7 +232,25 @@ const Products = () => {
             <div className='flex flex-col w-full overflow-auto'>
                 <div className='flex flex-col items-center space-y-4 w-full px-20'>
                     <div className='flex items-end justify-end mt-32 w-full'>
+                    <div className='mt-1 rounded-lg'> 
+                         <TextField 
+                             id="search"
+                             type="search"
+                             label="Search"
+                             value={searchQuery}
+                             onChange={handleSearchChange}
+                             style={{ borderRadius: '20px' }}
+                             InputProps={{
+                                 endAdornment: (
+                                 <InputAdornment position="start">
+                                     <SearchIcon color=''/>
+                                 </InputAdornment>
+                                 ),
+                             }}
+                         />
+                     </div>
                         <div
+                      
                             onClick={() => navigate('/products/add')}
                             className='flex gap-3 px-3 py-2 bg-[#128F96] rounded-xl justify-center items-center hover:bg-cyan-700 transition-all duration-200 cursor-pointer'
                         >
