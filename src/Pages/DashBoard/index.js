@@ -93,12 +93,12 @@ const Dashboard = () => {
                     <div className="flex flex-row gap-10">
                         <div>
                             <h2 className="text-4xl font-bold text-start">{todayAppointments}</h2>
-                            <h1 className="text-4xl font-bold text-[#34D399]">Today's Appointments</h1>
+                            <h1 className="text-4xl font-bold text-[#128F96]">Today's Appointments</h1>
                         </div>
                         <div className="border-[1px] min-h-max border-gray-200"></div>
                         <div>
                             <h2 className="text-4xl font-bold text-start">{appointments}</h2>
-                            <h1 className="text-4xl font-bold text-[#34D399]">Total Appointments</h1>
+                            <h1 className="text-4xl font-bold text-[#128F96]">Total Appointments</h1>
                         </div>
                     </div>
                 </div>
@@ -106,12 +106,12 @@ const Dashboard = () => {
                     <div className="flex flex-row gap-10">
                         <div>
                             <h2 className="text-4xl font-bold text-start">{todaySales}</h2>
-                            <h1 className="text-4xl font-bold text-[#34D399]">Today's Sales</h1>
+                            <h1 className="text-4xl font-bold text-[#128F96]">Today's Sales</h1>
                         </div>
                         <div className="border-[1px] min-h-max border-gray-200"></div>
                         <div>
                             <h2 className="text-4xl font-bold text-start">{sales}</h2>
-                            <h1 className="text-4xl font-bold text-[#34D399]">Total Sales</h1>
+                            <h1 className="text-4xl font-bold text-[#128F96]">Total Sales</h1>
                         </div>
                     </div>
 

@@ -8,7 +8,7 @@ const DonutChart = ({ title, value }) => {
             type: 'donut',
         },
         labels: [title],
-        colors: ['#34D399'],
+        colors: ['#128F96'],
         legend: {
             show: false,
         },
