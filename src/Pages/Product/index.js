@@ -107,8 +107,8 @@ const Products = () => {
                 type: '',
                 size: '',
                 description: '',
-                coverimage: '',
-                images: [],
+                mainImage: '',
+                addonImages: [],
             });
         } else {
             setSelectedProduct(product);
@@ -121,8 +121,8 @@ const Products = () => {
                 type: product.type || '',
                 size1: (product.size) || '',
                 description: product.description || '',
-                coverimage: product.coverimage || '',
-                images: product.addonImages || [],
+                mainImage: product.mainImage || '',
+                addonImages: product.addonImages || [],
             });
         }
     };
@@ -140,8 +140,8 @@ const Products = () => {
         type: '',
         size : '',
         description: '',
-        coverimage: '',
-        images: [],
+        mainImage: '',
+        addonImages: [],
     });
 
     const handleInputChange = (e) => {
@@ -153,7 +153,7 @@ const Products = () => {
     };
 
     const handleImageDelete = (index) => {
-        const updatedImages = [...formData.images];
+        const updatedImages = [...formData.addonImages];
         const deletedImage = updatedImages.splice(index, 1)[0];
 
         if (deletedImage instanceof File) {
@@ -169,7 +169,7 @@ const Products = () => {
 
         setFormData({
             ...formData,
-            images: updatedImages,
+            addonImages: updatedImages,
         });
     };
 
@@ -177,22 +177,34 @@ const Products = () => {
         e.preventDefault();
         let imageNames = [];
 
-        if (formData.images[0]) {
-            if(typeof formData.images[0] !== 'string') {
-                const imageUploadResponse = await uploadImage(formData.images[0], 'main-image');
-                if (imageUploadResponse.success) {
-                    console.log(`Main image uploaded with filename: ${imageUploadResponse.filename}`);
-                    imageNames.push(imageUploadResponse.filename);
-                } else {
-                    console.error(`Failed to upload main image: ${imageUploadResponse.error}`);
-                    return;
-                }
+        // if (formData.images[0]) {
+        //     if(typeof formData.images[0] !== 'string') {
+        //         const imageUploadResponse = await uploadImage(formData.images[0], 'main-image');
+        //         if (imageUploadResponse.success) {
+        //             console.log(`Main image uploaded with filename: ${imageUploadResponse.filename}`);
+        //             imageNames.push(imageUploadResponse.filename);
+        //         } else {
+        //             console.error(`Failed to upload main image: ${imageUploadResponse.error}`);
+        //             return;
+        //         }
+        //     }
+        // }
+
+        if(typeof formData.mainImage !== 'string') {
+            const imageUploadResponse = await uploadImage(formData.mainImage, 'main-image');
+            if (imageUploadResponse.success) {
+                console.log(`Main image uploaded with filename: ${imageUploadResponse.filename}`);
+                imageNames.push(imageUploadResponse.filename);
+            } else {
+                console.error(`Failed to upload main image: ${imageUploadResponse.error}`);
+                return;
             }
         }
 
-        for (let i = 0; i < formData.images.length; i++) {
-            if(typeof formData.images[i] === 'string') continue;
-            const imageUploadResponse = await uploadImage(formData.images[i], 'add-on-image');
+        for (let i = 0; i < formData.addonImages.length; i++) {
+            console.log(formData.addonImages[i])
+            if(typeof formData.addonImages[i] === 'string') continue;
+            const imageUploadResponse = await uploadImage(formData.addonImages[i], 'add-on-image');
             if (imageUploadResponse.success) {
                 console.log(`Add-on image uploaded with filename: ${imageUploadResponse.filename}`);
                 imageNames.push(imageUploadResponse.filename);
@@ -202,9 +214,10 @@ const Products = () => {
                 return;
             }
         }
+
         const updatedFormData = {
             ...formData,
-            imagenames: imageNames,
+            addonImages: [...formData.addonImages, ...imageNames],
         };
 
         try {
@@ -225,6 +238,10 @@ const Products = () => {
         setShowForm(false);
         return false;
     };
+
+    useEffect(()=>{
+        console.log(formData.addonImages)
+    })
 
 
     return (
@@ -339,7 +356,7 @@ const Products = () => {
                                                     <h1 className="text-2xl font-bold">Add-on Images</h1>
                                                     <div className="flex gap-10">
                                                         {
-                                                            formData.images.map((image, index) => (
+                                                            formData.addonImages.map((image, index) => (
                                                                     <div className="flex flex-col max-w-[250px] gap-3">
                                                                         {typeof image === 'string' ? (
                                                                             <img
@@ -371,7 +388,7 @@ const Products = () => {
                                                             setShowImageInput(false);
                                                             setFormData({
                                                                 ...formData,
-                                                                images: [...formData.images, e.target.files[0]]
+                                                                addonImages: [...formData.addonImages,e.target.files[0]]
                                                             });
                                                         }} className={``}/>}
                                                     </div>
@@ -394,11 +411,11 @@ const Products = () => {
                                                     type="file"
                                                     className=""
                                                     accept="image/png, image/jpg"
-                                                    name="coverImage"
-                                                    id="coverImage"
+                                                    name="mainImage"
+                                                    id="mainImage"
                                                     onChange={(e) => setFormData({
                                                         ...formData,
-                                                        coverimage: e.target.files[0]
+                                                        mainImage: e.target.files[0]
                                                     })}
                                                 />
                                                 <div className='pl-5 pt-2'>
