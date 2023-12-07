@@ -14,7 +14,7 @@ const BarChart = ({ title , data}) => {
             },
         },
         xaxis: {
-            categories: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+            categories: [ 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat','Sun'],
         },
         legend: {
             position: 'bottom',
