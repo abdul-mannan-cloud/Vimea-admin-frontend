@@ -99,19 +99,7 @@ const Employees = () => {
                             </div>
                             <div className='flex flex-row gap-5'>
                                 <div className="relative flex flex-row gap-5">
-                                    <div
-                                        onClick={(e) => {toggle()}}
-                                        className='border border-[#128F96] py-2 px-3 h-10 flex flex-row gap-3 items-center align-middle justify-center cursor-pointer rounded-lg'
-                                    >
-                                        <span>Option</span>
-                                        <img
-                                            src={arrowIcon}
-                                            className={`w-3 h-2 transition-transform ${
-                                            isRotated ? 'rotate-180' : '' // Add rotate-180 class conditionally
-                                            }`}
-                                            alt=''
-                                        />
-                                    </div>
+                                
 
                                     <div className={`absolute top-10 z-30 w-[200px] flex flex-col py-4 bg-[#FAF8F5] rounded-md ${transClass}`}>
                                         <p
