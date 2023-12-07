@@ -232,7 +232,7 @@ const Blogs = () => {
                                 onClick={() => handleProductClick(blog)}
                             >
                                 <h2 className='text-2xl font-bold'>{blog.blogTitle}</h2>
-                                <p className="max-w-20 whitespace-nowrap overflow-hidden"> {blog.description}</p>
+                                <p className="max-w-[500px] whitespace-nowrap overflow-hidden"> {blog.description}</p>
                                 <div className='flex flex-row gap-5'>
                                     {
                                         blog.images.length > 0 && (
