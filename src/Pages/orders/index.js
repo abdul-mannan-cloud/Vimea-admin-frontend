@@ -108,12 +108,19 @@ const Orders = () => {
                                     <span className="text-xs font-bold">Billing Adress</span>
                                     <div className="flex flex-row gap-5 p-3 text-xs border-2 border-gray-300 rounded-lg">
                                         <div className="flex flex-col">
+                                        <span>Emri:</span>
+                                            <span>Mbiemri:</span>
+                                            <span>Shteti:</span>
                                             <span>Adress:</span>
                                             <span>Postal code:</span>
                                         </div>
                                         <div className="flex flex-col">
+                                        <span>{order.firstname}</span>
+                                            <span>{order.lastname}</span>
+                                            <span>{order.state}</span>
                                             <span>{order.shippingAddress}</span>
                                             <span>{order.postalCode}</span>
+                                           
                                         </div>
                                     </div>  
                                 </div>
