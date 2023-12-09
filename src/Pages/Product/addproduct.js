@@ -16,6 +16,7 @@ import {useNavigate} from 'react-router-dom';
 const AddProduct = () => {
 
     const fileInput = useRef(null);
+    const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState({
         productName: '',
         price: '',
@@ -26,15 +27,16 @@ const AddProduct = () => {
         coverimage: '',
         images: [],
         imagenames: [],
+        brand: '',
     });
 
     const navigate = useNavigate();
 
     useEffect(() => {
-        if(localStorage.getItem('token') === null){
+        if (localStorage.getItem('token') === null) {
             navigate('/login')
         }
-        if(localStorage.getItem('role') !== 'admin'){
+        if (localStorage.getItem('role') !== 'admin') {
             alert('You are not authorized to view this page')
             navigate('/home')
         }
@@ -95,14 +97,15 @@ const AddProduct = () => {
 
     const handleNewFormSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true)
         let imageNames = [];
 
-        if(formData.productName === '' || formData.price === '' || formData.quantity === '' || formData.type === '' || formData.size === '' || formData.description === '' || formData.images.length === 0){
+        if (formData.productName === '' || formData.price === '' || formData.quantity === '' || formData.type === '' || formData.size === '' || formData.description === '' || formData.images.length === 0) {
             alert("Ploteso te gjitha fushat");
             return;
         }
 
-        if(formData.images[0]){
+        if (formData.images[0]) {
             const imageUploadResponse = await uploadImage(formData.images[0], 'main-image');
             if (imageUploadResponse.success) {
                 console.log(`Main image uploaded with filename: ${imageUploadResponse.filename}`);
@@ -144,9 +147,12 @@ const AddProduct = () => {
                 console.log('Product not added');
             }
         } catch (error) {
+            setLoading(false)
+            alert('Something went wrong')
             console.error(error);
         }
         e.target.reset();
+        setLoading(false)
         return false;
     };
 
@@ -194,7 +200,10 @@ const AddProduct = () => {
                                                     onChange={(e) => {
                                                         console.log(e.target.files)
                                                         console.log(e.target.files.length)
-                                                        setFormData({...formData, images: e.target.files ? [...e.target.files] : []});
+                                                        setFormData({
+                                                            ...formData,
+                                                            images: e.target.files ? [...e.target.files] : []
+                                                        });
                                                     }}
                                                 />
                                             </div>
@@ -204,94 +213,72 @@ const AddProduct = () => {
                             </div>
                         </div>
 
-                        <div className='flex flex-row justify-between w-2/3 h-full gap-10 p-5 bg-white rounded-lg'>
-                            <div className='w-[30%] flex flex-col gap-10 justify-between h-full'>
-                                <div className='flex flex-col w-full gap-5'>
-                                    <div className='flex flex-col gap-2'>
-                                        <label className='font-semibold text-gray-300'>Emri i produktit</label>
-                                        <input value={formData.productName} onChange={handleInputChange}
-                                               name="productName" label="productName" variant="outlined"
-                                               className='w-full rounded-lg p-3 border-[2px] border-gray-200'
-                                               placeholder='Emri i Produktit'/>
-                                    </div>
-                                    <div className='flex flex-col gap-2'>
-                                        <label className='font-semibold text-gray-300'>Type</label>
-                                        <input value={formData.type} onChange={handleInputChange} name="type"
-                                               label="type" variant="outlined"
-                                               className='w-full rounded-lg p-3 border-[2px] border-gray-200'
-                                               placeholder=''/>
-                                    </div>
-                                    <div className='flex flex-row gap-5'>
-                                        <div className='flex flex-row gap-3 w-[50%] justify-between'>
-                                            <div className='flex flex-col gap-2'>
-                                                <label className='font-semibold text-gray-300'>Çmimi</label>
-                                                <input name="price" label="" type="number" value={formData.price}
-                                                       onChange={handleInputChange} variant="outlined"
-                                                       className='w-[60px] border border-gray-200 p-2 rounded-lg'/>
-                                            </div>
-                                            <div className='flex flex-col gap-2'>
-                                                <label className='font-semibold text-gray-300'>Stoku</label>
-                                                <input label="" name="quantity" type="number" value={formData.quantity}
-                                                       onChange={handleInputChange} variant="outlined"
-                                                       className='w-[60px] border border-gray-200 p-2 rounded-lg'/>
-                                            </div>
+                        <div className='bg-white flex flex-col md:flex-row p-5 gap-3'>
+                            <div className="flex flex-col md:grid md:grid-cols-2 gap-5">
+                                <div className='col-span-1 flex flex-col gap-2'>
+                                    <label className='font-semibold text-gray-300'>Emri i produktit</label>
+                                    <input value={formData.productName} onChange={handleInputChange}
+                                           name="productName" label="productName" variant="outlined"
+                                           className='w-full rounded-lg p-3 border-[2px] border-gray-200'
+                                           placeholder='Emri i Produktit'/>
+                                </div>
+                                <div className='col-span-1 flex flex-col gap-2'>
+                                    <label className='font-semibold text-gray-300'>Type</label>
+                                    <input value={formData.type} onChange={handleInputChange} name="type"
+                                           label="type" variant="outlined"
+                                           className='w-full rounded-lg p-3 border-[2px] border-gray-200'
+                                           placeholder=''/>
+                                </div>
+                                <div className='flex col-span-1 flex-row gap-5'>
+                                    <div className='flex flex-row gap-3 w-[50%] justify-between'>
+                                        <div className='flex flex-col gap-2'>
+                                            <label className='font-semibold text-gray-300'>Çmimi</label>
+                                            <input name="price" label="" type="number" value={formData.price}
+                                                   onChange={handleInputChange} variant="outlined"
+                                                   className='w-[60px] border border-gray-200 p-2 rounded-lg'/>
                                         </div>
-                                        <div className='flex flex-col w-[50%] gap-2'>
-                                            <label className='w-full font-semibold text-gray-300'>Sasia (ml)</label>
-                                            <input
-        type='text'
-        value={formData.size.replace('ml', '')} // Extracts the numeric value
-        onChange={(e) => {
-            const value = e.target.value.trim(); // Remove whitespace
-            if (!isNaN(value) && value !== '') {
-                setFormData({...formData, size: `${value}ml`}); // Combines the numeric value with 'ml'
-            }
-        }}
-        className='border border-gray-200 py-2 px-[2px] rounded-lg'
-        placeholder='Enter size (e.g. 10ml)'
-    />
+                                        <div className='flex flex-col gap-2'>
+                                            <label className='font-semibold text-gray-300'>Stoku</label>
+                                            <input label="" name="quantity" type="number" value={formData.quantity}
+                                                   onChange={handleInputChange} variant="outlined"
+                                                   className='w-[60px] border border-gray-200 p-2 rounded-lg'/>
                                         </div>
+                                    </div>
+                                    <div className='flex col-span-1 flex-col w-[50%] gap-2'>
+                                        <label className='w-full font-semibold text-gray-300'>Sasia (ml)</label>
+                                        <input
+                                            type='number'
+                                            onChange={(e) => {
+                                                setFormData({...formData, size: e.target.value}); // Combines the numeric value with 'ml'
+                                            }}
+                                            className='border border-gray-200 py-2 rounded-lg px-2'
+                                            placeholder='Enter size (e.g. 10ml)'
+                                        />
                                     </div>
                                 </div>
-
-                                <Button type="submit"
-                                        variant="contained"
-                                        style={{
-                                            background: '#128F96',
-                                            width: '70%',
-                                            boxShadow: 'none',
-                                            border: 'none',
-                                            padding: '10px',
-                                            paddingLeft: '30px',
-                                            cursor: 'pointer',
-                                            justifyItems: 'start',
-                                            justifyContent: 'start',
-                                            display: 'flex',
-                                            gap: '20px',
-                                            borderRadius: '10px'
-
-                                        }}
-                                >
-                                    <img src={saveIcon} className='w-[20px] h-[20px]'/>
-                                    <span className='font-bold text-white'>Rauj</span>
-                                </Button>
+                                <div className='col-span-1 flex flex-col gap-2'>
+                                    <label className='font-semibold text-gray-300'>Brand</label>
+                                    <input value={formData.brand} onChange={handleInputChange} name="brand"
+                                           label="brand" variant="outlined"
+                                           className='w-full rounded-lg p-3 border-[2px] border-gray-200'
+                                           placeholder=''/>
+                                </div>
+                                <div className='col-span-2 flex flex-col gap-2 '>
+                                    <label className='font-semibold text-gray-300'>Përshkrimi</label>
+                                    <textarea
+                                        label="Description"
+                                        name="description"
+                                        value={formData.description}
+                                        onChange={handleInputChange}
+                                        multiline
+                                        rows={4}
+                                        variant="outlined"
+                                        className=' rounded-lg border-[2px] border-gray-200 p-2 w-full'
+                                    />
+                                </div>
                             </div>
-
-                            <div className='w-[40%] flex flex-col gap-2 '>
-                                <label className='font-semibold text-gray-300'>Përshkrimi</label>
-                                <textarea
-                                    label="Description"
-                                    name="description"
-                                    value={formData.description}
-                                    onChange={handleInputChange}
-                                    multiline
-                                    rows={4}
-                                    variant="outlined"
-                                    className=' rounded-lg border-[2px] border-gray-200 p-2 w-full'
-                                />
-                            </div>
-                            <div className='w-[25%] flex flex-col gap-3 items-end justify-end'>
-                                <div className='w-[70%] h-[200px]'>
+                            <div className="flex flex-col gap-2">
+                                <div className='w-[300px] h-[200px]'>
                                     {
                                         formData.coverimage == ''
                                             ?
@@ -305,7 +292,7 @@ const AddProduct = () => {
                                             </div>
                                     }
                                 </div>
-                                <div className="col-span-1 w-[70%]">
+                                <div className="">
                                     <label className="block cursor-pointer">
                                         <div
                                             className="flex w-full h-full items-center justify-center align-middle flex-row p-2 gap-3 rounded-lg border border-[#128F96]">
@@ -325,16 +312,38 @@ const AddProduct = () => {
                                         </div>
                                     </label>
                                 </div>
+                                <Button disabled={loading} type="submit"
+                                        variant="contained"
+                                        style={{
+                                            background: '#128F96',
+                                            boxShadow: 'none',
+                                            border: 'none',
+                                            padding: '10px',
+                                            paddingLeft: '30px',
+                                            cursor: 'pointer',
+                                            justifyItems: 'start',
+                                            justifyContent: 'start',
+                                            display: 'flex',
+                                            gap: '20px',
+                                            borderRadius: '10px',
+                                            marginTop: '45px',
+                                        }}
+                                >
+                                    <img src={saveIcon} className='w-[20px] h-[20px]'/>
+                                    {!loading && <span className='font-bold text-white'>Rauj</span>}
+                                    {
+                                        loading && <span className="font-bold text-white">
+                                           Adding ...
+                                        </span>
+                                    }
+                                </Button>
                             </div>
-
                         </div>
-
-
                     </div>
+
 
                 </div>
 
-                <input type="file" ref={fileInput} onChange={handleFileChange} style={{display: 'none'}}/>
             </div>
         </form>
 

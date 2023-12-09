@@ -1,15 +1,6 @@
 import React, { useState } from 'react';
-import NavBar from '../../Components/navbar';
-import Sidebar from '../../Components/sidebar';
-import AddBlogs from '../../resources/addBlogs.png';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
-import axios from 'axios';
-import { TextField, Button } from '@mui/material';
-import { useRef } from 'react';
-import DeleteIcon from '@mui/icons-material/Delete';
-import AWS from 'aws-sdk';
-import addPhoto from '../../resources/addphoto.png'
 import maleIcon from '../../resources/male.png'
 import femaleIcon from '../../resources/female.png'
 

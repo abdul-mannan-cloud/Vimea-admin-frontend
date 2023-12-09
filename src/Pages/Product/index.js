@@ -12,6 +12,7 @@ import Plus from '../../resources/Plus.png'
 import {useRef} from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AWS from 'aws-sdk';
+import {Input} from "@mui/icons-material";
 
 
 const Products = () => {
@@ -21,7 +22,8 @@ const Products = () => {
     const [showForm, setShowForm] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [showImageInput, setShowImageInput] = useState(false);
-
+    const [allProducts, setAllProducts] = useState([]);
+    const [searchQuery, setSearchQuery] = useState("");
 
     useEffect(() => {
         if(localStorage.getItem('token') === null){
@@ -34,6 +36,7 @@ const Products = () => {
             try {
                 const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/products/getallproducts`);
                 setProducts(response.data.products);
+                setAllProducts(response.data.products);
             } catch (error) {
                 console.error('Error fetching products:', error);
             }
@@ -48,6 +51,8 @@ const Products = () => {
             try {
                 const response = await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/products/deleteproduct/${selectedProduct._id}`);
                 setProducts(products.filter(product => product._id !== selectedProduct._id));
+                setSelectedProduct(null);
+                setAllProducts(allProducts.filter(product => product._id !== selectedProduct._id));
             } catch (error) {
                 console.error('Error deleting product:', error);
             }
@@ -106,6 +111,7 @@ const Products = () => {
                 quantity: '',
                 type: '',
                 size: '',
+                brand: '',
                 description: '',
                 mainImage: '',
                 addonImages: [],
@@ -119,7 +125,8 @@ const Products = () => {
                 price: product.price || '',
                 quantity: product.quantity || '',
                 type: product.type || '',
-                size1: (product.size) || '',
+                size: (product.size) || '',
+                brand: product.brand || '',
                 description: product.description || '',
                 mainImage: product.mainImage || '',
                 addonImages: product.addonImages || [],
@@ -138,6 +145,7 @@ const Products = () => {
         price: '',
         quantity: '',
         type: '',
+        brand:'',
         size : '',
         description: '',
         mainImage: '',
@@ -190,11 +198,12 @@ const Products = () => {
         //     }
         // }
 
+        var mainImage = formData.mainImage;
         if(typeof formData.mainImage !== 'string') {
             const imageUploadResponse = await uploadImage(formData.mainImage, 'main-image');
             if (imageUploadResponse.success) {
                 console.log(`Main image uploaded with filename: ${imageUploadResponse.filename}`);
-                imageNames.push(imageUploadResponse.filename);
+                mainImage = imageUploadResponse.filename;
             } else {
                 console.error(`Failed to upload main image: ${imageUploadResponse.error}`);
                 return;
@@ -217,6 +226,7 @@ const Products = () => {
 
         const updatedFormData = {
             ...formData,
+            mainImage: typeof mainImage==='string'?mainImage:{},
             addonImages: [...formData.addonImages, ...imageNames],
         };
 
@@ -228,6 +238,7 @@ const Products = () => {
                 const productIndex = updatedProducts.findIndex(product => product._id === selectedProduct._id);
                 updatedProducts[productIndex] = res.data.updatedProduct;
                 setProducts(updatedProducts);
+                setAllProducts(updatedProducts);
             }
         } catch (error) {
             console.error(error);
@@ -243,15 +254,21 @@ const Products = () => {
         console.log(formData.addonImages)
     })
 
+    useEffect(() => {
+        setProducts(allProducts.filter((product) =>
+            product.name.toLowerCase().includes(searchQuery.toLowerCase()) || product.type.toLowerCase().includes(searchQuery.toLowerCase())
+        ));
+    },[searchQuery])
 
     return (
         <div className='flex h-screen bg-gray-100'>
             <div className='flex flex-col w-full overflow-auto'>
                 <div className='flex flex-col items-center space-y-4 w-full px-20'>
                     <div className='flex items-end justify-end mt-32 w-full'>
-                   
+                        <input placeholder='Kerko produktin' className='w-[250px] h-[40px] p-2 rounded-lg mr-2 mb-1' onChange={(e)=>{
+                            setSearchQuery(e.target.value);
+                        }}/>
                         <div
-                      
                             onClick={() => navigate('/products/add')}
                             className='flex gap-3 px-3 py-2 bg-[#128F96] rounded-xl justify-center items-center hover:bg-cyan-700 transition-all duration-200 cursor-pointer'
                         >
@@ -260,18 +277,18 @@ const Products = () => {
                         </div>
                     </div>
                     {products.map((product, index) => (
-                        <div key={index} className='w-full px-16'>
+                        <div key={index} className='w-full px-16 overflow-scroll'>
                             <div
                                 className={`border shadow-lg p-5 px-10 gap-10 rounded-lg w-full h-[120px] flex items-center justify-between bg-white ${
                                     selectedProduct === product ? 'mb-2' : 'mb-4'
                                 }`}
                                 onClick={() => handleProductClick(product)}
                             >
-                                <h2 className='font-bold text-2xl'>{product.name}</h2>
+                                <h2 className='font-bold text-2xl min-w-[400px] w-[400px] max-w-[400px] overflow-hidden whitespace-nowrap'>{product.name}</h2>
                                 <p> {product.type}</p>
                                 <p>Є {product.price}</p>
-                                <div className='flex flex-row gap-5'>
-                                    <img src={`https://vimea.nyc3.cdn.digitaloceanspaces.com/${product.addonImages[0]}`}
+                                <div className='flex flex-row gap-5 overflow-scroll'>
+                                    <img src={`https://vimea.nyc3.cdn.digitaloceanspaces.com/${product.mainImage}`}
                                          className='w-[100px] h-[100px] rounded-lg' alt='Product image 1'/>
                                     <img src={`https://vimea.nyc3.cdn.digitaloceanspaces.com/${product.addonImages[1]}`}
                                          className='w-[100px] h-[100px] rounded-lg' alt='Product image 2'/>
@@ -301,6 +318,9 @@ const Products = () => {
                                                                value={formData.quantity} onChange={handleInputChange}
                                                                variant="outlined" className='mb-2 mr-2'/>
                                                     <TextField label="type" name="type" value={formData.type}
+                                                               onChange={handleInputChange} variant="outlined"
+                                                               className='mb-2 mr-2'/>
+                                                    <TextField label="brand" name="brand" value={formData.brand}
                                                                onChange={handleInputChange} variant="outlined"
                                                                className='mb-2 mr-2'/>
                                                 </div>
