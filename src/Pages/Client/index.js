@@ -162,7 +162,7 @@ const Employees = () => {
                             <div className='flex flex-row w-full px-5 py-5 font-bold border-b border-gray-4400'>
                                 <div className='flex flex-row w-[50%] gap-10 justify-start'>
                                     <div className='w-[20%] px-[6px]'>Emri i Klientit</div>
-                                    <div className='w-[20%] px-[5px]'>Numri i Telefonitr</div>
+                                    <div className='w-[20%] px-[5px]'>Numri i Telefonit</div>
                                     <div className='ml-10'>Shitje</div>
                                 </div>
                                 <div className='flex flex-row w-[50%] gap-10 justify-start'>
