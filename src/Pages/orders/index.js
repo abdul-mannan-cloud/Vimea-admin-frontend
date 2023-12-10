@@ -52,7 +52,7 @@ const Orders = () => {
                         <div className="flex flex-row justify-between pb-5">
                             <span className="text-4xl font-bold">POROSITE</span>
                             <div className='flex flex-row gap-10'>
-                               <input className="w-30 h-4 p-4 rounded-lg border-black border-[1px]" placeholder="Search" onChange={(e)=>setSearchQuery(e.target.value)}/>
+                               <input className="w-30 h-4 p-4 rounded-lg border-black border-[1px]" placeholder="Kërko" onChange={(e)=>setSearchQuery(e.target.value)}/>
                             </div>
                         </div>
                         <div className="flex flex-row justify-between w-[90%] border-gray-500 border-b-2 pb-5">
