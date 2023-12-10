@@ -170,7 +170,7 @@ const Appointments = () => {
                 className='flex gap-3 px-3 py-2 bg-[#128F96] rounded-xl justify-center items-center hover:bg-cyan-700 transition-all duration-200 cursor-pointer w-48 ml-32'
             >
                 <img src={Plus} className=''/>
-                <span className='text-lg font-bold text-white'>SHTO Service</span>
+                <span className='text-lg font-bold text-white'>Shto Service</span>
             </button>
             <div className='flex flex-col w-full overflow-auto'>
                 <div
@@ -253,7 +253,7 @@ const Appointments = () => {
                             </div>
                         )}
                     </div>
-                    <div className='flex flex-col w-full gap-1'>
+                    <div className='flex flex-col w-full gap-1 h-72 shadow-md'>
                         <div className='ml-2 font-bold'>Për Nënen</div>
                         {motherAppointments.map((appointment, index) =>
                             <div
