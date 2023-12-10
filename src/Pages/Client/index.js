@@ -134,7 +134,7 @@ const Employees = () => {
                                 <TextField 
                                     id="search"
                                     type="search"
-                                    label="Search"
+                                    label="Kërko"
                                     value={searchQuery}
                                     onChange={handleSearchChange}
                                     style={{ borderRadius: '20px' }}
