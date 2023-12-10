@@ -245,7 +245,7 @@ const AddProduct = () => {
                                         </div>
                                     </div>
                                     <div className='flex col-span-1 flex-col w-[50%] gap-2'>
-                                        <label className='w-full font-semibold text-gray-300'>Sasia (ml)</label>
+                                        <label className='w-full font-semibold text-gray-300'>Sasia (ml) (Optional)</label>
                                         <input
                                             type='number'
                                             onChange={(e) => {

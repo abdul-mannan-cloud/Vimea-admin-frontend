@@ -7,6 +7,8 @@ import {useNavigate} from "react-router-dom";
 const Orders = () => {
 
     const [orders, setOrders] = useState([]);
+    const [allOrders, setAllOrders] = useState([]); // Used for table data
+    const [searchQuery, setSearchQuery] = useState(''); // Used for table data
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -20,11 +22,19 @@ const Orders = () => {
         let data = response.data;
         console.log(data)
         setOrders(data);
+        setAllOrders(data)
     }
 
     useEffect(() => {
         getData();
     }, []); 
+
+    useEffect(() => {
+        const filteredOrders = allOrders.filter((order) =>
+            order._id.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+        setOrders(filteredOrders);
+    },[searchQuery]);
 
     const [divStates, setDivStates] = useState(Array(orders.length).fill(false));
 
@@ -42,8 +52,7 @@ const Orders = () => {
                         <div className="flex flex-row justify-between pb-5">
                             <span className="text-4xl font-bold">POROSITE</span>
                             <div className='flex flex-row gap-10'>
-                                {/*<div className='p-3 text-xl font-bold border border-gray-200 rounded-lg px-7'>Aktiviteti Sot</div>
-                                <div className='p-3 text-xl font-bold rounded-lg shadow-lg px-7'>Aktiviteti Sot</div>*/}
+                               <input className="w-30 h-4 p-4 rounded-lg border-black border-[1px]" placeholder="Search" onChange={(e)=>setSearchQuery(e.target.value)}/>
                             </div>
                         </div>
                         <div className="flex flex-row justify-between w-[90%] border-gray-500 border-b-2 pb-5">
