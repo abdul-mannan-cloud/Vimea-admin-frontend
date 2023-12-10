@@ -22,6 +22,8 @@ const Blogs = () => {
     const [showForm, setShowForm] = useState(false);
     const [selectedBlogs, setSelectedBlogs] = useState(null);
     const [showImageInput, setShowImageInput] = useState(false);
+    const [allBlogs, setAllBlogs] = useState([]);
+    const [searchQuery, setSearchQuery] = useState("");
 
     useEffect(() => {
         if(localStorage.getItem('token') === null){
@@ -34,9 +36,7 @@ const Blogs = () => {
             try {
                 const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/blogs/getallblogs`);
                 setBlogs(response.data.blogs);
-                console.log("printing blogs...");
-                console.log(response.data.blogs);
-                console.log(blogs);
+                setAllBlogs(response.data.blogs);
             } catch (error) {
                 console.error('Error fetching blogs:', error);
             }
@@ -197,6 +197,7 @@ const Blogs = () => {
                 const index = updatedBlogs.findIndex((blog) => blog._id === selectedBlogs._id);
                 updatedBlogs[index] = res.data.blog;
                 setBlogs(updatedBlogs);
+                setAllBlogs(updatedBlogs)
             }
         } catch (error) {
             console.error(error);
@@ -208,11 +209,18 @@ const Blogs = () => {
         return false;
     };
 
+    useEffect(() => {
+        setBlogs(allBlogs.filter((blog) =>
+            blog.blogTitle.toLowerCase().includes(searchQuery.toLowerCase()) || blog.description.toLowerCase().includes(searchQuery.toLowerCase())
+        ));
+    },[searchQuery]);
+
     return (
         <div className='flex h-screen bg-gray-100'>
             <div className='flex flex-col w-full overflow-auto'>
                 <div className='flex flex-col items-center w-full px-20 space-y-4 '>
                     <div className='flex items-end justify-end w-full mt-32'>
+                        <input placeholder="Search" onChange={(e)=>setSearchQuery(e.target.value)} className="w-30 h-10 p-4 mr-2 rounded-lg border-black border-[1px]"/>
                         <div
                             onClick={() => navigate('/blogs/add')}
                             className='flex gap-3 px-3 py-2 bg-[#128F96] rounded-xl justify-center items-center hover:bg-cyan-700 transition-all duration-200 cursor-pointer'
