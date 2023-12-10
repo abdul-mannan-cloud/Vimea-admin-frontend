@@ -279,7 +279,7 @@ const Appointments = () => {
                             </div>
                         )}
                     </div>
-                    <div className='flex flex-col w-full gap-1'>
+                    <div className='flex flex-col w-full gap-1 border-2 border-black rounded-md p-5'>
                         <div className='ml-2 font-bold'>Mami + Bebi</div>
                         {motherBabyAppointments.map((appointment, index) =>
                             <div
