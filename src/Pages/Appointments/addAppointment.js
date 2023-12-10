@@ -44,7 +44,7 @@ export const AddAppointment = () => {
     return (
         <>
             <div className="flex flex-col justify-center items-center min-h-screen">
-                <h1 className="text-4xl font-bold text-center mt-10 mb-5">Shto një termin</h1>
+                <h1 className="text-4xl font-bold text-center mt-10 mb-5">Shto një Service</h1>
                 <form onSubmit={handleSubmit} className="flex flex-col justify-center items-center">
                     <div className="flex flex-col justify-center items-center">
                         <label htmlFor="name" className="text-xl font-bold">Shërbimi</label>
@@ -72,7 +72,7 @@ export const AddAppointment = () => {
                             ))}
                         </select>
                     </div>
-                    <button type="submit" className="border-2 border-black rounded-md p-2 mt-5">Shto termin</button>
+                    <button type="submit" className="border-2 border-black rounded-md p-2 mt-5">Shto Service</button>
                 </form>
             </div>
         </>
