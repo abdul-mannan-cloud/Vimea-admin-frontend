@@ -220,7 +220,7 @@ const Blogs = () => {
             <div className='flex flex-col w-full overflow-auto'>
                 <div className='flex flex-col items-center w-full px-20 space-y-4 '>
                     <div className='flex items-end justify-end w-full mt-32'>
-                        <input placeholder="Search" onChange={(e)=>setSearchQuery(e.target.value)} className="w-30 h-10 p-4 mr-2 rounded-lg border-black border-[1px]"/>
+                        <input placeholder="Kërko" onChange={(e)=>setSearchQuery(e.target.value)} className="w-30 h-10 p-4 mr-2 rounded-lg border-black border-[1px]"/>
                         <div
                             onClick={() => navigate('/blogs/add')}
                             className='flex gap-3 px-3 py-2 bg-[#128F96] rounded-xl justify-center items-center hover:bg-cyan-700 transition-all duration-200 cursor-pointer'
