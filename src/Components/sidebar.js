@@ -1,5 +1,5 @@
-import React, { createContext, useContext, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, {createContext, useContext, useEffect, useState} from 'react';
+import {useNavigate} from 'react-router-dom';
 // import your images
 import img1 from '../resources/1.png';
 import img1b from '../resources/icon_home_.png';
@@ -24,127 +24,144 @@ import img10b from '../resources/Shop.png';
 
 const Sidebar = () => {
 
-  const navigate = useNavigate();
-  const [navItem,setNavItem] = useState(1);
+    const navigate = useNavigate();
+    const [navItem, setNavItem] = useState(1);
+    const [role, setRole] = useState(null);
 
-  return (
-    <div className='fixed top-0 left-0 flex flex-col items-start h-screen gap-5 pt-40 bg-white'>
-      <div 
-        onClick={() => {
-          setNavItem(1)
-          navigate('/home')
-        }} 
-        className='flex flex-row items-center justify-between h-8 gap-2 pl-3 align-middle cursor-pointer'>
-        <div className=''></div>
-        <img src={navItem == 1 ? img1b : img1} className='w-6 h-6' alt='Image 1' />
-        <div className={`border-4 rounded-full w-0 h-full ${navItem == 1 ? 'border-[#128F96]' : 'border-transparent'}`}></div>
-      </div>
+    const currentUrl = window.location.pathname.slice(1);
 
-      <div 
-        onClick={() => {
-          setNavItem(2)
-          navigate('/calendar')
-        }}
-        className='flex flex-row items-center justify-between h-8 gap-2 pl-3 align-middle cursor-pointer'>
-        <div className=''></div>
-        <img src={navItem == 2 ? img2b : img2} className='w-6 h-6' alt='Image 2' />
-        <div className={`border-4 rounded-full w-0 h-full ${navItem == 2 ? 'border-[#128F96]' : 'border-transparent'}`}></div>
-      </div>
+    useEffect(() => {
+        setRole(localStorage.getItem('role'));
+        setNavItem(currentUrl == 'home' ? 1 : currentUrl == 'calendar' ? 2 : currentUrl == 'clients' ? 3 : currentUrl == 'appointments' ? 4 : currentUrl == 'employees' ? 5 : currentUrl == 'blogs' ? 6 : currentUrl == 'products' ? 10 : 0)
+    }, [])
 
-      <div 
-        onClick={() => {
-          setNavItem(3)
-          navigate('/clients')
-        }} 
-        className='flex flex-row items-center justify-between h-8 gap-2 pl-3 align-middle cursor-pointer'>
-        <div className=''></div>
-        <img src={navItem == 3 ? img3b : img3} className='w-6 h-6' alt='Image 3' />
-        <div className={`border-4 rounded-full w-0 h-full ${navItem == 3 ? 'border-[#128F96]' : 'border-transparent'}`}></div>
-      </div>
+    return (
+        <div className='fixed top-0 left-0 flex flex-col items-start h-screen gap-5 pt-40 bg-white'>
+            {role=='admin' && <div
+                onClick={() => {
+                    setNavItem(1)
+                    navigate('/home')
+                }}
+                className='flex flex-row items-center justify-between h-8 gap-2 pl-3 align-middle cursor-pointer'>
+                <div className=''></div>
+                <img src={navItem == 1 ? img1b : img1} className='w-6 h-6' alt='Image 1'/>
+                <div
+                    className={`border-4 rounded-full w-0 h-full ${navItem == 1 ? 'border-[#128F96]' : 'border-transparent'}`}></div>
+            </div>}
 
-      <div 
-        onClick={() => {
-          setNavItem(4)
-          navigate('/appointments')
-          }} 
-        className='flex flex-row items-center justify-between h-8 gap-2 pl-3 align-middle cursor-pointer'>
-        <div className=''></div>
-        <img src={navItem == 4 ? img4b : img4} className='w-6 h-6' alt='Image 4' />
-        <div className={`border-4 rounded-full w-0 h-full ${navItem == 4 ? 'border-[#128F96]' : 'border-transparent'}`}></div>
-      </div>
+            <div
+                onClick={() => {
+                    setNavItem(2)
+                    navigate('/calendar')
+                }}
+                className='flex flex-row items-center justify-between h-8 gap-2 pl-3 align-middle cursor-pointer'>
+                <div className=''></div>
+                <img src={navItem == 2 ? img2b : img2} className='w-6 h-6' alt='Image 2'/>
+                <div
+                    className={`border-4 rounded-full w-0 h-full ${navItem == 2 ? 'border-[#128F96]' : 'border-transparent'}`}></div>
+            </div>
 
-      <div 
-        onClick={() => {
-          setNavItem(5)
-          navigate('/employees')
-          }} 
-        className='flex flex-row items-center justify-between h-8 gap-2 pl-3 align-middle cursor-pointer'>
-        <div className=''></div>
-        <img src={navItem == 5 ? img5b : img5} className='w-6 h-6' alt='Image 5' />
-        <div className={`border-4 rounded-full w-0 h-full ${navItem == 5 ? 'border-[#128F96]' : 'border-transparent'}`}></div>
-      </div>
+            <div
+                onClick={() => {
+                    setNavItem(3)
+                    navigate('/clients')
+                }}
+                className='flex flex-row items-center justify-between h-8 gap-2 pl-3 align-middle cursor-pointer'>
+                <div className=''></div>
+                <img src={navItem == 3 ? img3b : img3} className='w-6 h-6' alt='Image 3'/>
+                <div
+                    className={`border-4 rounded-full w-0 h-full ${navItem == 3 ? 'border-[#128F96]' : 'border-transparent'}`}></div>
+            </div>
 
-      <div 
-        onClick={() => {
-          setNavItem(6)
-          navigate('/blogs')
-          }} 
-        className='flex flex-row items-center justify-between h-8 gap-2 pl-3 align-middle cursor-pointer'>
-        <div className=''></div>
-        <img src={navItem == 6 ? img6b : img6} className='w-6 h-6' alt='Image 6' />
-        <div className={`border-4 rounded-full w-0 h-full ${navItem == 6 ? 'border-[#128F96]' : 'border-transparent'}`}></div>
-      </div>
+            {role=='admin' && <div
+                onClick={() => {
+                    setNavItem(4)
+                    navigate('/appointments')
+                }}
+                className='flex flex-row items-center justify-between h-8 gap-2 pl-3 align-middle cursor-pointer'>
+                <div className=''></div>
+                <img src={navItem == 4 ? img4b : img4} className='w-6 h-6' alt='Image 4'/>
+                <div
+                    className={`border-4 rounded-full w-0 h-full ${navItem == 4 ? 'border-[#128F96]' : 'border-transparent'}`}></div>
+            </div>}
 
-      <div 
-        onClick={() => {
-          setNavItem(10)
-          navigate('/products')
-          }} 
-        className='flex flex-row items-center justify-between h-8 gap-2 pl-3 align-middle cursor-pointer'>
-        <div className=''></div>
-        <img src={navItem == 10 ? img10b : img10} className='w-6 h-6' alt='Image 10' />
-        <div className={`border-4 rounded-full w-0 h-full ${navItem == 10 ? 'border-[#128F96]' : 'border-transparent'}`}></div>
-      </div>
-      {/*<div 
+            {role=='admin' && <div
+                onClick={() => {
+                    setNavItem(5)
+                    navigate('/employees')
+                }}
+                className='flex flex-row items-center justify-between h-8 gap-2 pl-3 align-middle cursor-pointer'>
+                <div className=''></div>
+                <img src={navItem == 5 ? img5b : img5} className='w-6 h-6' alt='Image 5'/>
+                <div
+                    className={`border-4 rounded-full w-0 h-full ${navItem == 5 ? 'border-[#128F96]' : 'border-transparent'}`}></div>
+            </div>}
+
+            {role=='admin' && <div
+                onClick={() => {
+                    setNavItem(6)
+                    navigate('/blogs')
+                }}
+                className='flex flex-row items-center justify-between h-8 gap-2 pl-3 align-middle cursor-pointer'>
+                <div className=''></div>
+                <img src={navItem == 6 ? img6b : img6} className='w-6 h-6' alt='Image 6'/>
+                <div
+                    className={`border-4 rounded-full w-0 h-full ${navItem == 6 ? 'border-[#128F96]' : 'border-transparent'}`}></div>
+            </div>}
+
+            {role=='admin' && <div
+                onClick={() => {
+                    setNavItem(10)
+                    navigate('/products')
+                }}
+                className='flex flex-row items-center justify-between h-8 gap-2 pl-3 align-middle cursor-pointer'>
+                <div className=''></div>
+                <img src={navItem == 10 ? img10b : img10} className='w-6 h-6' alt='Image 10'/>
+                <div
+                    className={`border-4 rounded-full w-0 h-full ${navItem == 10 ? 'border-[#128F96]' : 'border-transparent'}`}></div>
+            </div>}
+            {/*<div
         onClick={() => {
           setNavItem(7)
           navigate('/payments')
-          }} 
+          }}
           className='flex flex-row items-center justify-between h-8 gap-2 pl-3 align-middle cursor-pointer'>
         <div className=''></div>
         <img src={navItem == 7 ? img7b : img7} className='w-6 h-6' alt='Image 7' />
         <div className={`border-4 rounded-full w-0 h-full ${navItem == 7 ? 'border-[#128F96]' : 'border-transparent'}`}></div>
       </div>*/}
 
-      <div 
-        onClick={() => {
-          setNavItem(8)
-          navigate('/orders')
-          }} 
-        className='flex flex-row items-center justify-between h-8 gap-2 pl-3 align-middle cursor-pointer'>
-        <div className=''></div>
-        <img src={navItem == 8 ? img8b : img8} className='w-6 h-6' alt='Image 8' />
-        <div className={`border-4 rounded-full w-0 h-full ${navItem == 8 ? 'border-[#128F96]' : 'border-transparent'}`}></div>
-      </div>
+            {role=='admin' && <div
+                onClick={() => {
+                    setNavItem(8)
+                    navigate('/orders')
+                }}
+                className='flex flex-row items-center justify-between h-8 gap-2 pl-3 align-middle cursor-pointer'>
+                <div className=''></div>
+                <img src={navItem == 8 ? img8b : img8} className='w-6 h-6' alt='Image 8'/>
+                <div
+                    className={`border-4 rounded-full w-0 h-full ${navItem == 8 ? 'border-[#128F96]' : 'border-transparent'}`}></div>
+            </div>}
 
-      <div 
-        	onClick={() => {
-            setNavItem(9)
-            navigate('/feedbacks')
-            }} 
-          className='flex flex-row items-center justify-between h-8 gap-2 pl-3 align-middle cursor-pointer'>
-        <div className=''></div>
-        <img src={navItem == 9 ? img9b : img9} className='w-6 h-6' alt='Image 9' />
-        <div className={`border-4 rounded-full w-0 h-full ${navItem == 9 ? 'border-[#128F96]' : 'border-transparent'}`}></div>
-      </div>
-    </div>
-    
-  );
+            {role=='admin' && <div
+                onClick={() => {
+                    setNavItem(9)
+                    navigate('/feedbacks')
+                }}
+                className='flex flex-row items-center justify-between h-8 gap-2 pl-3 align-middle cursor-pointer'>
+                <div className=''></div>
+                <img src={navItem == 9 ? img9b : img9} className='w-6 h-6' alt='Image 9'/>
+                <div
+                    className={`border-4 rounded-full w-0 h-full ${navItem == 9 ? 'border-[#128F96]' : 'border-transparent'}`}></div>
+            </div>}
+        </div>
+
+    );
 }
 
 export default Sidebar;
 
-       {/* <Sidebar collapsed={true}>
+{/* <Sidebar collapsed={true}>
   <Menu>
     <SubMenu label="Charts">
       <MenuItem>     <img
@@ -159,7 +176,8 @@ export default Sidebar;
     <MenuItem> Documentation </MenuItem>
     <MenuItem> Calendar </MenuItem>
   </Menu>
-</Sidebar> */}
+</Sidebar> */
+}
 
 
 

@@ -19,6 +19,14 @@ function Calendar() {
     const [appointments, setAppointments] = useState([]);
     const [selectedEmployee, setSelectedEmployee] = useState('');
 
+    const findColor = (category) => {
+        if (category=="Group Plush") return 'green-600'
+        if (category=="Për Fëmijë") return 'yellow-400'
+        if (category=="Për Bebe") return 'blue-400'
+        if (category=="Për Nënen") return 'purple-600'
+        if (category=="Mami + Bebi") return 'red-600'
+    }
+
     const getData = async () => {
         const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/employee/getallemployee`);
         if (res.status === 200) {
@@ -32,7 +40,11 @@ function Calendar() {
                     employee: appointment.employee?appointment.employee:res.data[0].name,
                     date: new Date(appointment.date),
                     time: appointment.time,
-                    content: appointment.content
+                    content: appointment.service,
+                    category: appointment.category,
+                    parent: appointment.parent.firstName + ' ' + appointment.parent.lastName,
+                    child: appointment.child.firstName + ' ' + appointment.child.lastName,
+                    color: findColor(appointment.category)
                 }
             }))
             console.log(appointmentRes.data.map(appointment => {
@@ -95,10 +107,6 @@ function Calendar() {
         }
     }, []);
     const updateAppointment = async (appointment) => {
-        if(localStorage.getItem('role') !== 'admin'){
-            alert('You are not authorized to update anything')
-            return;
-        }
         const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/appointment/editappointment/${appointment.id}`, appointment);
         if (res.status === 200) {
             console.log('Appointment updated successfully');
@@ -106,6 +114,10 @@ function Calendar() {
     }
 
     const moveAppointment = useCallback(async (id, newEmployee, newTime, newDate) => {
+        if(localStorage.getItem('role') !== 'admin'){
+            alert('You are not authorized to update anything')
+            return;
+        }
         let appointmentTemp = null
         setAppointments(prevAppointments => prevAppointments.map(appointment => {
             if (appointment.id === id) {
@@ -245,10 +257,12 @@ function DraggableAppointment({appointment}) {
     }));
 
     return (
-        <div ref={drag} className='cursor-move bg-white drop-shadow-lg p-2 m-2 border-l-2 border-red-500'>
+        <div ref={drag} className={`cursor-move bg-white drop-shadow-lg p-2 m-2 border-l-2 border-${appointment.color}`}>
             <p>{appointment.time}</p>
             <p>{appointment.date.toLocaleDateString()}</p>
             {appointment.content}
+            <p>{appointment.parent}</p>
+            <p>{appointment.children}</p>
         </div>
     );
 }
