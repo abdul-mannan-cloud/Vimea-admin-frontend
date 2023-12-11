@@ -14,6 +14,8 @@ import AWS from 'aws-sdk';
 
 import femaleIcon from '../../resources/female.png'
 import Plus from "../../resources/Plus.png";
+import IconButton from "@mui/material/IconButton";
+import {Close} from "@mui/icons-material";
 
 const Appointments = () => {
 
@@ -140,7 +142,7 @@ const Appointments = () => {
     //     },
     // ]
 
-    const groups = ["Për Fëmijë", "Për Bebe", "Group Plush", "Për Nënen","Mami + Bebi"];
+    const groups = ["Për Fëmijë", "Për Bebe", "Group Plush", "Për Nënen", "Mami + Bebi"];
 
     const deleteAppointment = async (id) => {
         try {
@@ -162,6 +164,9 @@ const Appointments = () => {
     const babyAppointments = appointments.filter(appointment => appointment.group === "Për Bebe");
     const motherAppointments = appointments.filter(appointment => appointment.group === "Për Nënen");
     const motherBabyAppointments = appointments.filter(appointment => appointment.group === "Mami + Bebi");
+
+    console.log(babyAppointments)
+    console.log(groupAppointments)
 
     return (
         <div className='flex flex-col pt-32 h-screen bg-gray-100'>
@@ -190,12 +195,13 @@ const Appointments = () => {
                                         €{appointment.price}
                                         </span>
                                         <span>
-                                            <button onClick={() => {
-                                                //delete
-                                                deleteAppointment(appointment._id)
-                                            }}
-                                                    className='text-xs font-normal bg-red-500 rounded-lg text-white p-2 hover:text-red-700'>Delete</button>
-                                        </span>
+<IconButton color="error" onClick={() => {
+    //delete
+    deleteAppointment(appointment._id)
+}}
+>
+                                                <Close/>
+                                            </IconButton>                                        </span>
                                     </div>
                                 </div>
                             </div>
@@ -203,7 +209,7 @@ const Appointments = () => {
                     </div>
                     <div className='flex flex-col w-full gap-1'>
                         <div className='ml-2 font-bold'>Për Bebe</div>
-                        {groupAppointments.map((appointment, index) =>
+                        {babyAppointments.map((appointment, index) =>
                             <div
                                 className='flex flex-row justify-between rounded-lg h-[50px] w-full bg-white font-bold shadow-xl'>
                                 <div className='w-0 h-full border-4 border-green-600 rounded-full'></div>
@@ -216,20 +222,21 @@ const Appointments = () => {
                                         €{appointment.price}
                                         </span>
                                         <span>
-                                            <button onClick={() => {
-                                                //delete
-                                                deleteAppointment(appointment._id)
-                                            }}
-                                                    className='text-xs font-normal bg-red-500 rounded-lg text-white p-2 hover:text-red-700'>Delete</button>
-                                        </span>
+<IconButton color="error" onClick={() => {
+    //delete
+    deleteAppointment(appointment._id)
+}}
+>
+                                                <Close/>
+                                            </IconButton>                                        </span>
                                     </div>
                                 </div>
                             </div>
                         )}
                     </div>
                     <div className='flex flex-col w-full gap-1'>
-                        <div className='ml-2 font-bold'>Group Plush </div>
-                        {babyAppointments.map((appointment, index) =>
+                        <div className='ml-2 font-bold'>Group Plush</div>
+                        {groupAppointments.map((appointment, index) =>
                             <div
                                 className='flex flex-row justify-between rounded-lg h-[50px] w-full bg-white font-bold shadow-xl'>
                                 <div className='w-0 h-full border-4 border-blue-400 rounded-full'></div>
@@ -242,11 +249,13 @@ const Appointments = () => {
                                         €{appointment.price}
                                         </span>
                                         <span>
-                                            <button onClick={() => {
+                                            <IconButton color="error" onClick={() => {
                                                 //delete
                                                 deleteAppointment(appointment._id)
                                             }}
-                                                    className='text-xs font-normal bg-red-500 rounded-lg text-white p-2 hover:text-red-700'>Delete</button>
+                                            >
+                                                <Close/>
+                                            </IconButton>
                                         </span>
                                     </div>
                                 </div>
@@ -268,12 +277,13 @@ const Appointments = () => {
                                         €{appointment.price}
                                         </span>
                                         <span>
-                                            <button onClick={() => {
-                                                //delete
-                                                deleteAppointment(appointment._id)
-                                            }}
-                                                    className='text-xs font-normal bg-red-500 rounded-lg text-white p-2 hover:text-red-700'>Delete</button>
-                                        </span>
+                                                    <IconButton color="error" onClick={() => {
+                                                        //delete
+                                                        deleteAppointment(appointment._id)
+                                                    }}
+                                                    >
+                                                <Close/>
+                                            </IconButton>                                        </span>
                                     </div>
                                 </div>
                             </div>
@@ -294,12 +304,13 @@ const Appointments = () => {
                                         €{appointment.price}
                                         </span>
                                         <span>
-                                            <button onClick={() => {
-                                                //delete
-                                                deleteAppointment(appointment._id)
-                                            }}
-                                                    className='text-xs font-normal bg-red-500 rounded-lg text-white p-2 hover:text-red-700'>Delete</button>
-                                        </span>
+<IconButton color="error" onClick={() => {
+    //delete
+    deleteAppointment(appointment._id)
+}}
+>
+                                                <Close/>
+                                            </IconButton>                                        </span>
                                     </div>
                                 </div>
                             </div>

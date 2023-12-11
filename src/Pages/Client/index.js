@@ -6,6 +6,9 @@ import { Container, InputAdornment, TextField } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import plusIcon from '../../resources/Plus.png';
 import editIcon from '../../resources/pencil.svg';
+import IconButton from '@mui/material/IconButton';
+import EditIcon from "@mui/icons-material/Edit";
+import {Close} from "@mui/icons-material";
 
 const Employees = () => {
     const [dropDown, setDropDown] = useState(false);
@@ -17,7 +20,7 @@ const Employees = () => {
         setIsRotated((prev) => !prev);
     };
     const transClass = dropDown ? 'flex' : 'hidden';
-    
+
     const [clients, setClients] = useState([]);
 
     useEffect(() => {
@@ -29,9 +32,9 @@ const Employees = () => {
                         id: user._id,
                         clientName: user.firstName + ' ' + user.lastName,
                         mobileNumber: user.contactNumber,
-                        sales: user.orders.length, 
+                        sales: user.orders.length,
                         userName: user.firstName,
-                        password: user.password, 
+                        password: user.password,
                     };
                 });
                 setClients(transformedClients);
@@ -130,8 +133,8 @@ const Employees = () => {
                     <div className="flex flex-col w-full">
                         <div className='flex flex-row items-center justify-between w-full align-middle'>
                             <div className='text-2xl font-bold'>Lista e Klientëve</div>
-                            <div className='mt-1 rounded-lg'> 
-                                <TextField 
+                            <div className='mt-1 rounded-lg'>
+                                <TextField
                                     id="search"
                                     type="search"
                                     label="Kërko"
@@ -158,7 +161,7 @@ const Employees = () => {
                         </div>
 
                         <div className='flex flex-col w-full gap-3 mt-2 bg-white rounded-xl'>
-                            
+
                             <div className='flex flex-row w-full px-5 py-5 font-bold border-b border-gray-4400'>
                                 <div className='flex flex-row w-[50%] gap-10 justify-start'>
                                     <div className='w-[20%] px-[6px]'>Emri i Klientit</div>
@@ -185,12 +188,12 @@ const Employees = () => {
                                         <div className='w-[30%]'>{client.userName}</div>
                                         <div className=''>**********</div>
                                         <div className='flex '>
-                                            <button onClick={() => editClient(client)} className='py-2 px-3 h-12 flex flex-row gap-3 items-center align-middle bg-[#128F96] rounded-lg cursor-pointer hover:bg-cyan-700 transition-all duration-200'>
-                                                <img src={editIcon} className='w-[20px] h-[20px]' />
-                                            </button>
-                                            <button onClick={()=>deleteClient(client)} className='py-2 px-3 h-12 flex flex-row gap-3 items-center align-middle bg-red-500  rounded-lg cursor-pointer hover:bg-red-700 transition-all duration-200'>
-                                                <span className="text-white">X</span>
-                                            </button>
+                                            <IconButton onClick={() => editClient(client)} color='primary'>
+                                                <EditIcon/>
+                                            </IconButton>
+                                            <IconButton onClick={()=>deleteClient(client)} color='error'>
+                                                <Close/>
+                                            </IconButton>
                                         </div>
                                     </div>
                                 </div>
@@ -212,7 +215,7 @@ const Employees = () => {
                                 </button>
                             ))}
                         </div>
-                        
+
                     </div>
                 </div>
             </div>

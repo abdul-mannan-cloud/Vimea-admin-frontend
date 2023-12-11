@@ -26,7 +26,7 @@ const Products = () => {
     const [searchQuery, setSearchQuery] = useState("");
 
     useEffect(() => {
-        if(localStorage.getItem('token') === null){
+        if (localStorage.getItem('token') === null) {
             navigate('/login')
         }
     }, []);
@@ -145,8 +145,8 @@ const Products = () => {
         price: '',
         quantity: '',
         type: '',
-        brand:'',
-        size : '',
+        brand: '',
+        size: '',
         description: '',
         mainImage: '',
         addonImages: [],
@@ -199,7 +199,7 @@ const Products = () => {
         // }
 
         var mainImage = formData.mainImage;
-        if(typeof formData.mainImage !== 'string') {
+        if (typeof formData.mainImage !== 'string') {
             const imageUploadResponse = await uploadImage(formData.mainImage, 'main-image');
             if (imageUploadResponse.success) {
                 console.log(`Main image uploaded with filename: ${imageUploadResponse.filename}`);
@@ -212,7 +212,7 @@ const Products = () => {
 
         for (let i = 0; i < formData.addonImages.length; i++) {
             console.log(formData.addonImages[i])
-            if(typeof formData.addonImages[i] === 'string') continue;
+            if (typeof formData.addonImages[i] === 'string') continue;
             const imageUploadResponse = await uploadImage(formData.addonImages[i], 'add-on-image');
             if (imageUploadResponse.success) {
                 console.log(`Add-on image uploaded with filename: ${imageUploadResponse.filename}`);
@@ -226,7 +226,7 @@ const Products = () => {
 
         const updatedFormData = {
             ...formData,
-            mainImage: typeof mainImage==='string'?mainImage:{},
+            mainImage: typeof mainImage === 'string' ? mainImage : {},
             addonImages: [...formData.addonImages, ...imageNames],
         };
 
@@ -250,7 +250,7 @@ const Products = () => {
         return false;
     };
 
-    useEffect(()=>{
+    useEffect(() => {
         console.log(formData.addonImages)
     })
 
@@ -258,16 +258,17 @@ const Products = () => {
         setProducts(allProducts.filter((product) =>
             product.name.toLowerCase().includes(searchQuery.toLowerCase()) || product.type.toLowerCase().includes(searchQuery.toLowerCase())
         ));
-    },[searchQuery])
+    }, [searchQuery])
 
     return (
         <div className='flex h-screen bg-gray-100'>
             <div className='flex flex-col w-full overflow-auto'>
                 <div className='flex flex-col items-center space-y-4 w-full px-20'>
                     <div className='flex items-end justify-end mt-32 w-full'>
-                        <input placeholder='Kerko produktin' className='w-[250px] h-[40px] p-2 rounded-lg mr-2 mb-1' onChange={(e)=>{
-                            setSearchQuery(e.target.value);
-                        }}/>
+                        <input placeholder='Kerko produktin' className='w-[250px] h-[40px] p-2 rounded-lg mr-2 mb-1'
+                               onChange={(e) => {
+                                   setSearchQuery(e.target.value);
+                               }}/>
                         <div
                             onClick={() => navigate('/products/add')}
                             className='flex gap-3 px-3 py-2 bg-[#128F96] rounded-xl justify-center items-center hover:bg-cyan-700 transition-all duration-200 cursor-pointer'
@@ -307,98 +308,112 @@ const Products = () => {
                                         <div
                                             className='p-4 max-w-7xl w-3/3 l-1/3 rounded-lg bg-white flex justify-between'>
                                             <div>
+                                                <div className="grid grid-cols-3 gap-5 mb-5">
                                                 <TextField value={formData.productName} onChange={handleInputChange}
                                                            name="productName" label="productName" variant="outlined"
-                                                           className='mb-4 w-[300px]'/>
-                                                <div className='flex flex-auto pt-4 pb-4 justify-between gap-2'>
-                                                    <TextField name="price" label="price" value={formData.price}
-                                                               onChange={handleInputChange} variant="outlined"
-                                                               className='mb-2  mr-2'/>
-                                                    <TextField label="quantity" name="quantity"
-                                                               value={formData.quantity} onChange={handleInputChange}
-                                                               variant="outlined" className='mb-2 mr-2'/>
-                                                    <TextField label="type" name="type" value={formData.type}
-                                                               onChange={handleInputChange} variant="outlined"
-                                                               className='mb-2 mr-2'/>
-                                                    <TextField label="brand" name="brand" value={formData.brand}
-                                                               onChange={handleInputChange} variant="outlined"
-                                                               className='mb-2 mr-2'/>
-                                                </div>
-                                                <div className='flex flex-row w-[50%] gap-2'>
-                                                    <label className='w-full font-semibold text-gray-300'>Sasia
-                                                        (ml)</label>
-                                                    <div className='flex flex-row justify-between w-full gap-2 mb-5'>
-                                                        <div onClick={() => setFormData({...formData, size: '10ml'})}
-                                                             className={`border border-gray-200 cursor-pointer py-2 px-[2px] rounded-lg ${formData.size === '10ml' ? 'bg-teal-500' : ''}`}>10ml
-                                                        </div>
-                                                        <div onClick={() => setFormData({...formData, size: '15ml'})}
-                                                             className={`border border-gray-200 cursor-pointer py-2 px-[2px] rounded-lg ${formData.size === '15ml' ? 'bg-teal-500' : ''}`}>15ml
-                                                        </div>
-                                                        <div onClick={() => {
-                                                            setFormData({...formData, size: '30ml'})
-                                                        }}
-                                                             className={`border border-gray-200 cursor-pointer py-2 px-[2px] rounded-lg ${formData.size === '30ml' ? 'bg-teal-500' : ''}`}>30ml
-                                                        </div>
+                                                           className='col-span-1'/>
+                                                <TextField name="price" label="price" value={formData.price}
+                                                           onChange={handleInputChange} variant="outlined"
+                                                           className='col-span-1'/>
+                                                <TextField label="quantity" name="quantity"
+                                                           value={formData.quantity} onChange={handleInputChange}
+                                                           variant="outlined" className='col-span-1'/>
+                                                <TextField label="type" name="type" value={formData.type}
+                                                           onChange={handleInputChange} variant="outlined"
+                                                           className='col-span-1'/>
+                                                <TextField label="brand" name="brand" value={formData.brand}
+                                                           onChange={handleInputChange} variant="outlined"
+                                                           className='col-span-1'/>
+                                                <TextField type="number" label="size" name="size"
+                                                           value={formData.size}
+                                                           onChange={handleInputChange} variant="outlined"
+                                                           className='col-span-1'/>
+                                                <TextField
+                                                    label="Description"
+                                                    name="description"
+                                                    value={formData.description}
+                                                    onChange={handleInputChange}
+                                                    multiline
+                                                    rows={4}
+                                                    variant="outlined"
+                                                    className='col-span-2'
+                                                />
+                                                <div className='col-span-1'>
+                                                    <input
+                                                        type="file"
+                                                        className=""
+                                                        accept="image/png, image/jpg"
+                                                        name="mainImage"
+                                                        id="mainImage"
+                                                        onChange={(e) => setFormData({
+                                                            ...formData,
+                                                            mainImage: e.target.files[0]
+                                                        })}
+                                                    />
+                                                    <div className='pl-5 pt-2'>
+                                                        <img src={AddPhoto} alt='Product'
+                                                             className=' border border-teal-500 rounded-lg w-[150px] h-[50px] mb-4 '/>
                                                     </div>
-                                                </div>
-                                                <div className='flex justify-center items-center'>
-                                                    <div className="flex flex-row gap-5">
-                                                        <Button
-                                                            type="submit"
-                                                            variant="contained"
-                                                            style={{
-                                                                backgroundColor: '#128F96',
-                                                                color: 'white',
-                                                                height: '55px',
-                                                                width: '220px',
-                                                                marginBottom: '10px',
-                                                            }}
-                                                        >
-                                                            Ruaj
-                                                        </Button>
 
-                                                        <Button
-                                                            variant="contained"
-                                                            style={{
-                                                                backgroundColor: 'red',
-                                                                color: 'white',
-                                                                height: '55px',
-                                                                width: '220px'
-                                                            }}
-                                                            startIcon={<DeleteIcon/>}
-                                                            onClick={onDeleteClick}
-                                                        >
-                                                            Delete
-                                                        </Button>
-                                                    </div>
+                                                </div>
+                                                </div>
+                                                <div className="flex flex-row gap-5">
+                                                    <Button
+                                                        type="submit"
+                                                        variant="contained"
+                                                        style={{
+                                                            backgroundColor: '#128F96',
+                                                            color: 'white',
+                                                            height: '55px',
+                                                            width: '220px',
+                                                            marginBottom: '10px',
+                                                        }}
+                                                    >
+                                                        Ruaj
+                                                    </Button>
+
+                                                    <Button
+                                                        variant="contained"
+                                                        style={{
+                                                            backgroundColor: 'red',
+                                                            color: 'white',
+                                                            height: '55px',
+                                                            width: '220px'
+                                                        }}
+                                                        startIcon={<DeleteIcon/>}
+                                                        onClick={onDeleteClick}
+                                                    >
+                                                        Delete
+                                                    </Button>
                                                 </div>
                                                 <div className="flex flex-col gap-5">
                                                     <h1 className="text-2xl font-bold">Add-on Images</h1>
                                                     <div className="flex gap-10">
                                                         {
                                                             formData.addonImages.map((image, index) => (
-                                                                    <div className="flex flex-col max-w-[250px] gap-3">
-                                                                        {typeof image === 'string' ? (
-                                                                            <img
-                                                                                src={`https://vimea.nyc3.cdn.digitaloceanspaces.com/${image}`}
-                                                                                className='w-[250px] h-[250px] rounded-lg'
-                                                                                alt={image}
-                                                                            />
-                                                                        ) : (
-                                                                            <img
-                                                                                src={URL.createObjectURL(image)}
-                                                                                className='w-[250px] h-[250px] rounded-lg'
-                                                                                alt={image.name}
-                                                                            />
-                                                                        )}
-                                                                        <button type="button" onClick={() => {
-                                                                            handleImageDelete(index)
-                                                                            setSelectedProduct(product);
-                                                                        }} className="bg-red-500 text-white rounded-lg px-2 py-1">
-                                                                            Delete
-                                                                        </button>
-                                                                    </div>
-                                                                ))
+                                                                <div className="flex flex-col max-w-[250px] gap-3">
+                                                                    {typeof image === 'string' ? (
+                                                                        <img
+                                                                            src={`https://vimea.nyc3.cdn.digitaloceanspaces.com/${image}`}
+                                                                            className='w-[250px] h-[250px] rounded-lg'
+                                                                            alt={image}
+                                                                        />
+                                                                    ) : (
+                                                                        <img
+                                                                            src={URL.createObjectURL(image)}
+                                                                            className='w-[250px] h-[250px] rounded-lg'
+                                                                            alt={image.name}
+                                                                        />
+                                                                    )}
+                                                                    <button type="button" onClick={() => {
+                                                                        handleImageDelete(index)
+                                                                        setSelectedProduct(product);
+                                                                    }}
+                                                                            className="bg-red-500 text-white rounded-lg px-2 py-1">
+                                                                        Delete
+                                                                    </button>
+                                                                </div>
+                                                            ))
                                                         }
                                                         <div onClick={() => setShowImageInput(!showImageInput)}
                                                              className="text-xl cursor-pointer hover:shadow-lg h-10 px-3 pt-1 place-self-center rounded-full border-2 border-black">
@@ -408,42 +423,13 @@ const Products = () => {
                                                             setShowImageInput(false);
                                                             setFormData({
                                                                 ...formData,
-                                                                addonImages: [...formData.addonImages,e.target.files[0]]
+                                                                addonImages: [...formData.addonImages, e.target.files[0]]
                                                             });
                                                         }} className={``}/>}
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div className='pt-32 pl-8'>
-                                                <TextField
-                                                    label="Description"
-                                                    name="description"
-                                                    value={formData.description}
-                                                    onChange={handleInputChange}
-                                                    multiline
-                                                    rows={4}
-                                                    variant="outlined"
-                                                    className='mb-4  w-[300px]'
-                                                />
-                                            </div>
-                                            <div className='pt-32 pl-8'>
-                                                <input
-                                                    type="file"
-                                                    className=""
-                                                    accept="image/png, image/jpg"
-                                                    name="mainImage"
-                                                    id="mainImage"
-                                                    onChange={(e) => setFormData({
-                                                        ...formData,
-                                                        mainImage: e.target.files[0]
-                                                    })}
-                                                />
-                                                <div className='pl-5 pt-2'>
-                                                    <img src={AddPhoto} alt='Product'
-                                                         className=' border border-teal-500 rounded-lg w-[150px] h-[50px] mb-4 '/>
-                                                </div>
 
-                                            </div>
 
                                         </div>
 
