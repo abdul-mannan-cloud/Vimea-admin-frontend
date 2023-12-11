@@ -20,9 +20,9 @@ function Calendar() {
     const [selectedEmployee, setSelectedEmployee] = useState('');
 
     const findColor = (category) => {
-        if (category=="Group Plush") return 'green-600'
+        if (category=="Group Plush") return 'blue-400'
         if (category=="Për Fëmijë") return 'yellow-400'
-        if (category=="Për Bebe") return 'blue-400'
+        if (category=="Për Bebe") return 'green-600'
         if (category=="Për Nënen") return 'purple-600'
         if (category=="Mami + Bebi") return 'red-600'
     }
@@ -42,9 +42,10 @@ function Calendar() {
                     time: appointment.time,
                     content: appointment.service,
                     category: appointment.category,
-                    parent: appointment.parent.firstName + ' ' + appointment.parent.lastName,
-                    child: appointment.child.firstName + ' ' + appointment.child.lastName,
-                    color: findColor(appointment.category)
+                    parentName: appointment.parent.firstName + ' ' + appointment.parent.lastName,
+                    childName: appointment.child.firstName + ' ' + appointment.child.lastName,
+                    color: findColor(appointment.category),
+                    approved: appointment.approved
                 }
             }))
             console.log(appointmentRes.data.map(appointment => {
@@ -109,7 +110,7 @@ function Calendar() {
     const updateAppointment = async (appointment) => {
         const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/appointment/editappointment/${appointment.id}`, appointment);
         if (res.status === 200) {
-            console.log('Appointment updated successfully');
+            alert('Appointment updated successfully')
         }
     }
 
@@ -219,7 +220,7 @@ function Calendar() {
                                     {appointments
                                         .filter(app =>( selectedEmployee === '' || app.employee === selectedEmployee) && app.employee === employee.name && compareTimes(app.time,time)===0 && new Date(currentDate).toLocaleDateString() === new Date(app.date).toLocaleDateString())
                                         .map(app => (
-                                            <DraggableAppointment key={app.id} appointment={app}/>
+                                            <DraggableAppointment key={app.id} appointment={app} updateAppointment={updateAppointment}/>
                                         ))}
                                 </DropZone>
                             ))}
@@ -247,7 +248,7 @@ function DropZone({children, employee, time, date, moveAppointment}) {
     );
 }
 
-function DraggableAppointment({appointment}) {
+function DraggableAppointment({appointment,updateAppointment}) {
     const [, drag] = useDrag(() => ({
         type: ItemTypes.APPOINTMENT,
         item: {id: appointment.id},
@@ -257,12 +258,19 @@ function DraggableAppointment({appointment}) {
     }));
 
     return (
-        <div ref={drag} className={`cursor-move bg-white drop-shadow-lg p-2 m-2 border-l-2 border-${appointment.color}`}>
-            <p>{appointment.time}</p>
-            <p>{appointment.date.toLocaleDateString()}</p>
-            {appointment.content}
-            <p>{appointment.parent}</p>
-            <p>{appointment.children}</p>
+        <div ref={drag} className={`cursor-move grid grid-cols-2 bg-white drop-shadow-lg p-2 m-2 max-w-[500px] border-l-4 border-${appointment.color}`}>
+            <p className="col-span-1">Time: {appointment.time}</p>
+            <p className="col-span-1">Date: {appointment.date.toLocaleDateString()}</p>
+            <p className="col-span-1">Service: {appointment.content}</p>
+            <p className="col-span-1">Category: {appointment.category}</p>
+            <p className="col-span-1">Parent: {appointment.parentName}</p>
+            <p className="col-span-1">Child: {appointment.childName}</p>
+            <button onClick={()=>{
+                appointment.approved = true
+                updateAppointment(appointment)
+            }} disabled={appointment.approved} className={`col-span-2 bg-blue-500 disabled:bg-gray-400 text-white rounded-md p-2`}>{
+                appointment.approved ? 'Approved' : 'Approve'
+            }</button>
         </div>
     );
 }
