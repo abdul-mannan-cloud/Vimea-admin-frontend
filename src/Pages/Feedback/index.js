@@ -201,7 +201,7 @@ return(
                                             <input
                                                 type="range"
                                                 min="0"
-                                                max="4"
+                                                max="5"
                                                 readOnly
                                                 name="experience"
                                                 value={feedback.feedback1 - 1}
