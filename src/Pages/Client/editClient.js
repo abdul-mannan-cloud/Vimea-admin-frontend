@@ -79,7 +79,7 @@ const EditClient = () => {
                             <Grid item xs={12}>
                                 <TextField
                                     name="clientName"
-                                    label="Emri i Klientit"
+                                    label="Mbiemri i Klientit"
                                     variant="outlined"
                                     fullWidth
                                     value={formData.lastName}
