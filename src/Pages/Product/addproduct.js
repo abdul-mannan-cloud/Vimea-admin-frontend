@@ -234,7 +234,7 @@ const AddProduct = () => {
                                         <div className='flex flex-col gap-2'>
                                             <label className='font-semibold text-gray-300'>Çmimi</label>
                                             <input name="price" label="" type="number" value={formData.price}
-                                                   onChange={handleInputChange} variant="outlined"
+                                                   onChange={handleInputChange} variant="outlined" 
                                                    className='w-[60px] border border-gray-200 p-2 rounded-lg'/>
                                         </div>
                                         <div className='flex flex-col gap-2'>
