@@ -27,20 +27,47 @@ const Employees = () => {
         const getClients = async () => {
             try {
                 const { data } = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/client/getallclients`);
-                const transformedClients = data.map((user) => {
-                    return {
-                        id: user._id,
-                        clientName: user.firstName + ' ' + user.lastName,
-                        mobileNumber: user.contactNumber,
-                        sales: user.orders.length,
-                        userName: user.firstName,
-                        password: user.password,
-                    };
+                const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/client/getallchildren`);
+                
+                // Extract data and children
+                const clients = data;
+                const children = response.data;
+
+                //console.log(clients)
+              
+                
+                // Transform the clients array and replace children IDs with actual child objects
+                const transformedClients = clients.map(user => {
+                    const associatedChildren = user.children.map((childId) => {
+                        return children.filter((child) => {
+                          return childId === child._id; // Use === for comparison
+                        });
+                      });
+
+                    // Flatten the array of arrays into a single array
+                    const flattenedChildren = associatedChildren.flat();
+                    
+                  //console.log(associatedChildren)
+                  return {
+                    id: user._id,
+                    clientName: user.firstName + ' ' + user.lastName,
+                    mobileNumber: user.contactNumber,
+                    sales: user.orders.length,
+                    userName: user.firstName,
+                    password: user.password,
+                    appointments: user.appointments.length,
+                    // Replace children IDs with actual child objects in the transformed data
+                    children: flattenedChildren,
+                  };
                 });
+              
+                // Update state with the transformed data
                 setClients(transformedClients);
-            } catch (error) {
-                console.error('Error fetching clients:', error);
-            }
+                console.log(transformedClients)
+              
+              } catch (error) {
+                console.error("Error fetching data:", error);
+              }              
         };
 
         getClients();
@@ -129,7 +156,7 @@ const Employees = () => {
     return(
         <div className='flex h-screen bg-gray-100'>
             <div className='flex flex-col w-full overflow-auto'>
-                <div className="flex items-center bg-gray-100 self-center justify-center align-middle w-[90%] ml-16 mt-32 rounded-xl p-10 px-20">
+                <div className="flex items-center bg-gray-100 self-center justify-center align-middle w-[95%] ml-16 mt-32 rounded-xl p-10 px-20">
                     <div className="flex flex-col w-full">
                         <div className='flex flex-row items-center justify-between w-full align-middle'>
                             <div className='text-2xl font-bold'>Lista e Klientëve</div>
@@ -163,14 +190,16 @@ const Employees = () => {
                         <div className='flex flex-col w-full gap-3 mt-2 bg-white rounded-xl'>
 
                             <div className='flex flex-row w-full px-5 py-5 font-bold border-b border-gray-4400'>
-                                <div className='flex flex-row w-[50%] gap-10 justify-start'>
+                                <div className='flex flex-row w-[60%] gap-5 justify-start'>
                                     <div className='w-[20%] px-[6px]'>Emri i Klientit</div>
-                                    <div className='w-[20%] px-[5px]'>Numri i Telefonit</div>
-                                    <div className='ml-10'>Shitje</div>
+                                    <div className='w-[15%] px-[6px]'>Emri i bebes</div>
+                                    <div className='w-[15%] px-[5px]'>Numri i Telefonit</div>
+                                    <div className='ml-8'>Shitje</div>
+                                    <div className='ml-4'>Appointments</div>
                                 </div>
-                                <div className='flex flex-row w-[50%] gap-10 justify-start'>
-                                    <div className='w-[30%]'>Krijuar në</div>
-                                    <div className='w-[30%]'>Emri i User-it</div>
+                                <div className='flex flex-row w-[40%] gap-10 justify-start'>
+                                    <div className='w-[20%]'>Krijuar në</div>
+                                    <div className='w-[20%]'>Emri i User-it</div>
                                     <div className=''>Fjalëkalimi</div>
                                     <div className=''>Actions</div>
                                 </div>
@@ -178,14 +207,18 @@ const Employees = () => {
 
                             {clientsToDisplay.map((client, index) => (
                                 <div key={index} className="flex flex-row items-center self-start w-full px-5 py-2 align-middle">
-                                    <div className='flex flex-row w-[50%] gap-10 justify-start'>
+                                    <div className='flex flex-row w-[60%] gap-5 justify-start'>
                                         <div className='w-[20%] px-[6px]'>{client.clientName}</div>
-                                        <div className='w-[25%] px-[5px]'>{client.mobileNumber}</div>
+                                        <div className='w-[15%] px-[6px]'>{client.children.map((child) =>
+                                            <span>{child.firstname} {child.lastName}</span>
+                                        )}</div>
+                                        <div className='w-[15%] px-[5px]'>{client.mobileNumber}</div>
                                         <div className='ml-10 font-bold'>{client.sales}€</div>
+                                        <div className='ml-8 font-bold'>{client.appointments}</div>
                                     </div>
-                                    <div className='flex flex-row w-[50%] gap-10 justify-start'>
-                                        <div className='w-[30%]'>12/12/12</div>
-                                        <div className='w-[30%]'>{client.userName}</div>
+                                    <div className='flex flex-row w-[40%] gap-10 justify-start'>
+                                        <div className='w-[20%]'>12/12/12</div>
+                                        <div className='w-[20%]'>{client.userName}</div>
                                         <div className=''>**********</div>
                                         <div className='flex '>
                                             <IconButton onClick={() => editClient(client)} color='primary'>
