@@ -45,7 +45,8 @@ function Calendar() {
                     parentName: appointment.parent.firstName + ' ' + appointment.parent.lastName,
                     childName: appointment.child.firstName + ' ' + appointment.child.lastName,
                     color: findColor(appointment.category),
-                    approved: appointment.approved
+                    approved: appointment.approved,
+                    status: appointment.status,
                 }
             }))
             console.log(appointmentRes.data.map(appointment => {
@@ -114,6 +115,13 @@ function Calendar() {
         }
     }
 
+    const cancelAppointment = async (appointment) => {
+        const res = await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/appointment/deleteappointment/${appointment.id}`, appointment);
+        if (res.status === 200) {
+            alert('Appointment deleted successfully')
+        }
+    }
+
     const moveAppointment = useCallback(async (id, newEmployee, newTime, newDate) => {
         if(localStorage.getItem('role') !== 'admin'){
             alert('You are not authorized to update anything')
@@ -152,9 +160,9 @@ function Calendar() {
 
     return (
         <DndProvider backend={HTML5Backend}>
-            <div className='container mx-auto p-4 mt-32 ml-20'>
+            <div className='container p-4 mx-auto mt-32 ml-20'>
                 {/*change date functionality and next day */}
-                <div className='flex justify-between items-center mb-4'>
+                <div className='flex items-center justify-between mb-4'>
                     <div className='flex items-center gap-5'>
                         <select
                             value={selectedEmployee.name}
@@ -169,8 +177,8 @@ function Calendar() {
                             ))}
                         </select>
                         <div className="flex items-center">
-                            <button onClick={handlePrevDay} className='bg-gray-200 hover:bg-gray-300 rounded px-4 py-2'>
-                                <svg className='h-4 w-4 fill-current' viewBox='0 0 20 20'>
+                            <button onClick={handlePrevDay} className='px-4 py-2 bg-gray-200 rounded hover:bg-gray-300'>
+                                <svg className='w-4 h-4 fill-current' viewBox='0 0 20 20'>
                                     <path d='M12.707 15.707a1 1 0 01-1.414 0l-5-5a1 1 0 010-1.414l5-5a1 1 0 111.414 1.414L9.414 10l4.293 4.293a1 1 0 010 1.414z'/>
                                 </svg>
                             </button>
@@ -179,8 +187,8 @@ function Calendar() {
                                 onChange={date => setCurrentDate(date)}
                                 customInput={<span className='mx-4 text-gray-700 cursor-pointer'>{formatDate(currentDate)}</span>}
                             />
-                            <button onClick={handleNextDay} className='bg-gray-200 hover:bg-gray-300 rounded px-4 py-2'>
-                                <svg className='h-4 w-4 fill-current' viewBox='0 0 20 20'>
+                            <button onClick={handleNextDay} className='px-4 py-2 bg-gray-200 rounded hover:bg-gray-300'>
+                                <svg className='w-4 h-4 fill-current' viewBox='0 0 20 20'>
                                     <path d='M7.707 14.707a1 1 0 01-1.414-1.414L9.586 10 6.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4z' />
                                 </svg>
                             </button>
@@ -193,10 +201,10 @@ function Calendar() {
                 <table className='w-full'>
                     <thead className=''>
                     <tr>
-                        <th className=' px-4 py-2'></th>
+                        <th className='px-4 py-2 '></th>
                         {employees.map((employee) => (
-                            <th key={employee} className='border px-4 py-2 '>
-                                <div className="flex flex-col justify-center items-center">
+                            <th key={employee} className='px-4 py-2 border '>
+                                <div className="flex flex-col items-center justify-center">
                                     <Avatar name={employee.name} size="100" round={true}/>
                                     {employee.name}
                                 </div>
@@ -207,7 +215,7 @@ function Calendar() {
                     <tbody>
                     {times.map((time) => (
                         <tr key={time}>
-                            <td className='border px-4 py-2 h-32'>{time}</td>
+                            <td className='h-32 px-4 py-2 border'>{time}</td>
                             {employees.map((employee) => (
                                 <DropZone
                                     key={`${employee._id}-${time}-${currentDate}`}
@@ -220,7 +228,7 @@ function Calendar() {
                                     {appointments
                                         .filter(app =>( selectedEmployee === '' || app.employee === selectedEmployee) && app.employee === employee.name && compareTimes(app.time,time)===0 && new Date(currentDate).toLocaleDateString() === new Date(app.date).toLocaleDateString())
                                         .map(app => (
-                                            <DraggableAppointment key={app.id} appointment={app} updateAppointment={updateAppointment}/>
+                                            <DraggableAppointment key={app.id} appointment={app} updateAppointment={updateAppointment} cancelAppointment={cancelAppointment}/>
                                         ))}
                                 </DropZone>
                             ))}
@@ -242,13 +250,13 @@ function DropZone({children, employee, time, date, moveAppointment}) {
     }));
 
     return (
-        <td ref={drop} className='border px-4 py-2'>
+        <td ref={drop} className='px-4 py-2 border'>
             {children}
         </td>
     );
 }
 
-function DraggableAppointment({appointment,updateAppointment}) {
+function DraggableAppointment({appointment,updateAppointment,cancelAppointment}) {
     const [, drag] = useDrag(() => ({
         type: ItemTypes.APPOINTMENT,
         item: {id: appointment.id},
@@ -257,20 +265,71 @@ function DraggableAppointment({appointment,updateAppointment}) {
         }),
     }));
 
+    const [status, setStatus] = useState("pending");
+
     return (
-        <div ref={drag} className={`cursor-move grid grid-cols-2 bg-white drop-shadow-lg p-2 m-2 max-w-[500px] border-l-4 border-${appointment.color}`}>
+        <div ref={drag} className={`cursor-move grid grid-cols-2 bg-white drop-shadow-lg p-2 m-2 max-w-[500px] border-l-4 border-${appointment.color}
+            ${
+                appointment.status == "notShow" || status == "notShow"
+                ? 'bg-red-600 text-white'
+                : 'bg-white'
+            }
+            ${
+                status == "cancelled"
+                ? 'hidden'
+                : 'grid'
+            }
+        `}>
             <p className="col-span-1">Time: {appointment.time}</p>
             <p className="col-span-1">Date: {appointment.date.toLocaleDateString()}</p>
             <p className="col-span-1">Service: {appointment.content}</p>
             <p className="col-span-1">Category: {appointment.category}</p>
             <p className="col-span-1">Parent: {appointment.parentName}</p>
             <p className="col-span-1">Child: {appointment.childName}</p>
-            <button onClick={()=>{
-                appointment.approved = true
-                updateAppointment(appointment)
-            }} disabled={appointment.approved} className={`col-span-2 bg-blue-500 disabled:bg-gray-400 text-white rounded-md p-2`}>{
-                appointment.approved ? 'Approved' : 'Approve'
-            }</button>
+            <div className='flex flex-row justify-between w-full col-span-2'>
+                <button onClick={()=>{
+                    appointment.approved = true
+                    updateAppointment(appointment)
+                }} disabled={appointment.approved} className={` bg-blue-500 disabled:bg-gray-400 text-white rounded-md p-2 w-[32%]
+                    ${
+                        appointment.status == "notShow" || status == "notShow"
+                        ? "hidden"
+                        : "block"
+                    }
+                `}>{
+                    appointment.approved ? 'Approved' : 'Approve'
+                }</button>
+                
+                <button onClick={()=>{
+                    appointment.status = "notShow"
+                    updateAppointment(appointment)
+                    setStatus("notShow");
+                }} disabled={appointment.approved} className={` bg-red-600 disabled:bg-gray-400 text-white rounded-md p-2 w-[32%]
+                    ${
+                        appointment.status == "notShow" || status == "notShow"
+                        ? "hidden"
+                        : "block"
+                    }
+                `}>{
+                    appointment.status == "notShow" ? 'Show' : 'Not Show'
+                }</button>
+
+                <button onClick={()=>{
+                    appointment.approved = false
+                    appointment.status = "cancelled"
+                    setStatus("cancelled");
+                    cancelAppointment(appointment)
+                }} disabled={appointment.approved} className={` bg-purple-700 disabled:bg-gray-400 text-white rounded-md p-2 w-[32%]
+                    ${
+                        appointment.status == "notShow" || status == "notShow"
+                        ? "hidden"
+                        : "block"
+                    }
+                `}>{
+                    appointment.approved ? 'Cancel' : 'Cancel'
+                }</button>
+            </div>
+
         </div>
     );
 }
