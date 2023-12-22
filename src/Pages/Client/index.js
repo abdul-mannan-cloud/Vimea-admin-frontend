@@ -77,9 +77,16 @@ const Employees = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [searchQuery, setSearchQuery] = useState("");
 
-    const filteredClients = clients.filter((client) =>
-        client.clientName.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    const filteredClients = clients.filter((client) => {
+        const clientNameMatch = client.clientName.toLowerCase().includes(searchQuery.toLowerCase());
+      
+        const babyNameMatch = client.children.some(babyName =>
+          babyName.firstname.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+      
+        return clientNameMatch || babyNameMatch;
+      });
+      
 
     const productsPerPage = 10;
     const totalPages = Math.ceil(filteredClients.length / productsPerPage);
@@ -191,11 +198,11 @@ const Employees = () => {
 
                             <div className='flex flex-row w-full px-5 py-5 font-bold border-b border-gray-4400'>
                                 <div className='flex flex-row w-[60%] gap-5 justify-start'>
-                                    <div className='w-[20%] px-[6px]'>Emri i Klientit</div>
-                                    <div className='w-[15%] px-[6px]'>Emri i bebes</div>
-                                    <div className='w-[15%] px-[5px]'>Numri i Telefonit</div>
-                                    <div className='ml-8'>Shitje</div>
-                                    <div className='ml-4'>Appointments</div>
+                                    <div className='w-[20%] '>Emri i Klientit</div>
+                                    <div className='w-[20%] '>Emri i bebes</div>
+                                    <div className='w-[20%] '>Numri i Telefonit</div>
+                                    <div className='ml-8 w-[15%]'>Shitje</div>
+                                    <div className='ml-4 w-[25%]'>Appointments</div>
                                 </div>
                                 <div className='flex flex-row w-[40%] gap-10 justify-start'>
                                     <div className='w-[20%]'>Krijuar në</div>
@@ -207,14 +214,14 @@ const Employees = () => {
 
                             {clientsToDisplay.map((client, index) => (
                                 <div key={index} className="flex flex-row items-center self-start w-full px-5 py-2 align-middle">
-                                    <div className='flex flex-row w-[60%] gap-5 justify-start'>
-                                        <div className='w-[20%] px-[6px]'>{client.clientName}</div>
-                                        <div className='w-[15%] px-[6px]'>{client.children.map((child) =>
+                                    <div className='flex flex-row w-[60%] gap-5 pl-3 justify-start'>
+                                        <div className='w-[20%]'>{client.clientName}</div>
+                                        <div className='w-[20%] '>{client.children.map((child) =>
                                             <span>{child.firstname} {child.lastName}</span>
                                         )}</div>
-                                        <div className='w-[15%] px-[5px]'>{client.mobileNumber}</div>
-                                        <div className='ml-10 font-bold'>{client.sales}€</div>
-                                        <div className='ml-8 font-bold'>{client.appointments}</div>
+                                        <div className='w-[20%] '>{client.mobileNumber}</div>
+                                        <div className='ml-10 w-[15%] font-bold'>{client.sales}€</div>
+                                        <div className='ml-8 w-[25%] font-bold'>{client.appointments}</div>
                                     </div>
                                     <div className='flex flex-row w-[40%] gap-10 justify-start'>
                                         <div className='w-[20%]'>12/12/12</div>
