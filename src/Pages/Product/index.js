@@ -115,6 +115,9 @@ const Products = () => {
                 description: '',
                 mainImage: '',
                 addonImages: [],
+                productNameENG: '',
+                descriptionENG: '',
+                typeENG: '',
             });
         } else {
             setSelectedProduct(product);
@@ -130,6 +133,9 @@ const Products = () => {
                 description: product.description || '',
                 mainImage: product.mainImage || '',
                 addonImages: product.addonImages || [],
+                productNameENG: product.nameENG || '',
+                descriptionENG: product.descriptionENG || '',
+                typeENG: product.typeENG || '',
             });
         }
     };
@@ -150,6 +156,9 @@ const Products = () => {
         description: '',
         mainImage: '',
         addonImages: [],
+        productNameENG: '',
+        descriptionENG: '',
+        typeENG: '',
     });
 
     const handleInputChange = (e) => {
@@ -310,7 +319,10 @@ const Products = () => {
                                             <div>
                                                 <div className="grid grid-cols-3 gap-5 mb-5">
                                                 <TextField value={formData.productName} onChange={handleInputChange}
-                                                           name="productName" label="productName" variant="outlined"
+                                                           name="productName" label="Product Name" variant="outlined"
+                                                           className='col-span-1'/>
+                                                <TextField value={formData.productNameENG} onChange={handleInputChange}
+                                                           name="productNameENG" label="Product Name (English)" variant="outlined"
                                                            className='col-span-1'/>
                                                 <TextField name="price" label="price" value={formData.price}
                                                            onChange={handleInputChange} variant="outlined"
@@ -318,7 +330,10 @@ const Products = () => {
                                                 <TextField label="quantity" name="quantity"
                                                            value={formData.quantity} onChange={handleInputChange}
                                                            variant="outlined" className='col-span-1'/>
-                                                <TextField label="type" name="type" value={formData.type}
+                                                <TextField label="Type" name="type" value={formData.type}
+                                                           onChange={handleInputChange} variant="outlined"
+                                                           className='col-span-1'/>
+                                                <TextField label="Type (English)" name="typeENG" value={formData.typeENG}
                                                            onChange={handleInputChange} variant="outlined"
                                                            className='col-span-1'/>
                                                 <TextField label="brand" name="brand" value={formData.brand}
@@ -332,6 +347,16 @@ const Products = () => {
                                                     label="Description"
                                                     name="description"
                                                     value={formData.description}
+                                                    onChange={handleInputChange}
+                                                    multiline
+                                                    rows={4}
+                                                    variant="outlined"
+                                                    className='col-span-2'
+                                                />
+                                                <TextField
+                                                    label="Description (English)"
+                                                    name="descriptionENG"
+                                                    value={formData.descriptionENG}
                                                     onChange={handleInputChange}
                                                     multiline
                                                     rows={4}

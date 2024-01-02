@@ -56,6 +56,8 @@ const Blogs = () => {
             setFormData({
                 blogTitle: '',
                 description: '',
+                blogTitleENG: '',
+                descriptionENG: '',
                 coverimage: '',
                 images: [],
             });
@@ -65,6 +67,8 @@ const Blogs = () => {
             setFormData({
                 blogTitle: blog.blogTitle || '',
                 description: blog.description || '',
+                blogTitleALB: blog.blogTitleENG || '',
+                descriptionALB: blog.descriptionENG || '',
                 coverimage: blog.coverimage || '',
                 images: blog.images || [],
             });
@@ -128,6 +132,8 @@ const Blogs = () => {
     const [formData, setFormData] = useState({
         blogTitle: '',
         description: '',
+        blogTitleENG: '',
+        descriptionENG: '',
         coverimage: '',
         images: [],
     });
@@ -261,11 +267,44 @@ const Blogs = () => {
                                 >
                                     <div className='flex justify-center'>
                                         <div
-                                            className='p-4 max-w-7xl w-3/3 min-w-[1000px] l-1/3 rounded-lg bg-white flex flex-col justify-between'>
-                                            <TextField value={formData.blogTitle} onChange={handleInputChange}
-                                                       name="blogTitle" label="Blog Title" variant="outlined"
-                                                       className='mb-4 w-[300px]'/>
-                                            <div className='flex items-center justify-center'>
+                                            className='p-4 max-w-7xl w-3/3 min-w-[1000px] l-1/3 rounded-lg bg-white flex flex-col justify-between gap-5'>
+                                            <div className='flex flex-row gap-10 justify-between'>
+                                                <div className='flex flex-col gap-5 w-[50%]'>
+                                                <h className="font-bold">Information in Albanina</h>
+                                                    <TextField value={formData.blogTitle} onChange={handleInputChange}
+                                                            name="blogTitle" label="Blog Title" variant="outlined"
+                                                            className='mb-4 w-full'
+                                                    />
+                                                    <TextField
+                                                        label="Description"
+                                                        name="description"
+                                                        value={formData.description}
+                                                        onChange={handleInputChange}
+                                                        multiline
+                                                        rows={4}
+                                                        variant="outlined"
+                                                        className='mb-4  w-full'
+                                                    />
+                                                </div>
+                                                <div className='flex flex-col gap-5 w-[50%]'>
+                                                <h className="font-bold">Information in English</h>
+                                                    <TextField value={formData.blogTitleENG} onChange={handleInputChange}
+                                                            name="blogTitleENG" label="Blog Title" variant="outlined"
+                                                            className='mb-4 w-full'
+                                                    />
+                                                    <TextField
+                                                        label="Description"
+                                                        name="descriptionENG"
+                                                        value={formData.descriptionENG}
+                                                        onChange={handleInputChange}
+                                                        multiline
+                                                        rows={4}
+                                                        variant="outlined"
+                                                        className='mb-4  w-full'
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className='flex items-center justify-end'>
                                                 <div className="flex flex-row gap-5">
                                                     <Button
                                                         type="submit"
@@ -288,17 +327,6 @@ const Blogs = () => {
                                                     </Button>
                                                 </div>
                                             </div>
-
-                                            <TextField
-                                                label="Description"
-                                                name="description"
-                                                value={formData.description}
-                                                onChange={handleInputChange}
-                                                multiline
-                                                rows={4}
-                                                variant="outlined"
-                                                className='mb-4  w-[300px]'
-                                            />
                                             <div className="flex flex-col gap-5">
                                                 <h1 className="text-2xl font-bold">Add-on Images</h1>
                                                 <div className="flex gap-10">
