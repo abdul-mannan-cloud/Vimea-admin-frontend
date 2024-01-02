@@ -89,7 +89,7 @@ const Dashboard = () => {
         <div className="container mx-auto mt-20 p-4">
             <div className="flex flex-col sm:flex-row gap-4 justify-around">
                 {/* Donut Charts */}
-                <div className="bg-white drop-shadow-lg p-4 flex flex-col justify-center gap-2 rounded-lg w-[40vw]">
+                <div className="bg-white drop-shadow-lg p-4 flex flex-col justify-center gap-2 rounded-lg sm:w-[40vw]">
                     <div className="flex flex-row gap-10">
                         <div>
                             <h2 className="text-4xl font-bold text-start">{todayAppointments}</h2>
@@ -102,7 +102,7 @@ const Dashboard = () => {
                         </div>
                     </div>
                 </div>
-                <div className="bg-white drop-shadow-lg p-4 flex flex-col justify-center gap-2 rounded-lg w-[40vw]">
+                <div className="bg-white drop-shadow-lg p-4 flex flex-col justify-center gap-2 rounded-lg sm:w-[40vw]">
                     <div className="flex flex-row gap-10">
                         <div>
                             <h2 className="text-4xl font-bold text-start">{todaySales}</h2>
