@@ -19,11 +19,14 @@ const AddProduct = () => {
     const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState({
         productName: '',
+        productNameENG: '',
         price: '',
         quantity: '',
         type: '',
+        typeENG: '',
         size: '',
         description: '',
+        descriptionENG: '',
         coverimage: '',
         images: [],
         imagenames: [],
@@ -223,8 +226,22 @@ const AddProduct = () => {
                                            placeholder='Emri i Produktit'/>
                                 </div>
                                 <div className='col-span-1 flex flex-col gap-2'>
+                                    <label className='font-semibold text-gray-300'>Product Name <b>(English)</b></label>
+                                    <input value={formData.productNameENG} onChange={handleInputChange}
+                                           name="productNameENG" label="productName" variant="outlined"
+                                           className='w-full rounded-lg p-3 border-[2px] border-gray-200'
+                                           placeholder='Emri i Produktit'/>
+                                </div>
+                                <div className='col-span-1 flex flex-col gap-2'>
                                     <label className='font-semibold text-gray-300'>Type</label>
                                     <input value={formData.type} onChange={handleInputChange} name="type"
+                                           label="type" variant="outlined"
+                                           className='w-full rounded-lg p-3 border-[2px] border-gray-200'
+                                           placeholder=''/>
+                                </div>
+                                <div className='col-span-1 flex flex-col gap-2'>
+                                    <label className='font-semibold text-gray-300'>Type <b>(English)</b></label>
+                                    <input value={formData.typeENG} onChange={handleInputChange} name="typeENG"
                                            label="type" variant="outlined"
                                            className='w-full rounded-lg p-3 border-[2px] border-gray-200'
                                            placeholder=''/>
@@ -268,6 +285,19 @@ const AddProduct = () => {
                                     <textarea
                                         label="Description"
                                         name="description"
+                                        value={formData.description}
+                                        onChange={handleInputChange}
+                                        multiline
+                                        rows={4}
+                                        variant="outlined"
+                                        className=' rounded-lg border-[2px] border-gray-200 p-2 w-full'
+                                    />
+                                </div>
+                                <div className='col-span-2 flex flex-col gap-2 '>
+                                    <label className='font-semibold text-gray-300'>Description <b>(English)</b></label>
+                                    <textarea
+                                        label="Description"
+                                        name="descriptionENG"
                                         value={formData.description}
                                         onChange={handleInputChange}
                                         multiline

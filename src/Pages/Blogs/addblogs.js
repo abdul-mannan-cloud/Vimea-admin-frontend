@@ -16,6 +16,8 @@ const AddBlog = () => {
     const [formData, setFormData] = useState({
         blogTitle: '',
         description: '',
+        blogTitleENG: '',
+        descriptionENG: '',
         images: [],
         imagenames: []
     });
@@ -179,14 +181,28 @@ const AddBlog = () => {
                         </div>
 
                         <div className='flex flex-row justify-between w-2/3 h-full gap-10 p-5 bg-white rounded-lg'>
-                            <div className='w-[25%] flex flex-col gap-10 justify-between h-full'>
+                            <div className='w-[40%] flex flex-col gap-10 justify-between h-full'>
                                 <div className='flex flex-col w-full gap-5'>
+                                    <h className="font-bold">Enter Information in Albanina</h>
                                     <div className='flex flex-col gap-2'>
                                         <label className='font-semibold text-gray-300'>TITULLI I BLOG-UT</label>
                                         <input value={formData.blogTitle} onChange={handleInputChange} name="blogTitle"
                                                label="Blog Title" variant="outlined"
                                                className='w-full rounded-lg p-3 border-[2px] border-gray-200'
                                                placeholder='Titulli i Blog-ut'/>
+                                    </div>
+                                    <div className='flex flex-col gap-2 '>
+                                        <label className='font-semibold text-gray-300'>Kontenti</label>
+                                        <textarea
+                                            label="To satisfy"
+                                            name="description"
+
+                                            onChange={handleInputChange}
+                                            multiline
+                                            rows={4}
+                                            variant="outlined"
+                                            className=' rounded-lg border-[2px] border-gray-200 p-2 w-full'
+                                        />
                                     </div>
                                 </div>
                                 <Button type="submit"
@@ -211,11 +227,19 @@ const AddBlog = () => {
                                     <span className='font-bold text-white'>Rauj</span>
                                 </Button>
                             </div>
-                            <div className='w-[40%] flex flex-col gap-2 '>
-                                <label className='font-semibold text-gray-300'>Kontenti</label>
+                            <div className='w-[40%] flex flex-col gap-5 '>
+                                <h className="font-bold">Enter Information in English</h>
+                                <div className='flex flex-col gap-2'>
+                                    <label className='font-semibold text-gray-300'>Blog Title</label>
+                                    <input value={formData.blogTitleENG} onChange={handleInputChange} name="blogTitleENG"
+                                            label="Blog Title" variant="outlined"
+                                            className='w-full rounded-lg p-3 border-[2px] border-gray-200'
+                                            placeholder='Titulli i Blog-ut'/>
+                                </div>
+                                <label className='font-semibold text-gray-300'>Description</label>
                                 <textarea
                                     label="To satisfy"
-                                    name="description"
+                                    name="descriptionENG"
 
                                     onChange={handleInputChange}
                                     multiline
