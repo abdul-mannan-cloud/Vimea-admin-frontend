@@ -6,6 +6,10 @@ import 'react-datepicker/dist/react-datepicker.css';
 import Avatar from 'react-avatar';
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
+import PlusIcon from "../../resources/Plus.png";
+import CrossIcon from "../../resources/close.png";
+import ReactDOM from 'react-dom';
+import Modal from 'react-modal';
 
 const times = [ '10:00', '11:00', '12:00', '13:00','14:00','15:00','16:00','17:00','18:00'];
 
@@ -18,6 +22,17 @@ function Calendar() {
     const [employees,setEmployees] = useState([]);
     const [appointments, setAppointments] = useState([]);
     const [selectedEmployee, setSelectedEmployee] = useState('');
+
+    const [appointment, setAppointment] = useState({
+        category: '',
+        type: '',
+        date: '',
+        time: '',
+        parent: '',
+        child: '',
+        number: '',
+        email: '',
+    });
 
     const findColor = (category) => {
         if (category=="Group Plush") return 'blue-400'
@@ -157,6 +172,34 @@ function Calendar() {
     // const formatDate = (date) => {
     //     return date.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
     // };
+    const customStyles = {
+        content: {
+          top: '50%',
+          left: '50%',
+          right: 'auto',
+          bottom: 'auto',
+          marginRight: '-50%',
+          transform: 'translate(-50%, -50%)',
+          outerHeight: '100px',
+        },
+      };
+      
+    const [modalIsOpen, setIsOpen] = React.useState(false);
+
+    function openModal() {
+        setIsOpen(true);
+    }
+
+    function closeModal() {
+        setIsOpen(false);
+    }
+
+    const handleInputChange = (field, value) => {
+        setAppointment((prevAppointment) => ({
+          ...prevAppointment,
+          [field]: value,
+        }));
+    };
 
     return (
         <DndProvider backend={HTML5Backend}>
@@ -195,7 +238,98 @@ function Calendar() {
                         </div>
                     </div>
                     <div className="mb-4">
+                        <div 
+                            onClick={(e) =>
+                                {
+                                    openModal();
+                                }
+                            } 
+                            className='bg-[#128F96] py-2 px-5 rounded-lg'><img src={PlusIcon} className='w-8 h-8' /></div>
+                            <Modal
+                                isOpen={modalIsOpen}
+                                onRequestClose={closeModal}
+                                style={customStyles}
+                            >
+                                <div className='w-full h-full flex flex-col items-center justify-center align-middle'>
+                                    <div className='w-full flex justify-end'>
+                                        <img src={CrossIcon} onClick={closeModal} className='w-7 h-7'/>
+                                        
+                                    </div>
 
+                                    <div className='w-fit mb-10'>
+                                        <h className="text-2xl self-center font-bold">Appointment Details</h>
+                                    </div>
+
+
+                                    <form className='w-fit grid grid-cols-2 gap-5 p-5'>
+                                        <div className='flex flex-col gap-3'>
+                                            <label className='w-[300px]'>Select a Service</label>
+                                            <select 
+                                                className='w-[300px] p-2 rounded bg-gray-300' 
+                                                onChange={(e) => handleInputChange('category', e.target.value)}
+                                            >
+                                                <option>Plush</option>
+                                                <option>Plush</option>
+                                                <option>Plush</option>
+                                                <option>Plush</option>
+                                                <option>Plush</option>
+                                                <option>Plush</option>
+                                            </select>
+                                        </div>
+                                        <div className='flex flex-col gap-3'>
+                                            <label className='w-[300px]' >Select Service Type</label>
+                                            <select 
+                                                className='w-[300px] p-2 rounded bg-gray-300'
+                                                onChange={(e) => handleInputChange('type', e.target.value)}
+                                            >
+                                                <option>Plush bebe</option>
+                                                <option>Plush bebe</option>
+                                                <option>Plush bebe</option>
+                                                <option>Plush bebe</option>
+                                                <option>Plush bebe</option>
+                                                <option>Plush bebe</option>
+                                            </select>
+                                        </div>
+                                        <div className='flex flex-col gap-3'>
+                                            <label className='w-[300px]' >Select Date</label>
+                                            <input onChange={(e) => handleInputChange('date', e.target.value)} className='w-[300px] p-2 rounded bg-gray-300' type='date'></input>
+                                        </div>
+                                        <div className='flex flex-col gap-3'>
+                                            <label className='w-[300px]' >Select Time</label>
+                                            <input onChange={(e) => handleInputChange('time', e.target.value)} className='w-[300px] p-2 rounded bg-gray-300' type='time'></input>
+                                        </div>
+                                        <div className='flex flex-col gap-3'>
+                                            <label className='w-[300px]' >Emri i prinditt</label>
+                                            <input onChange={(e) => handleInputChange('parentFirstName', e.target.value)} className='w-[300px] p-2 rounded bg-gray-300' type='text'></input>
+                                        </div>
+                                        <div className='flex flex-col gap-3'>
+                                            <label className='w-[300px]' >Mbiemri i prinditt</label>
+                                            <input onChange={(e) => handleInputChange('parentLastName', e.target.value)} className='w-[300px] p-2 rounded bg-gray-300' type='text'></input>
+                                        </div>
+                                        <div className='flex flex-col gap-3'>
+                                            <label className='w-[300px]' >Emri i bebes</label>
+                                            <input onChange={(e) => handleInputChange('babyFirstName', e.target.value)} className='w-[300px] p-2 rounded bg-gray-300' type='text'></input>
+                                        </div>
+                                        <div className='flex flex-col gap-3'>
+                                            <label className='w-[300px]' >Mbiemri i bebes</label>
+                                            <input onChange={(e) => handleInputChange('babyLastName', e.target.value)} className='w-[300px] p-2 rounded bg-gray-300' type='text'></input>
+                                        </div>
+                                        <div className='flex flex-col gap-3'>
+                                            <label className='w-[300px]' >Date e lindjes së bebes</label>
+                                            <input onChange={(e) => handleInputChange('babyBirthDate', e.target.value)} className='w-[300px] p-2 rounded bg-gray-300' type='date'></input>
+                                        </div>
+                                        <div className='flex flex-col gap-3'>
+                                            <label className='w-[300px]' >Numri Kontaktues</label>
+                                            <input onChange={(e) => handleInputChange('contactNumber', e.target.value)} className='w-[300px] p-2 rounded bg-gray-300' type='text'></input>
+                                        </div>
+                                        <div className='flex flex-col gap-3'>
+                                            <label className='w-[300px]' >Email</label>
+                                            <input onChange={(e) => handleInputChange('email', e.target.value)} className='w-[300px] p-2 rounded bg-gray-300' type='email'></input>
+                                        </div>
+                                    </form>
+                                </div>
+
+                            </Modal>
                     </div>
                 </div>
                 <table className='w-full'>
