@@ -11,7 +11,7 @@ import CrossIcon from "../../resources/close.png";
 import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
 
-const times = [ '10:00', '11:00', '12:00', '13:00','14:00','15:00','16:00','17:00','18:00'];
+const times = ['10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00'];
 
 const ItemTypes = {
     APPOINTMENT: 'appointment',
@@ -19,27 +19,69 @@ const ItemTypes = {
 
 function Calendar() {
     const [currentDate, setCurrentDate] = useState(new Date());
-    const [employees,setEmployees] = useState([]);
+    const [employees, setEmployees] = useState([]);
     const [appointments, setAppointments] = useState([]);
     const [selectedEmployee, setSelectedEmployee] = useState('');
+    const [options, setOptions] = useState([]);
 
     const [appointment, setAppointment] = useState({
-        category: '',
-        type: '',
+        category: 'Për Bebe',
+        service: '',
         date: '',
         time: '',
-        parent: '',
-        child: '',
+        parentFirstName: '',
+        parentLastName: '',
+        babyFirstName: '',
+        babyLastName: '',
         number: '',
         email: '',
     });
 
+    useEffect(() => {
+        if (localStorage.getItem('token') === null) {
+            navigate('/login')
+        }
+        const fetchAppointments = async () => {
+            try {
+                const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/service/getallservices`);
+                console.log(response.data)
+                setOptions(response.data);
+            } catch (error) {
+                console.error('Error fetching appointments:', error.message);
+            }
+        }
+        fetchAppointments();
+    }, [])
+
     const findColor = (category) => {
-        if (category=="Group Plush") return 'blue-400'
-        if (category=="Për Fëmijë") return 'yellow-400'
-        if (category=="Për Bebe") return 'green-600'
-        if (category=="Për Nënen") return 'purple-600'
-        if (category=="Mami + Bebi") return 'red-600'
+        if (category == "Group Plush") return 'blue-400'
+        if (category == "Për Fëmijë") return 'yellow-400'
+        if (category == "Për Bebe") return 'green-600'
+        if (category == "Për Nënen") return 'purple-600'
+        if (category == "Mami + Bebi") return 'red-600'
+    }
+
+    const submitAppointment = async () => {
+        const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/appointment/addappointment`, {
+            service: appointment.type,
+            date: appointment.date,
+            time: appointment.time,
+            category: appointment.category,
+            parent: {
+                firstName: appointment.parentFirstName,
+                lastName: appointment.parentLastName,
+            },
+            child: {
+                firstName: appointment.babyFirstName,
+                lastName: appointment.babyLastName,
+            },
+            contactNumber: appointment.contactNumber,
+            email: appointment.email,
+        });
+        if (res.status === 200) {
+            alert('Appointment added successfully')
+            closeModal()
+        }
     }
 
     const getData = async () => {
@@ -48,11 +90,11 @@ function Calendar() {
             setEmployees(res.data)
         }
         const appointmentRes = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/appointment/getallappointments`);
-        if(appointmentRes.status === 200) {
+        if (appointmentRes.status === 200) {
             setAppointments(appointmentRes.data.map(appointment => {
                 return {
                     id: appointment._id,
-                    employee: appointment.employee?appointment.employee:res.data[0].name,
+                    employee: appointment.employee ? appointment.employee : res.data[0].name,
                     date: new Date(appointment.date),
                     time: appointment.time,
                     content: appointment.service,
@@ -62,12 +104,13 @@ function Calendar() {
                     color: findColor(appointment.category),
                     approved: appointment.approved,
                     status: appointment.status,
+                    notShow: appointment.notShow,
                 }
             }))
             console.log(appointmentRes.data.map(appointment => {
                 return {
                     id: appointment._id,
-                    employee: appointment.employee?appointment.employee:res.data[0].name,
+                    employee: appointment.employee ? appointment.employee : res.data[0].name,
                     date: new Date(appointment.date),
                     time: appointment.time,
                     content: appointment.content
@@ -106,7 +149,7 @@ function Calendar() {
     const navigate = useNavigate()
     useEffect(() => {
         getData()
-    },[])
+    }, [])
 
     useEffect(() => {
 
@@ -119,7 +162,7 @@ function Calendar() {
         return `${year}-${month}-${day}`;
     };
     useEffect(() => {
-        if(localStorage.getItem('token') === null){
+        if (localStorage.getItem('token') === null) {
             navigate('/login')
         }
     }, []);
@@ -138,7 +181,7 @@ function Calendar() {
     }
 
     const moveAppointment = useCallback(async (id, newEmployee, newTime, newDate) => {
-        if(localStorage.getItem('role') !== 'admin'){
+        if (localStorage.getItem('role') !== 'admin') {
             alert('You are not authorized to update anything')
             return;
         }
@@ -150,7 +193,7 @@ function Calendar() {
             }
             return appointment;
         }));
-        if(appointmentTemp)
+        if (appointmentTemp)
             await updateAppointment(appointmentTemp)
     }, [setAppointments]);
 
@@ -166,24 +209,21 @@ function Calendar() {
         setCurrentDate(date);
     };
 
-    useEffect(()=>{
-        console.log(appointments)
-    })
     // const formatDate = (date) => {
     //     return date.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
     // };
     const customStyles = {
         content: {
-          top: '50%',
-          left: '50%',
-          right: 'auto',
-          bottom: 'auto',
-          marginRight: '-50%',
-          transform: 'translate(-50%, -50%)',
-          outerHeight: '100px',
+            top: '50%',
+            left: '50%',
+            right: 'auto',
+            bottom: 'auto',
+            marginRight: '-50%',
+            transform: 'translate(-50%, -50%)',
+            outerHeight: '100px',
         },
-      };
-      
+    };
+
     const [modalIsOpen, setIsOpen] = React.useState(false);
 
     function openModal() {
@@ -196,10 +236,20 @@ function Calendar() {
 
     const handleInputChange = (field, value) => {
         setAppointment((prevAppointment) => ({
-          ...prevAppointment,
-          [field]: value,
+            ...prevAppointment,
+            [field]: value,
         }));
     };
+
+    const getGroups = () => {
+        const groups = []
+        options.forEach(option => {
+            if (!groups.includes(option.group)) {
+                groups.push(option.group)
+            }
+        })
+        return groups
+    }
 
     return (
         <DndProvider backend={HTML5Backend}>
@@ -222,114 +272,133 @@ function Calendar() {
                         <div className="flex items-center">
                             <button onClick={handlePrevDay} className='px-4 py-2 bg-gray-200 rounded hover:bg-gray-300'>
                                 <svg className='w-4 h-4 fill-current' viewBox='0 0 20 20'>
-                                    <path d='M12.707 15.707a1 1 0 01-1.414 0l-5-5a1 1 0 010-1.414l5-5a1 1 0 111.414 1.414L9.414 10l4.293 4.293a1 1 0 010 1.414z'/>
+                                    <path
+                                        d='M12.707 15.707a1 1 0 01-1.414 0l-5-5a1 1 0 010-1.414l5-5a1 1 0 111.414 1.414L9.414 10l4.293 4.293a1 1 0 010 1.414z'/>
                                 </svg>
                             </button>
                             <DatePicker
                                 selected={currentDate}
                                 onChange={date => setCurrentDate(date)}
-                                customInput={<span className='mx-4 text-gray-700 cursor-pointer'>{formatDate(currentDate)}</span>}
+                                customInput={<span
+                                    className='mx-4 text-gray-700 cursor-pointer'>{formatDate(currentDate)}</span>}
                             />
                             <button onClick={handleNextDay} className='px-4 py-2 bg-gray-200 rounded hover:bg-gray-300'>
                                 <svg className='w-4 h-4 fill-current' viewBox='0 0 20 20'>
-                                    <path d='M7.707 14.707a1 1 0 01-1.414-1.414L9.586 10 6.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4z' />
+                                    <path
+                                        d='M7.707 14.707a1 1 0 01-1.414-1.414L9.586 10 6.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4z'/>
                                 </svg>
                             </button>
                         </div>
                     </div>
                     <div className="mb-4">
-                        <div 
-                            onClick={(e) =>
-                                {
-                                    openModal();
-                                }
-                            } 
-                            className='bg-[#128F96] py-2 px-5 rounded-lg'><img src={PlusIcon} className='w-8 h-8' /></div>
-                            <Modal
-                                isOpen={modalIsOpen}
-                                onRequestClose={closeModal}
-                                style={customStyles}
-                            >
-                                <div className='w-full h-full flex flex-col items-center justify-center align-middle'>
-                                    <div className='w-full flex justify-end'>
-                                        <img src={CrossIcon} onClick={closeModal} className='w-7 h-7'/>
-                                        
-                                    </div>
+                        <div
+                            onClick={(e) => {
+                                openModal();
+                            }
+                            }
+                            className='bg-[#128F96] py-2 px-5 rounded-lg'><img src={PlusIcon} className='w-8 h-8'/>
+                        </div>
+                        <Modal
+                            isOpen={modalIsOpen}
+                            onRequestClose={closeModal}
+                            style={customStyles}
+                        >
+                            <div className='w-full h-full flex flex-col items-center justify-center align-middle'>
+                                <div className='w-full flex justify-end'>
+                                    <img src={CrossIcon} onClick={closeModal} className='w-7 h-7'/>
 
-                                    <div className='w-fit mb-10'>
-                                        <h className="text-2xl self-center font-bold">Appointment Details</h>
-                                    </div>
-
-
-                                    <form className='w-fit grid grid-cols-2 gap-5 p-5'>
-                                        <div className='flex flex-col gap-3'>
-                                            <label className='w-[300px]'>Select a Service</label>
-                                            <select 
-                                                className='w-[300px] p-2 rounded bg-gray-300' 
-                                                onChange={(e) => handleInputChange('category', e.target.value)}
-                                            >
-                                                <option>Plush</option>
-                                                <option>Plush</option>
-                                                <option>Plush</option>
-                                                <option>Plush</option>
-                                                <option>Plush</option>
-                                                <option>Plush</option>
-                                            </select>
-                                        </div>
-                                        <div className='flex flex-col gap-3'>
-                                            <label className='w-[300px]' >Select Service Type</label>
-                                            <select 
-                                                className='w-[300px] p-2 rounded bg-gray-300'
-                                                onChange={(e) => handleInputChange('type', e.target.value)}
-                                            >
-                                                <option>Plush bebe</option>
-                                                <option>Plush bebe</option>
-                                                <option>Plush bebe</option>
-                                                <option>Plush bebe</option>
-                                                <option>Plush bebe</option>
-                                                <option>Plush bebe</option>
-                                            </select>
-                                        </div>
-                                        <div className='flex flex-col gap-3'>
-                                            <label className='w-[300px]' >Select Date</label>
-                                            <input onChange={(e) => handleInputChange('date', e.target.value)} className='w-[300px] p-2 rounded bg-gray-300' type='date'></input>
-                                        </div>
-                                        <div className='flex flex-col gap-3'>
-                                            <label className='w-[300px]' >Select Time</label>
-                                            <input onChange={(e) => handleInputChange('time', e.target.value)} className='w-[300px] p-2 rounded bg-gray-300' type='time'></input>
-                                        </div>
-                                        <div className='flex flex-col gap-3'>
-                                            <label className='w-[300px]' >Emri i prinditt</label>
-                                            <input onChange={(e) => handleInputChange('parentFirstName', e.target.value)} className='w-[300px] p-2 rounded bg-gray-300' type='text'></input>
-                                        </div>
-                                        <div className='flex flex-col gap-3'>
-                                            <label className='w-[300px]' >Mbiemri i prinditt</label>
-                                            <input onChange={(e) => handleInputChange('parentLastName', e.target.value)} className='w-[300px] p-2 rounded bg-gray-300' type='text'></input>
-                                        </div>
-                                        <div className='flex flex-col gap-3'>
-                                            <label className='w-[300px]' >Emri i bebes</label>
-                                            <input onChange={(e) => handleInputChange('babyFirstName', e.target.value)} className='w-[300px] p-2 rounded bg-gray-300' type='text'></input>
-                                        </div>
-                                        <div className='flex flex-col gap-3'>
-                                            <label className='w-[300px]' >Mbiemri i bebes</label>
-                                            <input onChange={(e) => handleInputChange('babyLastName', e.target.value)} className='w-[300px] p-2 rounded bg-gray-300' type='text'></input>
-                                        </div>
-                                        <div className='flex flex-col gap-3'>
-                                            <label className='w-[300px]' >Date e lindjes së bebes</label>
-                                            <input onChange={(e) => handleInputChange('babyBirthDate', e.target.value)} className='w-[300px] p-2 rounded bg-gray-300' type='date'></input>
-                                        </div>
-                                        <div className='flex flex-col gap-3'>
-                                            <label className='w-[300px]' >Numri Kontaktues</label>
-                                            <input onChange={(e) => handleInputChange('contactNumber', e.target.value)} className='w-[300px] p-2 rounded bg-gray-300' type='text'></input>
-                                        </div>
-                                        <div className='flex flex-col gap-3'>
-                                            <label className='w-[300px]' >Email</label>
-                                            <input onChange={(e) => handleInputChange('email', e.target.value)} className='w-[300px] p-2 rounded bg-gray-300' type='email'></input>
-                                        </div>
-                                    </form>
                                 </div>
 
-                            </Modal>
+                                <div className='w-fit mb-10'>
+                                    <h className="text-2xl self-center font-bold">Appointment Details</h>
+                                </div>
+
+
+                                <form className='w-fit grid grid-cols-2 gap-5 p-5'>
+                                    <div className='flex flex-col gap-3'>
+                                        <label className='w-[300px]'>Select a Service</label>
+                                        <select
+                                            className='w-[300px] p-2 rounded bg-gray-300'
+                                            onChange={(e) => handleInputChange('category', e.target.value)}
+                                        >
+                                            {
+                                                getGroups().map((option) => (
+                                                    <option value={option} key={option}
+                                                    >{option}</option>
+                                                ))
+                                            }
+                                        </select>
+                                    </div>
+                                    <div className='flex flex-col gap-3'>
+                                        <label className='w-[300px]'>Select Service Type</label>
+                                        <select
+                                            className='w-[300px] p-2 rounded bg-gray-300'
+                                            onChange={(e) => handleInputChange('service', e.target.value)}
+                                        >
+                                            {
+                                                options.map((option) => (
+                                                    option.group === appointment.category &&
+                                                    <option value={option.name} key={option.name}>{option.name}</option>
+                                                ))
+                                            }
+                                        </select>
+                                    </div>
+                                    <div className='flex flex-col gap-3'>
+                                        <label className='w-[300px]'>Select Date</label>
+                                        <input onChange={(e) => handleInputChange('date', e.target.value)}
+                                               className='w-[300px] p-2 rounded bg-gray-300' type='date'></input>
+                                    </div>
+                                    <div className='flex flex-col gap-3'>
+                                        <label className='w-[300px]'>Select Time</label>
+                                        <input onChange={(e) => handleInputChange('time', e.target.value)}
+                                               className='w-[300px] p-2 rounded bg-gray-300' type='time'></input>
+                                    </div>
+                                    <div className='flex flex-col gap-3'>
+                                        <label className='w-[300px]'>Emri i prinditt</label>
+                                        <input
+                                            onChange={(e) => handleInputChange('parentFirstName', e.target.value)}
+                                            className='w-[300px] p-2 rounded bg-gray-300' type='text'></input>
+                                    </div>
+                                    <div className='flex flex-col gap-3'>
+                                        <label className='w-[300px]'>Mbiemri i prinditt</label>
+                                        <input onChange={(e) => handleInputChange('parentLastName', e.target.value)}
+                                               className='w-[300px] p-2 rounded bg-gray-300' type='text'></input>
+                                    </div>
+                                    <div className='flex flex-col gap-3'>
+                                        <label className='w-[300px]'>Emri i bebes</label>
+                                        <input onChange={(e) => handleInputChange('babyFirstName', e.target.value)}
+                                               className='w-[300px] p-2 rounded bg-gray-300' type='text'></input>
+                                    </div>
+                                    <div className='flex flex-col gap-3'>
+                                        <label className='w-[300px]'>Mbiemri i bebes</label>
+                                        <input onChange={(e) => handleInputChange('babyLastName', e.target.value)}
+                                               className='w-[300px] p-2 rounded bg-gray-300' type='text'></input>
+                                    </div>
+                                    <div className='flex flex-col gap-3'>
+                                        <label className='w-[300px]'>Date e lindjes së bebes</label>
+                                        <input onChange={(e) => handleInputChange('babyBirthDate', e.target.value)}
+                                               className='w-[300px] p-2 rounded bg-gray-300' type='date'></input>
+                                    </div>
+                                    <div className='flex flex-col gap-3'>
+                                        <label className='w-[300px]'>Numri Kontaktues</label>
+                                        <input onChange={(e) => handleInputChange('contactNumber', e.target.value)}
+                                               className='w-[300px] p-2 rounded bg-gray-300' type='text'></input>
+                                    </div>
+                                    <div className='flex flex-col gap-3'>
+                                        <label className='w-[300px]'>Email</label>
+                                        <input onChange={(e) => handleInputChange('email', e.target.value)}
+                                               className='w-[300px] p-2 rounded bg-gray-300' type='email'></input>
+                                    </div>
+                                    <div>&nbsp;</div>
+                                    <div>&nbsp;</div>
+                                    <button onClick={submitAppointment}
+                                            className='w-[300px] p-2 rounded bg-[#128F96] text-white font-bold'
+                                            type="button">Submit
+                                    </button>
+                                </form>
+                            </div>
+
+                        </Modal>
                     </div>
                 </div>
                 <table className='w-full'>
@@ -360,9 +429,11 @@ function Calendar() {
                                 >
 
                                     {appointments
-                                        .filter(app =>( selectedEmployee === '' || app.employee === selectedEmployee) && app.employee === employee.name && compareTimes(app.time,time)===0 && new Date(currentDate).toLocaleDateString() === new Date(app.date).toLocaleDateString())
+                                        .filter(app => (selectedEmployee === '' || app.employee === selectedEmployee) && app.employee === employee.name && compareTimes(app.time, time) === 0 && new Date(currentDate).toLocaleDateString() === new Date(app.date).toLocaleDateString())
                                         .map(app => (
-                                            <DraggableAppointment key={app.id} appointment={app} updateAppointment={updateAppointment} cancelAppointment={cancelAppointment}/>
+                                            <DraggableAppointment key={app.id} appointment={app}
+                                                                  updateAppointment={updateAppointment}
+                                                                  cancelAppointment={cancelAppointment}/>
                                         ))}
                                 </DropZone>
                             ))}
@@ -390,7 +461,7 @@ function DropZone({children, employee, time, date, moveAppointment}) {
     );
 }
 
-function DraggableAppointment({appointment,updateAppointment,cancelAppointment}) {
+function DraggableAppointment({appointment, updateAppointment, cancelAppointment}) {
     const [, drag] = useDrag(() => ({
         type: ItemTypes.APPOINTMENT,
         item: {id: appointment.id},
@@ -402,17 +473,9 @@ function DraggableAppointment({appointment,updateAppointment,cancelAppointment})
     const [status, setStatus] = useState("pending");
 
     return (
-        <div ref={drag} className={`cursor-move grid grid-cols-2 bg-white drop-shadow-lg p-2 m-2 max-w-[500px] border-l-4 border-${appointment.color}
-            ${
-                appointment.status == "notShow" || status == "notShow"
-                ? 'bg-red-600 text-white'
-                : 'bg-white'
-            }
-            ${
-                status == "cancelled"
-                ? 'hidden'
-                : 'grid'
-            }
+        <div ref={drag}
+             className={`cursor-move grid grid-cols-2  drop-shadow-lg p-2 m-2 max-w-[500px] border-l-4 border-${appointment.color}
+                ${appointment.notShow ? 'bg-red-300' : 'bg-white'}
         `}>
             <p className="col-span-1">Time: {appointment.time}</p>
             <p className="col-span-1">Date: {appointment.date.toLocaleDateString()}</p>
@@ -421,47 +484,29 @@ function DraggableAppointment({appointment,updateAppointment,cancelAppointment})
             <p className="col-span-1">Parent: {appointment.parentName}</p>
             <p className="col-span-1">Child: {appointment.childName}</p>
             <div className='flex flex-row justify-between w-full col-span-2'>
-                <button onClick={()=>{
+                <button onClick={() => {
                     appointment.approved = true
                     updateAppointment(appointment)
-                }} disabled={appointment.approved} className={` bg-blue-500 disabled:bg-gray-400 text-white rounded-md p-2 w-[32%]
-                    ${
-                        appointment.status == "notShow" || status == "notShow"
-                        ? "hidden"
-                        : "block"
-                    }
-                `}>{
+                }} disabled={appointment.approved}
+                        className={` bg-blue-500 disabled:bg-gray-400 text-white rounded-md p-2 w-[32%]`}>{
                     appointment.approved ? 'Approved' : 'Approve'
                 }</button>
-                
-                <button onClick={()=>{
-                    appointment.status = "notShow"
+
+                <button onClick={() => {
+                    console.log(appointment.notShow)
+                    appointment.notShow = !appointment.notShow
                     updateAppointment(appointment)
-                    setStatus("notShow");
-                }} disabled={appointment.approved} className={` bg-red-600 disabled:bg-gray-400 text-white rounded-md p-2 w-[32%]
-                    ${
-                        appointment.status == "notShow" || status == "notShow"
-                        ? "hidden"
-                        : "block"
-                    }
+                }} className={` bg-red-600 disabled:bg-gray-400 text-white rounded-md p-2 w-[32%]
                 `}>{
-                    appointment.status == "notShow" ? 'Show' : 'Not Show'
+                    appointment.notShow == true ? 'Show' : 'Not Show'
                 }</button>
 
-                <button onClick={()=>{
+                <button onClick={() => {
                     appointment.approved = false
-                    appointment.status = "cancelled"
-                    setStatus("cancelled");
                     cancelAppointment(appointment)
-                }} disabled={appointment.approved} className={` bg-purple-700 disabled:bg-gray-400 text-white rounded-md p-2 w-[32%]
-                    ${
-                        appointment.status == "notShow" || status == "notShow"
-                        ? "hidden"
-                        : "block"
-                    }
-                `}>{
-                    appointment.approved ? 'Cancel' : 'Cancel'
-                }</button>
+                }} className={` bg-purple-700 disabled:bg-gray-400 text-white rounded-md p-2 w-[32%]
+                `}>Cancel
+                </button>
             </div>
 
         </div>

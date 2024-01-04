@@ -9,6 +9,8 @@ export const AddAppointment = () => {
         price: "",
         duration: "",
         group: "",
+        displayGroup: "",
+        onlyParent: false,
     });
 
     const handleChange = (e) => {
@@ -40,6 +42,7 @@ export const AddAppointment = () => {
     };
 
     const groups = ["Për Fëmijë", "Për Bebe", "Mami + Bebi", "Group Plush", "Për Nënen"];
+    const displayGroups= ["Për Fëmijë", "Për Bebe", "Mami + Bebi", "Group Plush", "Për Nënen"];
 
     return (
         <>
@@ -71,6 +74,22 @@ export const AddAppointment = () => {
                                 <option value={group}>{group}</option>
                             ))}
                         </select>
+                    </div>
+                    <div className="flex flex-col justify-center items-center">
+                        <label htmlFor="displayGroup" className="text-xl font-bold">Kategoria e shfaqur</label>
+                        <select name="displayGroup" id="displayGroup" className="border-2 border-black rounded-md p-2"
+                                onChange={handleChange}>
+                            <option value="" disabled selected>Zgjidhni një kategori</option>
+                            {displayGroups.map((group) => (
+                                <option value={group}>{group}</option>
+                            ))}
+                        </select>
+                    </div>
+                    <div className="flex flex-col justify-center items-center">
+                        <label htmlFor="onlyParent" className="text-xl font-bold">Vetëm prind</label>
+                        <input type="checkbox" name="onlyParent" id="onlyParent"
+                               className="border-2 border-black rounded-md p-2"
+                               onChange={handleChange}/>
                     </div>
                     <button type="submit" className="border-2 border-black rounded-md p-2 mt-5">Shto Service</button>
                 </form>
