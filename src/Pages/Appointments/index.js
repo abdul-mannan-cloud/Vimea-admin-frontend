@@ -16,6 +16,7 @@ import femaleIcon from '../../resources/female.png'
 import Plus from "../../resources/Plus.png";
 import IconButton from "@mui/material/IconButton";
 import {Close} from "@mui/icons-material";
+import EditIcon from "@mui/icons-material/Edit";
 
 const Appointments = () => {
 
@@ -76,18 +77,18 @@ const Appointments = () => {
                     <div className='flex flex-col w-full gap-1'>
                         <div className='ml-2 font-bold'>Për Fëmijë</div>
                         {childrenAppointments.map((appointment, index) =>
-                            <div
-                                className='flex flex-row justify-between rounded-lg h-[50px] w-full bg-white font-bold shadow-xl'>
-                                <div className='w-0 h-full border-4 border-yellow-400 rounded-full'></div>
                                 <div
-                                    className='flex flex-row items-center justify-between w-full h-full gap-10 px-5 py-2 align-middle'>
-                                    <span>{appointment.name}</span>
-                                    <span>{appointment.duration} min</span>
-                                    <div>
+                                    className='flex flex-row justify-between rounded-lg h-[50px] w-full bg-white font-bold shadow-xl'>
+                                    <div className='w-0 h-full border-4 border-yellow-400 rounded-full'></div>
+                                    <div
+                                        className='flex flex-row items-center justify-between w-full h-full gap-10 px-5 py-2 align-middle'>
+                                        <span>{appointment.name}</span>
+                                        <span>{appointment.duration} min</span>
+                                        <div>
                                         <span>
                                         €{appointment.price}
                                         </span>
-                                        <span>
+                                            <span>
 <IconButton color="error" onClick={() => {
     //delete
     deleteAppointment(appointment._id)
@@ -95,26 +96,33 @@ const Appointments = () => {
 >
                                                 <Close/>
                                             </IconButton>                                        </span>
+                                            <span>
+                                                <IconButton onClick={()=>{
+                                                    navigate(`/appointments/edit/${appointment._id}`)
+                                                }}>
+                                                    <EditIcon/>
+                                                </IconButton>
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
                         )}
                     </div>
                     <div className='flex flex-col w-full gap-1'>
                         <div className='ml-2 font-bold'>Për Bebe</div>
                         {babyAppointments.map((appointment, index) =>
-                            <div
-                                className='flex flex-row justify-between rounded-lg h-[50px] w-full bg-white font-bold shadow-xl'>
-                                <div className='w-0 h-full border-4 border-green-600 rounded-full'></div>
                                 <div
-                                    className='flex flex-row items-center justify-between w-full h-full gap-10 px-5 py-2 align-middle'>
-                                    <span>{appointment.name}</span>
-                                    <span>{appointment.duration} min</span>
-                                    <div>
+                                    className='flex flex-row justify-between rounded-lg h-[50px] w-full bg-white font-bold shadow-xl'>
+                                    <div className='w-0 h-full border-4 border-green-600 rounded-full'></div>
+                                    <div
+                                        className='flex flex-row items-center justify-between w-full h-full gap-10 px-5 py-2 align-middle'>
+                                        <span>{appointment.name}</span>
+                                        <span>{appointment.duration} min</span>
+                                        <div>
                                         <span>
                                         €{appointment.price}
                                         </span>
-                                        <span>
+                                            <span>
 <IconButton color="error" onClick={() => {
     //delete
     deleteAppointment(appointment._id)
@@ -122,9 +130,16 @@ const Appointments = () => {
 >
                                                 <Close/>
                                             </IconButton>                                        </span>
+                                            <span>
+                                                <IconButton onClick={() => {
+                                                    navigate(`/appointments/edit/${appointment._id}`)
+                                                }}>
+                                                    <EditIcon/>
+                                                </IconButton>
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
                         )}
                     </div>
                     <div className='flex flex-col w-full gap-1'>
@@ -150,6 +165,13 @@ const Appointments = () => {
                                                 <Close/>
                                             </IconButton>
                                         </span>
+                                        <span>
+                                                <IconButton onClick={() => {
+                                                    navigate(`/appointments/edit/${appointment._id}`)
+                                                }}>
+                                                    <EditIcon/>
+                                                </IconButton>
+                                            </span>
                                     </div>
                                 </div>
                             </div>
@@ -177,6 +199,13 @@ const Appointments = () => {
                                                     >
                                                 <Close/>
                                             </IconButton>                                        </span>
+                                        <span>
+                                                <IconButton onClick={() => {
+                                                    navigate(`/appointments/edit/${appointment._id}`)
+                                                }}>
+                                                    <EditIcon/>
+                                                </IconButton>
+                                            </span>
                                     </div>
                                 </div>
                             </div>
@@ -187,16 +216,16 @@ const Appointments = () => {
                         {motherBabyAppointments.map((appointment, index) =>
                             <div
                                 className='flex flex-row justify-between rounded-lg h-[50px] w-full bg-white font-bold shadow-xl'>
-                                <div className='w-0 h-full border-4 border-red-600 rounded-full'></div>
-                                <div
-                                    className='flex flex-row items-center justify-between w-full h-full gap-10 px-5 py-2 align-middle'>
-                                    <span>{appointment.name}</span>
-                                    <span>{appointment.duration} min</span>
-                                    <div>
+                                    <div className='w-0 h-full border-4 border-red-600 rounded-full'></div>
+                                    <div
+                                        className='flex flex-row items-center justify-between w-full h-full gap-10 px-5 py-2 align-middle'>
+                                        <span>{appointment.name}</span>
+                                        <span>{appointment.duration} min</span>
+                                        <div>
                                         <span>
                                         €{appointment.price}
                                         </span>
-                                        <span>
+                                            <span>
 <IconButton color="error" onClick={() => {
     //delete
     deleteAppointment(appointment._id)
@@ -204,8 +233,15 @@ const Appointments = () => {
 >
                                                 <Close/>
                                             </IconButton>                                        </span>
+                                            <span>
+                                                <IconButton onClick={() => {
+                                                    navigate(`/appointments/edit/${appointment._id}`)
+                                                }}>
+                                                    <EditIcon/>
+                                                </IconButton>
+                                            </span>
+                                        </div>
                                     </div>
-                                </div>
                             </div>
                         )}
                     </div>

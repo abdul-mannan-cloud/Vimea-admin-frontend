@@ -21,6 +21,7 @@ import Calendar from "./Pages/Calendar";
 import Dashboard from "./Pages/DashBoard";
 import {Details} from "@mui/icons-material";
 import {AddAppointment} from "./Pages/Appointments/addAppointment";
+import {EditAppointment} from "./Pages/Appointments/editAppointment";
 
 function App() {
 
@@ -48,6 +49,7 @@ function App() {
             <Route path="/employees/edit/:id" element={<EditEmployee/>}/>
             <Route path="/appointments" element={<Appointments/>}/>
             <Route path="/appointments/add" element={<AddAppointment/>}/>
+            <Route path="/appointments/edit/:id" element={<EditAppointment/>}/>
             <Route path="/calendar" element={<Calendar/>}/>
             <Route path="/dashboard" element={<Dashboard/>}/>
             <Route path="/login" element={<Login/>}/>
