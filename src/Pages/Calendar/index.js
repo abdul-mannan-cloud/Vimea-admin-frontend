@@ -61,13 +61,22 @@ function Calendar() {
         if (category == "Mami + Bebi") return 'red-600'
     }
 
+
     const submitAppointment = async () => {
+        const [hours, minutes] = appointment.time.split(':');
+
+        if(hours < 10 || hours > 18) {
+            alert('Please select a time between 10:00 and 18:00')
+            return;
+        }
+
         const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/appointment/addappointment`, {
             service: appointment.type,
             date: appointment.date,
-            time: appointment.time,
+            time: `${hours}:00`,
             category: appointment.category,
             parent: {
+                email: appointment.email,
                 firstName: appointment.parentFirstName,
                 lastName: appointment.parentLastName,
             },
@@ -76,7 +85,6 @@ function Calendar() {
                 lastName: appointment.babyLastName,
             },
             contactNumber: appointment.contactNumber,
-            email: appointment.email,
         });
         if (res.status === 200) {
             alert('Appointment added successfully')
@@ -170,6 +178,7 @@ function Calendar() {
         const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/appointment/editappointment/${appointment.id}`, appointment);
         if (res.status === 200) {
             alert('Appointment updated successfully')
+            window.location.reload();
         }
     }
 
@@ -177,6 +186,7 @@ function Calendar() {
         const res = await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/appointment/deleteappointment/${appointment.id}`, appointment);
         if (res.status === 200) {
             alert('Appointment deleted successfully')
+            window.location.reload();
         }
     }
 
