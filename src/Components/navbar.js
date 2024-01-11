@@ -62,7 +62,7 @@ return (
                                 <span onClick={()=>{
                                     localStorage.clear();
                                     window.location.href = '/login'
-                                }} className='text-md font-bold logout-btn'>Logout</span>
+                                }} className='text-md font-bold logout-btn' style={{ cursor: 'pointer' }} >Shkyqu</span>
                             </div>
                         </div>}
                     </div>

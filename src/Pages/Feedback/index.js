@@ -59,7 +59,7 @@ return(
             <div className="flex items-center bg-white self-center justify-center align-middle w-[80%] ml-16 mt-32 rounded-xl p-10 px-20">
                 <div className="w-full flex flex-col">
                     <div className="flex flex-row justify-between border-gray-500 border-b-2 pb-10">
-                        <span className="text-4xl font-bold">VLERSIMET</span>
+                        <span className="text-4xl font-bold">VLERËSIMET</span>
                         
                     </div>
 
@@ -68,7 +68,7 @@ return(
                         <div className="flex flex-row justify-between items-center align-middle ">
                             <div className="flex flex-row  items-center align-middle gap-10">
                                 <div className='flex flex-col gap-2'>
-                                    <label className='text-[#128F96]'>Email</label>
+                                    <label className='text-[#128F96]'>E-mail</label>
                                     <input readOnly className='border border-gray-200 shadow-lg p-3 text-sm w-[250px] rounded-lg' value={feedback.email} />
                                 </div>
                                 <div className='flex flex-col gap-2'>
@@ -97,7 +97,7 @@ return(
                                     <div className={`p-2 bg-[#128F96] text-white w-[250px] rounded-lg`}>{feedback.service}</div>
                                 </div>
                                 <div className='flex flex-col gap-[4px] items-center justify-center text-center'>
-                                    <label className='text-[#128F96] text-xs w-[120px]'>A keni blerë produkte të vimeas</label>
+                                    <label className='text-[#128F96] text-xs w-[120px]'>A keni blerë produkte të Vimeas?</label>
                                     <div className={`p-2 bg-[#128F96] text-white rounded-lg w-[50px] flex items-center justify-center`}><span>{feedback.buy}</span></div>
                                 </div>
                                 <div className='flex flex-col gap-[4px] items-center justify-center text-center'>
@@ -164,7 +164,7 @@ return(
                                             .catch((error) => {
                                                 console.error('Error:', error);
                                             });
-                                    }} className='bg-red-500 text-white rounded-lg px-3 py-2 hover:bg-red-700'>DisApprove</button>}
+                                    }} className='bg-red-500 text-white rounded-lg px-3 py-2 hover:bg-red-700'>Refuzo</button>}
                                 </div>
                             </div>
                             {

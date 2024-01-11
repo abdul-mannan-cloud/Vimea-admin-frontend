@@ -77,7 +77,7 @@ const Employee = () => {
                                 <input className='w-full px-3 py-2 border border-gray-400 rounded-lg shadow-lg' name='phone' id='phone' onChange={handleInputChange}></input>
                             </div>
                             <div className='flex flex-col w-full gap-2'>
-                                <label>Password</label>
+                                <label>Fjalëkalimi</label>
                                 <input className='w-full px-3 py-2 border border-gray-400 rounded-lg shadow-lg' name='password' id='password' onChange={handleInputChange}></input>
                             </div>
                         </div>
