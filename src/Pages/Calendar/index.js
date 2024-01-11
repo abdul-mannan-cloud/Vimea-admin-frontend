@@ -27,6 +27,7 @@ function Calendar() {
     const [appointment, setAppointment] = useState({
         category: 'Për Bebe',
         service: '',
+        serviceType: 'Për Bebe',
         date: '',
         time: '',
         parentFirstName: '',
@@ -52,6 +53,10 @@ function Calendar() {
         }
         fetchAppointments();
     }, [])
+
+    useEffect(()=>{
+        console.log(options)
+    })
 
     const findColor = (category) => {
         if (category == "Group Plush") return 'blue-400'
@@ -90,6 +95,7 @@ function Calendar() {
             alert('Appointment added successfully')
             closeModal()
         }
+        closeModal()
     }
 
     const getData = async () => {
@@ -107,9 +113,10 @@ function Calendar() {
                     time: appointment.time,
                     content: appointment.service,
                     category: appointment.category,
+                    serviceType: appointment.serviceType,
                     parentName: appointment.parent.firstName + ' ' + appointment.parent.lastName,
                     childName: appointment.child.firstName + ' ' + appointment.child.lastName,
-                    color: findColor(appointment.category),
+                    color: findColor(appointment.serviceType),
                     approved: appointment.approved,
                     status: appointment.status,
                     notShow: appointment.notShow,
@@ -159,10 +166,6 @@ function Calendar() {
         getData()
     }, [])
 
-    useEffect(() => {
-
-    }, [appointments]);
-
     const formatDate = (date) => {
         const year = date.getFullYear();
         const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
@@ -177,16 +180,21 @@ function Calendar() {
     const updateAppointment = async (appointment) => {
         const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/appointment/editappointment/${appointment.id}`, appointment);
         if (res.status === 200) {
+            setAppointments(prevAppointments => prevAppointments.map(app => {
+                if (app.id === appointment.id) {
+                    return appointment;
+                }
+                return app;
+            }))
             alert('Appointment updated successfully')
-            window.location.reload();
         }
     }
 
     const cancelAppointment = async (appointment) => {
         const res = await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/appointment/deleteappointment/${appointment.id}`, appointment);
         if (res.status === 200) {
+            setAppointments(prevAppointments => prevAppointments.filter(app => app.id !== appointment.id))
             alert('Appointment deleted successfully')
-            window.location.reload();
         }
     }
 
@@ -329,7 +337,7 @@ function Calendar() {
                                         <label className='w-[300px]'>Select a Service</label>
                                         <select
                                             className='w-[300px] p-2 rounded bg-gray-300'
-                                            onChange={(e) => handleInputChange('category', e.target.value)}
+                                            onChange={(e) => handleInputChange('serviceType', e.target.value)}
                                         >
                                             {
                                                 getGroups().map((option) => (
@@ -346,9 +354,9 @@ function Calendar() {
                                             onChange={(e) => handleInputChange('service', e.target.value)}
                                         >
                                             {
-                                                options.map((option) => (
-                                                    option.group === appointment.category &&
-                                                    <option value={option.name} key={option.name}>{option.name}</option>
+                                                options.map((option,index) => (
+                                                    option.group === appointment.serviceType &&
+                                                    <option value={option.name} key={index}>{option.name}</option>
                                                 ))
                                             }
                                         </select>
