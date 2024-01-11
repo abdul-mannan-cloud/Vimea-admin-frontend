@@ -283,7 +283,7 @@ const Products = () => {
                             className='flex gap-3 px-3 py-2 bg-[#128F96] rounded-xl justify-center items-center hover:bg-cyan-700 transition-all duration-200 cursor-pointer'
                         >
                             <img src={Plus} className=''/>
-                            <span className='text-lg font-bold text-white'>Shto Produktin</span>
+                            <span className='text-lg font-bold text-white'>Shto</span>
                         </div>
                     </div>
                     {products.map((product, index) => (
@@ -299,11 +299,11 @@ const Products = () => {
                                 <p>€ {product.price}</p>
                                 <div className='flex flex-row gap-5 overflow-scroll'>
                                     <img src={`https://vimea.nyc3.cdn.digitaloceanspaces.com/${product.mainImage}`}
-                                         className='w-[100px] h-[100px] rounded-lg' alt='Product image 1'/>
+                                         className='w-[100px] h-[100px] rounded-lg' alt='Foto 1'/>
                                     <img src={`https://vimea.nyc3.cdn.digitaloceanspaces.com/${product.addonImages[1]}`}
-                                         className='w-[100px] h-[100px] rounded-lg' alt='Product image 2'/>
+                                         className='w-[100px] h-[100px] rounded-lg' alt='Foto 2'/>
                                     <img src={`https://vimea.nyc3.cdn.digitaloceanspaces.com/${product.addonImages[2]}`}
-                                         className='w-[100px] h-[100px] rounded-lg' alt='Product image 3'/>
+                                         className='w-[100px] h-[100px] rounded-lg' alt='Foto 3'/>
                                 </div>
                             </div>
                             {selectedProduct === product && (
