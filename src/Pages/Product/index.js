@@ -324,7 +324,7 @@ const Products = () => {
                                                 <TextField value={formData.productNameENG} onChange={handleInputChange}
                                                            name="productNameENG" label="Emri i Produktit (EN)" variant="outlined"
                                                            className='col-span-1'/>
-                                                <TextField name="price" label="price" value={formData.price}
+                                                <TextField name="price" label="Çmimi" value={formData.price}
                                                            onChange={handleInputChange} variant="outlined"
                                                            className='col-span-1'/>
                                                 <TextField label="Sasia" name="quantity"
