@@ -54,7 +54,7 @@ const AddClient = () => {
                             <Grid item xs={12}>
                                 <TextField
                                     name="firstName"
-                                    label="First Name"
+                                    label="Emri"
                                     variant="outlined"
                                     fullWidth
                                     value={formData.firstName}
@@ -64,7 +64,7 @@ const AddClient = () => {
                             <Grid item xs={12}>
                                 <TextField
                                     name="lastName"
-                                    label="Last Name"
+                                    label="Mbiemri"
                                     variant="outlined"
                                     fullWidth
                                     value={formData.lastName}
