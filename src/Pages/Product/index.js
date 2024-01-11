@@ -296,7 +296,7 @@ const Products = () => {
                             >
                                 <h2 className='font-bold text-2xl min-w-[400px] w-[400px] max-w-[400px] overflow-hidden whitespace-nowrap'>{product.name}</h2>
                                 <p> {product.type}</p>
-                                <p>Є {product.price}</p>
+                                <p>€ {product.price}</p>
                                 <div className='flex flex-row gap-5 overflow-scroll'>
                                     <img src={`https://vimea.nyc3.cdn.digitaloceanspaces.com/${product.mainImage}`}
                                          className='w-[100px] h-[100px] rounded-lg' alt='Product image 1'/>
