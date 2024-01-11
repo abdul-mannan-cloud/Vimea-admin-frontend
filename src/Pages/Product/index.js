@@ -283,7 +283,7 @@ const Products = () => {
                             className='flex gap-3 px-3 py-2 bg-[#128F96] rounded-xl justify-center items-center hover:bg-cyan-700 transition-all duration-200 cursor-pointer'
                         >
                             <img src={Plus} className=''/>
-                            <span className='text-lg font-bold text-white'>SHTO PRODUKTIN</span>
+                            <span className='text-lg font-bold text-white'>Shto Produktin</span>
                         </div>
                     </div>
                     {products.map((product, index) => (
