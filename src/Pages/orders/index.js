@@ -158,7 +158,7 @@ const Orders = () => {
                                                 <span>Emri:</span>
                                                 <span>Mbiemri:</span>
                                                 <span>Shteti:</span>
-                                                <span>Adresa:</span>
+                                                <span>Adresa:</span><br></br>
                                                 <span>Kodi Postar:</span>
                                             </div>
                                             <div className="flex flex-col">
