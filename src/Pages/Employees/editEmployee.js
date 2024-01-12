@@ -80,7 +80,7 @@ const EditEmployee = () => {
                                 <input className='border rounded-lg border-gray-400 shadow-lg py-2 px-3 w-full' name='phone' value={employeeData.phone} id='phone' onChange={handleInputChange}></input>
                             </div>
                             <div className='flex flex-col gap-2 w-full'>
-                                <label>Password</label>
+                                <label>Fjalëkalimi</label>
                                 <input className='border rounded-lg border-gray-400 shadow-lg py-2 px-3 w-full' name='password' value={employeeData.password} id='password' onChange={handleInputChange}></input>
                             </div>
                         </div>

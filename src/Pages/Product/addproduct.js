@@ -193,7 +193,7 @@ const AddProduct = () => {
                                             <div
                                                 className="flex flex-col items-center justify-center w-full h-full gap-1 align-middle bg-gray-300 rounded-lg">
                                                 <img src={camera} className='w-[30px] h-[30px]'/>
-                                                <span className='text-sm font-bold text-[#128F96]'>Add Images</span>
+                                                <span className='text-sm font-bold text-[#128F96]'>Shto Cover Foto</span>
                                                 <input
                                                     type="file"
                                                     name="image"
@@ -219,69 +219,69 @@ const AddProduct = () => {
                         <div className='bg-white flex flex-col md:flex-row p-5 gap-3'>
                             <div className="flex flex-col md:grid md:grid-cols-2 gap-5">
                                 <div className='col-span-1 flex flex-col gap-2'>
-                                    <label className='font-semibold text-gray-300'>Emri i produktit</label>
+                                    <label className='font-semibold text-black-300'>Emri i produktit (AL)</label>
                                     <input value={formData.productName} onChange={handleInputChange}
                                            name="productName" label="productName" variant="outlined"
-                                           className='w-full rounded-lg p-3 border-[2px] border-gray-200'
+                                           className='w-full rounded-lg p-3 border-[2px] border-black-200'
                                            placeholder='Emri i Produktit'/>
                                 </div>
                                 <div className='col-span-1 flex flex-col gap-2'>
-                                    <label className='font-semibold text-gray-300'>Product Name <b>(English)</b></label>
+                                    <label className='font-semibold text-black-300'>Emri i produktit (EN)</label>
                                     <input value={formData.productNameENG} onChange={handleInputChange}
                                            name="productNameENG" label="productName" variant="outlined"
-                                           className='w-full rounded-lg p-3 border-[2px] border-gray-200'
+                                           className='w-full rounded-lg p-3 border-[2px] border-black-200'
                                            placeholder='Emri i Produktit'/>
                                 </div>
                                 <div className='col-span-1 flex flex-col gap-2'>
-                                    <label className='font-semibold text-gray-300'>Type</label>
+                                    <label className='font-semibold text-black-300'>Kategoria (AL)</label>
                                     <input value={formData.type} onChange={handleInputChange} name="type"
                                            label="type" variant="outlined"
-                                           className='w-full rounded-lg p-3 border-[2px] border-gray-200'
+                                           className='w-full rounded-lg p-3 border-[2px] border-black-200'
                                            placeholder=''/>
                                 </div>
                                 <div className='col-span-1 flex flex-col gap-2'>
-                                    <label className='font-semibold text-gray-300'>Type <b>(English)</b></label>
+                                    <label className='font-semibold text-black-300'>Kategoria (EN)</label>
                                     <input value={formData.typeENG} onChange={handleInputChange} name="typeENG"
                                            label="type" variant="outlined"
-                                           className='w-full rounded-lg p-3 border-[2px] border-gray-200'
+                                           className='w-full rounded-lg p-3 border-[2px] border-black-200'
                                            placeholder=''/>
                                 </div>
                                 <div className='flex col-span-1 flex-row gap-5'>
                                     <div className='flex flex-row gap-3 w-[50%] justify-between'>
                                         <div className='flex flex-col gap-2'>
-                                            <label className='font-semibold text-gray-300'>Çmimi</label>
+                                            <label className='font-semibold text-black-300'>Çmimi</label>
                                             <input name="price" label="" type="number" value={formData.price}
                                                    onChange={handleInputChange} variant="outlined" 
-                                                   className='w-[60px] border border-gray-200 p-2 rounded-lg'/>
+                                                   className='w-[60px] border border-black-200 p-2 rounded-lg'/>
                                         </div>
                                         <div className='flex flex-col gap-2'>
-                                            <label className='font-semibold text-gray-300'>Stoku</label>
+                                            <label className='font-semibold text-black-300'>Stoku</label>
                                             <input label="" name="quantity" type="number" value={formData.quantity}
                                                    onChange={handleInputChange} variant="outlined"
-                                                   className='w-[60px] border border-gray-200 p-2 rounded-lg'/>
+                                                   className='w-[60px] border border-black-200 p-2 rounded-lg'/>
                                         </div>
                                     </div>
                                     <div className='flex col-span-1 flex-col w-[50%] gap-2'>
-                                        <label className='w-full font-semibold text-gray-300'>Sasia (ml) (Optional)</label>
+                                        <label className='w-full font-semibold text-black-300'>Sasia (ml) (Optional)</label>
                                         <input
                                             type='number'
                                             onChange={(e) => {
                                                 setFormData({...formData, size: e.target.value}); // Combines the numeric value with 'ml'
                                             }}
-                                            className='border border-gray-200 py-2 rounded-lg px-2'
+                                            className='border border-black-200 py-2 rounded-lg px-2'
                                             placeholder='Enter size (e.g. 10ml)'
                                         />
                                     </div>
                                 </div>
                                 <div className='col-span-1 flex flex-col gap-2'>
-                                    <label className='font-semibold text-gray-300'>Brand</label>
+                                    <label className='font-semibold text-black-300'>Brendi</label>
                                     <input value={formData.brand} onChange={handleInputChange} name="brand"
                                            label="brand" variant="outlined"
-                                           className='w-full rounded-lg p-3 border-[2px] border-gray-200'
+                                           className='w-full rounded-lg p-3 border-[2px] border-black-200'
                                            placeholder=''/>
                                 </div>
                                 <div className='col-span-2 flex flex-col gap-2 '>
-                                    <label className='font-semibold text-gray-300'>Përshkrimi</label>
+                                    <label className='font-semibold text-black-300'>Përshkrimi (AL)</label>
                                     <textarea
                                         label="Description"
                                         name="description"
@@ -290,11 +290,11 @@ const AddProduct = () => {
                                         multiline
                                         rows={4}
                                         variant="outlined"
-                                        className=' rounded-lg border-[2px] border-gray-200 p-2 w-full'
+                                        className=' rounded-lg border-[2px] border-black-200 p-2 w-full'
                                     />
                                 </div>
                                 <div className='col-span-2 flex flex-col gap-2 '>
-                                    <label className='font-semibold text-gray-300'>Description <b>(English)</b></label>
+                                    <label className='font-semibold text-black-300'>Përshkrimi (EN)</label>
                                     <textarea
                                         label="Description"
                                         name="descriptionENG"
@@ -303,7 +303,7 @@ const AddProduct = () => {
                                         multiline
                                         rows={4}
                                         variant="outlined"
-                                        className=' rounded-lg border-[2px] border-gray-200 p-2 w-full'
+                                        className=' rounded-lg border-[2px] border-black-200 p-2 w-full'
                                     />
                                 </div>
                             </div>
@@ -363,7 +363,7 @@ const AddProduct = () => {
                                     {!loading && <span className='font-bold text-white'>Rauj</span>}
                                     {
                                         loading && <span className="font-bold text-white">
-                                           Adding ...
+                                           Duke e shtuat Produktin...
                                         </span>
                                     }
                                 </Button>

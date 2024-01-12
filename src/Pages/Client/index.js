@@ -202,7 +202,7 @@ const Employees = () => {
                                     <div className='w-[20%] '>Emri i bebes</div>
                                     <div className='w-[20%] '>Numri i Telefonit</div>
                                     <div className='ml-8 w-[15%]'>Shitje</div>
-                                    <div className='ml-4 w-[25%]'>Appointments</div>
+                                    <div className='ml-4 w-[25%]'>Terminet</div>
                                 </div>
                                 <div className='flex flex-row w-[40%] gap-10 justify-start'>
                                     <div className='w-[20%]'>Krijuar në</div>

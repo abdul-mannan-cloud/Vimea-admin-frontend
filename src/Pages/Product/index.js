@@ -283,7 +283,7 @@ const Products = () => {
                             className='flex gap-3 px-3 py-2 bg-[#128F96] rounded-xl justify-center items-center hover:bg-cyan-700 transition-all duration-200 cursor-pointer'
                         >
                             <img src={Plus} className=''/>
-                            <span className='text-lg font-bold text-white'>SHTO PRODUKTIN</span>
+                            <span className='text-lg font-bold text-white'>Shto</span>
                         </div>
                     </div>
                     {products.map((product, index) => (
@@ -296,14 +296,14 @@ const Products = () => {
                             >
                                 <h2 className='font-bold text-2xl min-w-[400px] w-[400px] max-w-[400px] overflow-hidden whitespace-nowrap'>{product.name}</h2>
                                 <p> {product.type}</p>
-                                <p>Є {product.price}</p>
+                                <p>€ {product.price}</p>
                                 <div className='flex flex-row gap-5 overflow-scroll'>
                                     <img src={`https://vimea.nyc3.cdn.digitaloceanspaces.com/${product.mainImage}`}
-                                         className='w-[100px] h-[100px] rounded-lg' alt='Product image 1'/>
+                                         className='w-[100px] h-[100px] rounded-lg' alt='Foto 1'/>
                                     <img src={`https://vimea.nyc3.cdn.digitaloceanspaces.com/${product.addonImages[1]}`}
-                                         className='w-[100px] h-[100px] rounded-lg' alt='Product image 2'/>
+                                         className='w-[100px] h-[100px] rounded-lg' alt='Foto 2'/>
                                     <img src={`https://vimea.nyc3.cdn.digitaloceanspaces.com/${product.addonImages[2]}`}
-                                         className='w-[100px] h-[100px] rounded-lg' alt='Product image 3'/>
+                                         className='w-[100px] h-[100px] rounded-lg' alt='Foto 3'/>
                                 </div>
                             </div>
                             {selectedProduct === product && (
@@ -319,32 +319,32 @@ const Products = () => {
                                             <div>
                                                 <div className="grid grid-cols-3 gap-5 mb-5">
                                                 <TextField value={formData.productName} onChange={handleInputChange}
-                                                           name="productName" label="Product Name" variant="outlined"
+                                                           name="productName" label="Emri i Produktit (AL)" variant="outlined"
                                                            className='col-span-1'/>
                                                 <TextField value={formData.productNameENG} onChange={handleInputChange}
-                                                           name="productNameENG" label="Product Name (English)" variant="outlined"
+                                                           name="productNameENG" label="Emri i Produktit (EN)" variant="outlined"
                                                            className='col-span-1'/>
-                                                <TextField name="price" label="price" value={formData.price}
+                                                <TextField name="price" label="Çmimi" value={formData.price}
                                                            onChange={handleInputChange} variant="outlined"
                                                            className='col-span-1'/>
-                                                <TextField label="quantity" name="quantity"
+                                                <TextField label="Sasia" name="quantity"
                                                            value={formData.quantity} onChange={handleInputChange}
                                                            variant="outlined" className='col-span-1'/>
-                                                <TextField label="Type" name="type" value={formData.type}
+                                                <TextField label="Kategoria (AL)" name="type" value={formData.type}
                                                            onChange={handleInputChange} variant="outlined"
                                                            className='col-span-1'/>
-                                                <TextField label="Type (English)" name="typeENG" value={formData.typeENG}
+                                                <TextField label="Kategoria (EN)" name="typeENG" value={formData.typeENG}
                                                            onChange={handleInputChange} variant="outlined"
                                                            className='col-span-1'/>
-                                                <TextField label="brand" name="brand" value={formData.brand}
+                                                <TextField label="Brendi" name="brand" value={formData.brand}
                                                            onChange={handleInputChange} variant="outlined"
                                                            className='col-span-1'/>
-                                                <TextField type="number" label="size" name="size"
+                                                <TextField type="number" label="Madhësia" name="size"
                                                            value={formData.size}
                                                            onChange={handleInputChange} variant="outlined"
                                                            className='col-span-1'/>
                                                 <TextField
-                                                    label="Description"
+                                                    label="Përshkrimi (AL)"
                                                     name="description"
                                                     value={formData.description}
                                                     onChange={handleInputChange}
@@ -354,7 +354,7 @@ const Products = () => {
                                                     className='col-span-2'
                                                 />
                                                 <TextField
-                                                    label="Description (English)"
+                                                    label="Përshkrimi (EN)"
                                                     name="descriptionENG"
                                                     value={formData.descriptionENG}
                                                     onChange={handleInputChange}
@@ -408,11 +408,11 @@ const Products = () => {
                                                         startIcon={<DeleteIcon/>}
                                                         onClick={onDeleteClick}
                                                     >
-                                                        Delete
+                                                        Fshij
                                                     </Button>
                                                 </div>
                                                 <div className="flex flex-col gap-5">
-                                                    <h1 className="text-2xl font-bold">Add-on Images</h1>
+                                                    <h1 className="text-2xl font-bold">Shto Foto</h1>
                                                     <div className="flex gap-10">
                                                         {
                                                             formData.addonImages.map((image, index) => (
@@ -435,7 +435,7 @@ const Products = () => {
                                                                         setSelectedProduct(product);
                                                                     }}
                                                                             className="bg-red-500 text-white rounded-lg px-2 py-1">
-                                                                        Delete
+                                                                        Fshij
                                                                     </button>
                                                                 </div>
                                                             ))

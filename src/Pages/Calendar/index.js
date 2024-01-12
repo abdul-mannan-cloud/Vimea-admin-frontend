@@ -282,7 +282,7 @@ function Calendar() {
                             onChange={(e) => setSelectedEmployee(e.target.value)}
                             className="p-2 border rounded"
                         >
-                            <option value="">All Employees</option>
+                            <option value="">Stafi</option>
                             {employees.map((employee) => (
                                 <option key={employee._id} value={employee.name}>
                                     {employee.name}
@@ -330,13 +330,13 @@ function Calendar() {
                                 </div>
 
                                 <div className='w-fit mb-10'>
-                                    <h className="text-2xl self-center font-bold">Appointment Details</h>
+                                    <h className="text-2xl self-center font-bold">Detajet e Terminit</h>
                                 </div>
 
 
                                 <form className='w-fit grid grid-cols-2 gap-5 p-5'>
                                     <div className='flex flex-col gap-3'>
-                                        <label className='w-[300px]'>Select a Service</label>
+                                        <label className='w-[300px]'>Zgjedh Servisin</label>
                                         <select
                                             className='w-[300px] p-2 rounded bg-gray-300'
                                             onChange={(e) => handleInputChange('serviceType', e.target.value)}
@@ -350,7 +350,7 @@ function Calendar() {
                                         </select>
                                     </div>
                                     <div className='flex flex-col gap-3'>
-                                        <label className='w-[300px]'>Select Service Type</label>
+                                        <label className='w-[300px]'>Zgjedh tipin e Servisit </label>
                                         <select
                                             className='w-[300px] p-2 rounded bg-gray-300'
                                             onChange={(e) => handleInputChange('service', e.target.value)}
@@ -364,17 +364,17 @@ function Calendar() {
                                         </select>
                                     </div>
                                     <div className='flex flex-col gap-3'>
-                                        <label className='w-[300px]'>Select Date</label>
+                                        <label className='w-[300px]'>Zgjedh datën</label>
                                         <input onChange={(e) => handleInputChange('date', e.target.value)}
                                                className='w-[300px] p-2 rounded bg-gray-300' type='date'></input>
                                     </div>
                                     <div className='flex flex-col gap-3'>
-                                        <label className='w-[300px]'>Select Time</label>
+                                        <label className='w-[300px]'>Zgjedh kohën</label>
                                         <input onChange={(e) => handleInputChange('time', e.target.value)}
                                                className='w-[300px] p-2 rounded bg-gray-300' type='time'></input>
                                     </div>
                                     <div className='flex flex-col gap-3'>
-                                        <label className='w-[300px]'>Emri i prinditt</label>
+                                        <label className='w-[300px]'>Emri i prindit</label>
                                         <input
                                             onChange={(e) => handleInputChange('parentFirstName', e.target.value)}
                                             className='w-[300px] p-2 rounded bg-gray-300' type='text'></input>
@@ -395,7 +395,7 @@ function Calendar() {
                                                className='w-[300px] p-2 rounded bg-gray-300' type='text'></input>
                                     </div>
                                     <div className='flex flex-col gap-3'>
-                                        <label className='w-[300px]'>Date e lindjes së bebes</label>
+                                        <label className='w-[300px]'>Data e lindjes së bebes</label>
                                         <input onChange={(e) => handleInputChange('babyBirthDate', e.target.value)}
                                                className='w-[300px] p-2 rounded bg-gray-300' type='date'></input>
                                     </div>
@@ -405,7 +405,7 @@ function Calendar() {
                                                className='w-[300px] p-2 rounded bg-gray-300' type='text'></input>
                                     </div>
                                     <div className='flex flex-col gap-3'>
-                                        <label className='w-[300px]'>Email</label>
+                                        <label className='w-[300px]'>E-mail</label>
                                         <input onChange={(e) => handleInputChange('email', e.target.value)}
                                                className='w-[300px] p-2 rounded bg-gray-300' type='email'></input>
                                     </div>
@@ -413,7 +413,7 @@ function Calendar() {
                                     <div>&nbsp;</div>
                                     <button onClick={submitAppointment}
                                             className='w-[300px] p-2 rounded bg-[#128F96] text-white font-bold'
-                                            type="button">Submit
+                                            type="button">Rezervo
                                     </button>
                                 </form>
                             </div>
@@ -497,19 +497,19 @@ function DraggableAppointment({appointment, updateAppointment, cancelAppointment
              className={`cursor-move grid grid-cols-2  drop-shadow-lg p-2 m-2 max-w-[500px] border-l-4 border-${appointment.color}
                 ${appointment.notShow ? 'bg-red-300' : 'bg-white'}
         `}>
-            <p className="col-span-1">Time: {appointment.time}</p>
-            <p className="col-span-1">Date: {appointment.date.toLocaleDateString()}</p>
-            <p className="col-span-1">Service: {appointment.content}</p>
-            <p className="col-span-1">Category: {appointment.category}</p>
-            <p className="col-span-1">Parent: {appointment.parentName}</p>
-            <p className="col-span-1">Child: {appointment.childName}</p>
+            <p className="col-span-1">Koha: {appointment.time}</p>
+            <p className="col-span-1">Data: {appointment.date.toLocaleDateString()}</p>
+            <p className="col-span-1">Shërbimi: {appointment.content}</p>
+            <p className="col-span-1">Kategoria: {appointment.category}</p>
+            <p className="col-span-1">Prindi: {appointment.parentName}</p>
+            <p className="col-span-1">Fëmiju: {appointment.childName}</p>
             <div className='flex flex-row justify-between w-full col-span-2'>
                 <button onClick={() => {
                     appointment.approved = true
                     updateAppointment(appointment)
                 }} disabled={appointment.approved || appointment.notShow}
                         className={` bg-blue-500 disabled:bg-gray-400 text-white rounded-md p-2 w-[32%]`}>{
-                    appointment.approved ? 'Approved' : 'Approve'
+                    appointment.approved ? 'Aprovuar' : 'Aprovo'
                 }</button>
 
                 <button onClick={() => {
@@ -518,14 +518,14 @@ function DraggableAppointment({appointment, updateAppointment, cancelAppointment
                     updateAppointment(appointment)
                 }} className={` bg-red-600 disabled:bg-gray-400 text-white rounded-md p-2 w-[32%]
                 `}>{
-                    appointment.notShow == true ? 'Show' : 'Not Show'
+                    appointment.notShow == true ? 'show' : 'not show'
                 }</button>
 
                 <button onClick={() => {
                     appointment.approved = false
                     cancelAppointment(appointment)
                 }} className={` bg-purple-700 disabled:bg-gray-400 text-white rounded-md p-2 w-[32%]
-                `}>Cancel
+                `}>Fshij
                 </button>
             </div>
 

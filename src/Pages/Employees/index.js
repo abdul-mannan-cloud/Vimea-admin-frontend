@@ -121,7 +121,7 @@ const Employees = () => {
                                 <div className='flex flex-row'>
                                     <div  onClick={() => navigate('/employees/add')} className='py-2 px-3 flex flex-row gap-3 items-center align-middle bg-[#128F96] h-10 rounded-lg cursor-pointer hover:bg-cyan-700 transition-all duration-200'>
                                         <img src={plusIcon} className='w-[25px] h-[25px]' />
-                                        <span className='font-bold text-white'>SHTO PUNTORIN</span>
+                                        <span className='font-bold text-white'>Shto Puntorin</span>
                                     </div>
                                 </div>
                             </div>

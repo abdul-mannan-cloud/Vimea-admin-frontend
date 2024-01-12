@@ -69,7 +69,7 @@ const Appointments = () => {
                 className='flex gap-3 px-3 py-2 bg-[#128F96] rounded-xl justify-center items-center hover:bg-cyan-700 transition-all duration-200 cursor-pointer w-48 ml-32'
             >
                 <img src={Plus} className=''/>
-                <span className='text-lg font-bold text-white'>Shto Service</span>
+                <span className='text-lg font-bold text-white'>Shto Servis të ri</span>
             </button>
             <div className='flex flex-col w-full overflow-auto'>
                 <div
