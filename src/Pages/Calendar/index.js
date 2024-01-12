@@ -10,6 +10,7 @@ import PlusIcon from "../../resources/Plus.png";
 import CrossIcon from "../../resources/close.png";
 import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
+import app from "../../App";
 
 const times = ['10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00'];
 
@@ -94,6 +95,7 @@ function Calendar() {
         if (res.status === 200) {
             alert('Appointment added successfully')
             closeModal()
+            window.location.reload()
         }
         closeModal()
     }
@@ -505,7 +507,7 @@ function DraggableAppointment({appointment, updateAppointment, cancelAppointment
                 <button onClick={() => {
                     appointment.approved = true
                     updateAppointment(appointment)
-                }} disabled={appointment.approved}
+                }} disabled={appointment.approved || appointment.notShow}
                         className={` bg-blue-500 disabled:bg-gray-400 text-white rounded-md p-2 w-[32%]`}>{
                     appointment.approved ? 'Approved' : 'Approve'
                 }</button>
