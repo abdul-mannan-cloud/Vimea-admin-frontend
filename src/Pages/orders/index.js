@@ -72,7 +72,7 @@ const Orders = () => {
                                     const sortedOrders = orders.sort((a, b) => new Date(b.date) - new Date(a.date));
                                     setOrders(sortedOrders);
                                     setSorted(true);
-                                }}>Sort on Date</button>
+                                }}>Filtro</button>
                                 <input className="w-30 h-4 p-4 rounded-lg border-black border-[1px]" placeholder="Kërko"
                                        onChange={(e) => setSearchQuery(e.target.value)}/>
                             </div>
@@ -96,11 +96,10 @@ const Orders = () => {
                                     {
                                         divStates[index]
                                             ? <button onClick={() => toggleDiv(index)}
-                                                      className="bg-[#128F96] text-white rounded-full px-3 py-2 md:px-10 md:py-3">Close</button>
+                                                      className="bg-[#128F96] text-white rounded-full px-3 py-2 md:px-10 md:py-3">Mbyll</button>
                                             : <div>
                                                 <button onClick={() => toggleDiv(index)}
-                                                        className="md:block hidden bg-[#128F96] text-white rounded-full px-3 py-2 md:px-10 md:py-3">Tap
-                                                    to view
+                                                        className="md:block hidden bg-[#128F96] text-white rounded-full px-3 py-2 md:px-10 md:py-3">Kliko
                                                 </button>
                                                 <button onClick={() => toggleDiv(index)}
                                                         className="md:hidden block bg-[#128F96] text-white rounded-full px-3 py-2 md:px-10 md:py-3">View
@@ -116,13 +115,13 @@ const Orders = () => {
                                     }`}
                                 >
                                     <div className="flex flex-col gap-2">
-                                        <span className="text-xs font-bold">ORDER DETAILS</span>
+                                        <span className="text-xs font-bold">Detajet e Porosisë</span>
                                         <div
                                             className="flex flex-row gap-5 p-3 text-xs border-2 border-gray-300 rounded-lg">
                                             <div className="flex flex-col">
-                                                <span>ORDER DATE:</span>
-                                                <span>QTY:</span>
-                                                <span>ORDER TOTAL:</span>
+                                                <span>Data e Porosisë:</span>
+                                                <span>Sasia:</span>
+                                                <span>Totali i Porosisë:</span>
                                             </div>
                                             <div className="flex flex-col">
                                                 <span>{format(new Date(order.date), 'yyyy-MM-dd')}</span>
@@ -152,15 +151,15 @@ const Orders = () => {
                                         </div>
                                     </div>
                                     <div className="flex flex-col gap-2 ">
-                                        <span className="text-xs font-bold">Billing Adress</span>
+                                        <span className="text-xs font-bold">Fatura e Adresesës</span>
                                         <div
                                             className="flex flex-row gap-5 p-3 text-xs border-2 border-gray-300 rounded-lg">
                                             <div className="flex flex-col">
                                                 <span>Emri:</span>
                                                 <span>Mbiemri:</span>
                                                 <span>Shteti:</span>
-                                                <span>Adress:</span>
-                                                <span>Postal code:</span>
+                                                <span>Adresa:</span><br></br>
+                                                <span>Kodi Postar:</span>
                                             </div>
                                             <div className="flex flex-col">
                                                 <span>{order.firstName}</span>

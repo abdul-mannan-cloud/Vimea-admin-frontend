@@ -232,7 +232,7 @@ const Blogs = () => {
                             className='flex gap-3 px-3 py-2 bg-[#128F96] rounded-xl justify-center items-center hover:bg-cyan-700 transition-all duration-200 cursor-pointer'
                         >
                             <img src={Plus} className=''/>
-                            <span className='text-lg font-bold text-white'>SHTO BLOGUN</span>
+                            <span className='text-lg font-bold text-white'>Shto blogun</span>
                         </div>
                     </div>
 
@@ -270,13 +270,13 @@ const Blogs = () => {
                                             className='p-4 max-w-7xl w-3/3 min-w-[1000px] l-1/3 rounded-lg bg-white flex flex-col justify-between gap-5'>
                                             <div className='flex flex-row gap-10 justify-between'>
                                                 <div className='flex flex-col gap-5 w-[50%]'>
-                                                <h className="font-bold">Information in Albanina</h>
+                                                <h className="font-bold">Blogu në gjuhën shqipe</h>
                                                     <TextField value={formData.blogTitle} onChange={handleInputChange}
-                                                            name="blogTitle" label="Blog Title" variant="outlined"
+                                                            name="blogTitle" label="Titulli i Blogut (AL)" variant="outlined"
                                                             className='mb-4 w-full'
                                                     />
                                                     <TextField
-                                                        label="Description"
+                                                        label="Përshkrimi i Blogut (AL)"
                                                         name="description"
                                                         value={formData.description}
                                                         onChange={handleInputChange}
@@ -287,13 +287,13 @@ const Blogs = () => {
                                                     />
                                                 </div>
                                                 <div className='flex flex-col gap-5 w-[50%]'>
-                                                <h className="font-bold">Information in English</h>
+                                                <h className="font-bold">Blogu në gjuhën angleze</h>
                                                     <TextField value={formData.blogTitleENG} onChange={handleInputChange}
-                                                            name="blogTitleENG" label="Blog Title" variant="outlined"
+                                                            name="blogTitleENG" label="Titulli i Blogut (EN)" variant="outlined"
                                                             className='mb-4 w-full'
                                                     />
                                                     <TextField
-                                                        label="Description"
+                                                        label="Përshkrimi i Blogut (EN)"
                                                         name="descriptionENG"
                                                         value={formData.descriptionENG}
                                                         onChange={handleInputChange}
@@ -323,12 +323,12 @@ const Blogs = () => {
                                                         startIcon={<DeleteIcon/>}
                                                         onClick={onDeleteClick}
                                                     >
-                                                        Delete
+                                                        Fshij
                                                     </Button>
                                                 </div>
                                             </div>
                                             <div className="flex flex-col gap-5">
-                                                <h1 className="text-2xl font-bold">Add-on Images</h1>
+                                                <h1 className="text-2xl font-bold">Shto Foto</h1>
                                                 <div className="flex gap-10">
                                                     {
                                                         formData.images.map((image, index) => (
@@ -351,7 +351,7 @@ const Blogs = () => {
                                                                     setSelectedBlogs(blog);
                                                                 }}
                                                                         className="bg-red-500 text-white rounded-lg px-2 py-1">
-                                                                    Delete
+                                                                    Fshij
                                                                 </button>
                                                             </div>
                                                         ))
