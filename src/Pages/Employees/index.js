@@ -75,12 +75,12 @@ const Employees = () => {
 
 
     return(
-        <div className='flex h-screen bg-gray-100'>
-            <div className='flex flex-col w-full overflow-auto'>
-                <div className="flex items-center bg-gray-100 self-center justify-center align-middle w-[90%] ml-16 mt-32 rounded-xl p-10 px-20">
-                    <div className="flex flex-col w-full">
-                        <div className='flex flex-row justify-between w-full'>
-                            <div className='mt-1 rounded-lg'> 
+        <div className="flex h-screen bg-gray-100 ">
+        <div className="flex flex-col w-full ">
+          <div className="flex items-center bg-gray-100 self-center justify-center align-middle w-full sm:pl-40 sm:pr-40 pl-16 pr-1 mt-32  rounded-xl p-10 px-20">
+            <div className="flex flex-col w-full">
+              <div className="flex flex-row justify-between w-full">
+                <div className="rounded-lg">
                                 <TextField 
                                     id="search"
                                     type="search"
@@ -119,9 +119,9 @@ const Employees = () => {
                                     </div>
                                 </div>
                                 <div className='flex flex-row'>
-                                    <div  onClick={() => navigate('/employees/add')} className='py-2 px-3 flex flex-row gap-3 items-center align-middle bg-[#128F96] h-10 rounded-lg cursor-pointer hover:bg-cyan-700 transition-all duration-200'>
+                                    <div  onClick={() => navigate('/employees/add')} className='py-2 px-3 sm:h-12 h-14 flex flex-row gap-3 items-center align-middle bg-[#128F96] rounded-md cursor-pointer hover:bg-cyan-700 transition-all duration-200'>
                                         <img src={plusIcon} className='w-[25px] h-[25px]' />
-                                        <span className='font-bold text-white'>Shto Puntorin</span>
+                                        <span className='font-bold text-white sm:text-base text-sm'>Shto Puntorin</span>
                                     </div>
                                 </div>
                             </div>
@@ -131,13 +131,15 @@ const Employees = () => {
                             <span className='text-xl font-bold'>Stafi</span>
                         </div>
 
-                        <div className='flex flex-col w-full gap-3 mt-2'>
+                        <div className='flex flex-col w-full sm:gap-3 gap-2 mt-2 overflow-auto'>
 
                         {filteredEmployees.map((employee, index) => (
-                                <div key={index} className="flex items-center self-start justify-center w-full gap-10 px-8 py-2 align-middle bg-white rounded-lg row">
-                                    <div className='w-[50%] flex items-start align-middle justify-start'>
-                                        <div className='flex flex-col items-center gap-2'>
-                                            <div className='h-[70px] w-[70px] border border-[#128F96] rounded-full flex items-center justify-center align-middle text-4xl font-bold text-[#128F96]'>
+                                <div key={index}   className="flex sm:flex-row flex-col items-center self-start justify-between w-full sm:px-10 px-1 py-2 gap-y-3 align-middle bg-white rounded-lg "
+                                >
+                                  <div className="flex sm:flex-row flex-col items-center justify-center gap-x-6 gap-y-2">
+                                    
+                                      <div className="flex flex-col items-center  w-full ">
+                                        <div className="h-[70px] w-[70px]  border border-[#128F96] rounded-full flex items-center justify-center align-middle text-base sm:text-4xl font-bold text-[#128F96]">
                                                 <span>
                                                     {employee.name.length === 1
                                                         ? employee.name.toUpperCase() 
@@ -145,14 +147,14 @@ const Employees = () => {
                                                     }
                                                 </span>
                                             </div>
-                                            <div className='text-[#128F96]'>{employee.name}</div>
+                                            <div className='text-[#128F96] sm:text-base text-sm'>{employee.name}</div>
                                         </div>
                                     </div>
-                                    <div className='flex flex-col w-[50%]'>
-                                        <span>{employee.email}</span>
-                                        <span>{employee.phone}</span>
+                                    <div className='flex flex-col'>
+                                        <span className="sm:text-start text-center">{employee.email}</span>
+                                        <span className="sm:text-start text-center">{employee.phone}</span>
                                     </div>
-                                    <div className='flex flex-col w-[20%]'>
+                                    <div className='flex sm:flex-col flex-row gap-x-1.5'>
                                         <Button
                                             variant="outlined"
                                             startIcon={<EditIcon />}

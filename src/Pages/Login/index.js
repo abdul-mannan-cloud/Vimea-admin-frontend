@@ -30,10 +30,10 @@ export default function Login () {
     
   return (
     <div>
-        <div className="flex items-center justify-center w-full p-5 py-40 align-middle md:py-0 md:h-screen md:p-24 md:gap-32">
-            <div className="flex flex-wrap bg-gray-100 items-center justify-center w-full gap-10 align-middle md:h-screen">
-                <form className="flex flex-col bg-white w-full gap-3 rounded md:border-2 md:p-10 md:w-4/12 h-fit md:border-[#128F96]">
-                    <label className="flex gap-3"><img src={emailIcon} className="w-5 h-5"/>Email Adresa</label>
+     <div className="flex items-center justify-center w-full h-screen  sm:pl-0 pl-16 sm:pr-0 bg-gray-100 pr-1">
+      <div className="flex flex-wrap  items-center justify-center w-full gap-6 h-screen">
+        <form className="flex flex-col bg-white w-full gap-3 rounded-md border-2 sm:p-10 sm:w-4/12 px-4 py-4 h-fit md:border-[#128F96]">
+          <label className="flex gap-3"><img src={emailIcon} className="w-5 h-5"/>Email Adresa</label>
                     <input value={email} onChange={e=>setEmail(e.target.value)} type="text" className="w-full p-1 border-2 border-gray-500 rounded-lg"></input>
                     <label  className="flex gap-3"><img src={lockIcon} className="w-5 h-5"/>Fjalëkalimi</label>
                     <div className="relative">
