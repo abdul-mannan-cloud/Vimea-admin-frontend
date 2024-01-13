@@ -54,28 +54,28 @@ const Feedback = () => {
     const ratings = ['1', '2', '3', '4', '5'];
 
 return(
-    <div className='flex h-screen bg-gray-100'>
-        <div className='flex flex-col w-full overflow-auto'>
-            <div className="flex items-center bg-white self-center justify-center align-middle w-[80%] ml-16 mt-32 rounded-xl p-10 px-20">
-                <div className="w-full flex flex-col">
-                    <div className="flex flex-row justify-between border-gray-500 border-b-2 pb-10">
-                        <span className="text-4xl font-bold">VLERËSIMET</span>
+    <div className="flex h-screen bg-gray-100 sm:px-40 pl-16 pr-1">
+    <div className="flex flex-col w-full overflow-auto">
+      <div className="flex items-center bg-white self-center justify-center align-middle w-full mt-32 rounded-xl py-10 px-5 sm:px-20">
+        <div className="w-full flex flex-col">
+          <div className="flex flex-row justify-between border-gray-500 border-b-2 pb-10">
+            <span className="sm:text-4xl text-2xl font-bold">VLERËSIMET</span>
                         
                     </div>
 
                     {feedbacks.map((feedback, index) => 
-                    <div className="flex flex-col border-gray-500 border-b-2 pt-5">
-                        <div className="flex flex-row justify-between items-center align-middle ">
-                            <div className="flex flex-row  items-center align-middle gap-10">
-                                <div className='flex flex-col gap-2'>
-                                    <label className='text-[#128F96]'>E-mail</label>
+                          <div className="flex flex-col border-gray-500 border-b-2 pt-5">
+                          <div className="flex sm:flex-row flex-col justify-between items-center align-middle ">
+                            <div className="flex sm:flex-row flex-col items-center align-middle gap-x-10 gap-y-2">
+                              <div className="flex flex-col gap-2">
+                                <label className="text-[#128F96]">E-mail</label>
                                     <input readOnly className='border border-gray-200 shadow-lg p-3 text-sm w-[250px] rounded-lg' value={feedback.email} />
                                 </div>
-                                <div className='flex flex-col gap-2'>
+                                <div className='flex flex-col sm:gap-2 gap-0'>
                                     <label className='text-[#128F96]'>Mosha</label>
                                     <input readOnly className='border border-gray-200 shadow-lg p-3 text-sm w-[50px] rounded-lg' value={feedback.age} />
                                 </div>
-                                <div className='flex flex-col gap-2'>
+                                <div className='flex flex-col sm:gap-2 gap-0'>
                                     <label className='text-[#128F96]'>Gjinia</label>
                                     <div className={`p-[11px] bg-[#128F96] rounded-lg flex items-center justify-center
                                         ${
@@ -92,7 +92,7 @@ return(
                                         }
                                     `}><img src={femaleIcon} className='w-[25px] h-[25px]' /></div>
                                 </div>
-                                <div className='flex flex-col gap-2'>
+                                <div className='flex flex-col sm:gap-2 gap-0'>
                                     <label className='text-[#128F96]'>Shërbimi</label>
                                     <div className={`p-2 bg-[#128F96] text-white w-[250px] rounded-lg`}>{feedback.service}</div>
                                 </div>
@@ -100,7 +100,7 @@ return(
                                     <label className='text-[#128F96] text-xs w-[120px]'>A keni blerë produkte të Vimeas?</label>
                                     <div className={`p-2 bg-[#128F96] text-white rounded-lg w-[50px] flex items-center justify-center`}><span>{feedback.buy}</span></div>
                                 </div>
-                                <div className='flex flex-col gap-[4px] items-center justify-center text-center'>
+                                <div className='flex flex-col gap-[4px] items-center justify-center text-center mb-2'>
                                     {!feedback.approved && <button  onClick={() => {
                                         let updatedFeedback = realFeedbacks.find(item => item._id === feedback.id);
                                         console.log(updatedFeedback)
@@ -263,9 +263,9 @@ return(
                                     </div>
                                 </div>
                             </div>
-                            <div className="flex flex-row gap-5 justify-between items-baseline">
-                                <div className="w-[300px]">
-                                    <label className="text-[#128F96]">4.Sa jeni të kënaqur me procesin e realizimit të terminave në VIMEA?</label>
+                            <div className="flex sm:flex-row flex-col gap-5 justify-between items-baseline">
+                    <div className="sm:w-[300px] w-full">
+                      <label className="text-[#128F96]">4.Sa jeni të kënaqur me procesin e realizimit të terminave në VIMEA?</label>
                                     <div className="flex items-center justify-center w-full">
                                         <div className="py-3 w-full px-5 flex  flex-col">
                                             <div className="flex justify-between w-full px-[10px] mb-2">
@@ -290,12 +290,12 @@ return(
                                         </div>
                                     </div>
                                 </div>
-                                <div className='w-[350px] flex flex-col gap-2'>
-                                    <label className="text-[#128F96]">5.Sa jeni të kënaqur me procesin e realizimit të terminave në VIMEA?</label>
+                                <div className="sm:w-[350px] flex flex-col gap-2">
+                      <label className="text-[#128F96]">5.Sa jeni të kënaqur me procesin e realizimit të terminave në VIMEA?</label>
                                     <textarea readOnly value={feedback.descrption1} className='rounded border h-[80px] border-gray-400 px-2 overflow-y-hidden'></textarea>
                                 </div>
-                                <div className='w-[350px] flex flex-col gap-2'>
-                                    <label className="text-[#128F96]">6. A keni ndonjë sugjerim/ këshillë për ne që do ta përmirësonte përvojën tuaj në të ardhmën?</label>
+                                <div className="sm:w-[350px] flex flex-col gap-2">
+                      <label className="text-[#128F96]">6. A keni ndonjë sugjerim/ këshillë për ne që do ta përmirësonte përvojën tuaj në të ardhmën?</label>
                                     <textarea readOnly value={feedback.descrption2} className='rounded border h-[80px] border-gray-400 px-2 overflow-y-hidden'></textarea>
                                 </div>
                             </div>

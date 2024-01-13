@@ -55,13 +55,13 @@ const Employee = () => {
     };
 
     return(
-        <div className='flex h-screen bg-gray-100'>
-            <div className='flex flex-col w-full overflow-auto'>
-                <div className='mt-32 w-[50%] self-center mx-auto items-start justify-start'>
-                    <button onClick={() => navigate('/employees')} className='py-2 px-5 rounded-lg bg-[#128F96] font-bold text-white hover:bg-cyan-700 transition-all duration-200'>Kthehu</button>
-                </div>
-                <div className="flex flex-col items-center bg-white self-center justify-center align-middle w-[50%] ml-16 mt-10 rounded-xl p-10 px-20">
-                    <span className='text-xl font-bold'>Employee Details</span>
+        <div className='flex h-screen bg-gray-100 sm:pl-0 pl-16 sm:pr-0 pr-1'>
+        <div className='flex flex-col w-full overflow-auto'>
+            <div className='mt-32 sm:w-[50%] sm:self-center sm:mx-auto items-start justify-start'>
+                <button onClick={() => navigate('/employees')} className='py-2 px-5 rounded-lg bg-[#128F96] font-bold text-white hover:bg-cyan-700 transition-all duration-200'>Kthehu</button>
+            </div>
+                <div className="flex flex-col items-center bg-white self-center justify-center align-middle sm:w-1/2 w-full  mt-10 rounded-xl sm:py-10 sm:px-20 py-5">
+                    <span className='text-xl font-bold'>Të dhënat e puntorit</span>
                     <div className='self-center w-full p-10 bg-white rounded-xl'>
                         <div className='flex flex-col w-full gap-5 font-bold'>
                             <div className='flex flex-col w-full gap-2'>

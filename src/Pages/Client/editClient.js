@@ -60,7 +60,7 @@ const EditClient = () => {
     };
 
     return (
-        <form className='pt-40 bg-gray-100' onSubmit={handleNewFormSubmit} id="formID" encType="multipart/form-data">
+        <form className='pt-40 bg-gray-100 pl-16 sm:pl-0 sm:pr-0 pr-1' onSubmit={handleNewFormSubmit} id="formID" encType="multipart/form-data">
             <div className='flex h-screen'>
                 <div className='flex flex-col w-full overflow-auto'>
                     <Container maxWidth="md" className='bg-white rounded-xl p-14'>

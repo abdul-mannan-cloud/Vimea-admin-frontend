@@ -54,14 +54,14 @@ const Orders = () => {
     };
 
     return (
-        <div className='flex h-screen bg-gray-100'>
+        <div className='flex h-screen bg-gray-100 sm:px-40 pl-16 pr-1 pb-10'>
             <div className='flex flex-col w-full overflow-auto'>
                 <div
-                    className="flex items-center bg-white self-center justify-center align-middle w-[80%] ml-16 mt-32 rounded-xl p-10 px-20">
+                    className="flex items-center bg-white self-center justify-center align-middle w-full mt-32 rounded-xl p-10 sm:px-20">
                     <div className="flex flex-col w-full">
-                        <div className="flex flex-row justify-between pb-5">
-                            <span className="text-4xl font-bold">POROSITE</span>
-                            <div className='flex flex-row gap-10'>
+                        <div className="flex sm:flex-row flex-col justify-between sm:pb-5">
+                            <span className="sm:text-4xl text-2xl font-bold sm:mb-0 mb-4">POROSITE</span>
+                            <div className='flex sm:flex-row flex-col sm:gap-10 gap-3'>
                                 <button className="p-2 bg-[#128F96] text-white rounded-lg" onClick={()=>{
                                     if(sorted){
                                         const sortedOrders = orders.sort((a, b) => new Date(a.date) - new Date(b.date));
@@ -77,14 +77,13 @@ const Orders = () => {
                                        onChange={(e) => setSearchQuery(e.target.value)}/>
                             </div>
                         </div>
-                        <div className="flex flex-row justify-between w-[90%] border-gray-500 border-b-2 pb-5">
-                        </div>
+                        <div className="sm:flex hidden flex-row justify-between w-full border-gray-500 border-b-2 pb-5"></div>
+            <div className="overflow-auto h-screen ">
 
                         {orders.map((order, index) =>
-                            <div className="flex flex-col border-gray-500 border-b-2 py-6 w-[90%] self-start">
-                                <div className="flex flex-row items-center justify-between align-middle ">
-                                    <div
-                                        className="flex flex-row w-[70%] md:w-fit items-center align-middle gap-5 md:gap-12">
+                              <div className="flex flex-col border-gray-500 border-b-2 py-6 w-full self-start">
+                              <div className="flex sm:flex-row flex-col gap-y-2 items-center justify-between align-middle ">
+                                <div className="flex sm:flex-row flex-col w-full items-center align-middle gap-5 sm:gap-12">
                                         <img src={`${process.env.REACT_APP_IMAGE_URL}/${order.products[0].mainImage}`}
                                              alt="product-img" className="w-[75px] h-[75px]"/>
                                         <span className="w-52 overflow-hidden whitespace-nowrap">{order._id}</span>
@@ -133,7 +132,7 @@ const Orders = () => {
                                     <div className="flex flex-col gap-2">
                                         <span className="text-xs font-bold">Detajet e Produktit</span>
                                         <div
-                                            className="flex flex-col text-xs gap-5 p-3 border-2 border-gray-300 rounded-lg w-[300px]">
+                                            className="flex flex-col text-xs gap-5 p-3 border-2 border-gray-300 rounded-lg sm:w-[300px] w-full">
                                             {
                                                 order.products.map(product =>
                                                     <div className="flex flex-row gap-10">
@@ -174,7 +173,7 @@ const Orders = () => {
                                 </div>
                             </div>
                         )}
-
+ </div>
                     </div>
                 </div>
             </div>

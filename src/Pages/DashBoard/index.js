@@ -86,43 +86,43 @@ const Dashboard = () => {
     }, []);
 
     return (
-        <div className="container mx-auto mt-20 p-4">
-            <div className="flex flex-col sm:flex-row gap-4 justify-around">
-                {/* Donut Charts */}
-                <div className="bg-white drop-shadow-lg p-4 flex flex-col justify-center gap-2 rounded-lg sm:w-[40vw]">
-                    <div className="flex flex-row gap-10">
-                        <div>
-                            <h2 className="text-4xl font-bold text-start">{todayAppointments}</h2>
-                            <h1 className="text-4xl font-bold text-[#128F96]">Terminet Ditore</h1>
-                        </div>
-                        <div className="border-[1px] min-h-max border-gray-200"></div>
-                        <div>
-                            <h2 className="text-4xl font-bold text-start">{appointments}</h2>
-                            <h1 className="text-4xl font-bold text-[#128F96]">Totali i Termineve</h1>
-                        </div>
+        <div className="container mx-auto sm:mt-20 mt-24 sm:p-4 p-0">
+        <div className="flex flex-col sm:flex-row gap-4 justify-around sm:pl-4 pl-16 sm:pr-0 pr-4">
+            {/* Donut Charts */}
+            <div className="bg-white drop-shadow-lg p-4 flex flex-col justify-center gap-2 rounded-lg sm:w-[40vw]">
+                <div className="flex flex-col sm:flex-row gap-10">
+                    <div>
+                        <h2 className="sm:text-4xl text-2xl font-bold text-start">{todayAppointments}</h2>
+                        <h1 className="sm:text-4xl text-2xl font-bold text-[#128F96]">Terminet Ditore</h1>
                     </div>
-                </div>
-                <div className="bg-white drop-shadow-lg p-4 flex flex-col justify-center gap-2 rounded-lg sm:w-[40vw]">
-                    <div className="flex flex-row gap-10">
-                        <div>
-                            <h2 className="text-4xl font-bold text-start">{todaySales}</h2>
-                            <h1 className="text-4xl font-bold text-[#128F96]">Shitjet Ditore</h1>
-                        </div>
-                        <div className="border-[1px] min-h-max border-gray-200"></div>
-                        <div>
-                            <h2 className="text-4xl font-bold text-start">{sales}</h2>
-                            <h1 className="text-4xl font-bold text-[#128F96]">Totali i Shitjeve</h1>
-                        </div>
+                    <div className="border-[1px] min-h-max border-gray-200"></div>
+                    <div>
+                        <h2 className="sm:text-4xl text-2xl font-bold text-start">{appointments}</h2>
+                        <h1 className="sm:text-4xl text-2xl font-bold text-[#128F96]">Totali i Termineve</h1>
                     </div>
-
                 </div>
             </div>
-            <div className="flex flex-wrap justify-around mt-8">
-                {/* Bar Charts */}
-                <BarChart title="Total Appointments" data={appointmentsData}/>
-                <BarChart title="Total Sales" data={salesData}/>
+            <div className="bg-white drop-shadow-lg p-4 flex flex-col justify-center gap-2 rounded-lg sm:w-[40vw]">
+                <div className="flex flex-col sm:flex-row gap-10">
+                    <div>
+                        <h2 className="sm:text-4xl text-2xl font-bold text-start">{todaySales}</h2>
+                        <h1 className="sm:text-4xl text-2xl font-bold text-[#128F96]">Shitjet Ditore</h1>
+                    </div>
+                    <div className="border-[1px] min-h-max border-gray-200"></div>
+                    <div>
+                        <h2 className="sm:text-4xl text-2xl font-bold text-start">{sales}</h2>
+                        <h1 className="sm:text-4xl text-2xl font-bold text-[#128F96]">Totali i Shitjeve</h1>
+                    </div>
+                </div>
+
             </div>
         </div>
+        <div className="flex flex-wrap justify-around mt-8 sm:pl-0 pl-12">
+            {/* Bar Charts */}
+            <BarChart title="Total Appointments" data={appointmentsData}/>
+            <BarChart title="Total Sales" data={salesData}/>
+        </div>
+    </div>
     );
 };
 

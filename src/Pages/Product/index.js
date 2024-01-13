@@ -272,9 +272,9 @@ const Products = () => {
     return (
         <div className='flex h-screen bg-gray-100'>
             <div className='flex flex-col w-full overflow-auto'>
-                <div className='flex flex-col items-center space-y-4 w-full px-20'>
-                    <div className='flex items-end justify-end mt-32 w-full'>
-                        <input placeholder='Kerko produktin' className='w-[250px] h-[40px] p-2 rounded-lg mr-2 mb-1'
+                <div className='flex flex-col items-center space-y-4 w-full sm:px-20 pl-16 pr-1'>
+                    <div className='flex sm:flex-row flex-col gap-y-2 items-end justify-end mt-32 w-full'>
+                        <input placeholder='Kerko produktin' className='w-[250px] h-[45px] px-2 py-3 rounded-md sm:mr-2 mr-0'
                                onChange={(e) => {
                                    setSearchQuery(e.target.value);
                                }}/>
@@ -283,13 +283,13 @@ const Products = () => {
                             className='flex gap-3 px-3 py-2 bg-[#128F96] rounded-xl justify-center items-center hover:bg-cyan-700 transition-all duration-200 cursor-pointer'
                         >
                             <img src={Plus} className=''/>
-                            <span className='text-lg font-bold text-white'>Shto</span>
+                            <span className='sm:text-lg text-base font-bold text-white'>Shto</span>
                         </div>
                     </div>
                     {products.map((product, index) => (
-                        <div key={index} className='w-full px-16 overflow-scroll'>
+                        <div key={index} className='w-full sm:px-16 overflow-auto'>
                             <div
-                                className={`border shadow-lg p-5 px-10 gap-10 rounded-lg w-full h-[120px] flex items-center justify-between bg-white ${
+                                className={`border shadow-lg py-5 sm:px-10 px-5 gap-x-10 gap-y-2 rounded-lg w-full  flex sm:flex-row flex-col sm:items-center sm:justify-between bg-white ${
                                     selectedProduct === product ? 'mb-2' : 'mb-4'
                                 }`}
                                 onClick={() => handleProductClick(product)}
@@ -313,36 +313,36 @@ const Products = () => {
                                     id='formID'
                                     encType='multipart/form-data'
                                 >
-                                    <div className='flex justify-center'>
+                                    <div className='flex sm:flex-row flex-col justify-center'>
                                         <div
-                                            className='p-4 max-w-7xl w-3/3 l-1/3 rounded-lg bg-white flex justify-between'>
+                                            className='p-4 sm:max-w-7xl sm:w-3/3 sm:l-1/3 rounded-lg bg-white flex sm:flex-row flex-col justify-between'>
                                             <div>
-                                                <div className="grid grid-cols-3 gap-5 mb-5">
+                                                <div className="grid sm:grid-cols-3 grid-cols-1 gap-5 mb-5">
                                                 <TextField value={formData.productName} onChange={handleInputChange}
                                                            name="productName" label="Emri i Produktit (AL)" variant="outlined"
-                                                           className='col-span-1'/>
+                                                           className='sm:col-span-1 col-span-21'/>
                                                 <TextField value={formData.productNameENG} onChange={handleInputChange}
                                                            name="productNameENG" label="Emri i Produktit (EN)" variant="outlined"
-                                                           className='col-span-1'/>
+                                                           className='sm:col-span-1 col-span-2'/>
                                                 <TextField name="price" label="Çmimi" value={formData.price}
                                                            onChange={handleInputChange} variant="outlined"
-                                                           className='col-span-1'/>
+                                                           className='sm:col-span-1 col-span-2'/>
                                                 <TextField label="Sasia" name="quantity"
                                                            value={formData.quantity} onChange={handleInputChange}
-                                                           variant="outlined" className='col-span-1'/>
+                                                           variant="outlined" className='sm:col-span-1 col-span-2'/>
                                                 <TextField label="Kategoria (AL)" name="type" value={formData.type}
                                                            onChange={handleInputChange} variant="outlined"
-                                                           className='col-span-1'/>
+                                                           className='sm:col-span-1 col-span-2'/>
                                                 <TextField label="Kategoria (EN)" name="typeENG" value={formData.typeENG}
                                                            onChange={handleInputChange} variant="outlined"
-                                                           className='col-span-1'/>
+                                                           className='sm:col-span-1 col-span-2'/>
                                                 <TextField label="Brendi" name="brand" value={formData.brand}
                                                            onChange={handleInputChange} variant="outlined"
-                                                           className='col-span-1'/>
+                                                           className='sm:col-span-1 col-span-2'/>
                                                 <TextField type="number" label="Madhësia" name="size"
                                                            value={formData.size}
                                                            onChange={handleInputChange} variant="outlined"
-                                                           className='col-span-1'/>
+                                                           className='sm:col-span-1 col-span-2'/>
                                                 <TextField
                                                     label="Përshkrimi (AL)"
                                                     name="description"
@@ -363,7 +363,7 @@ const Products = () => {
                                                     variant="outlined"
                                                     className='col-span-2'
                                                 />
-                                                <div className='col-span-1'>
+                                                <div className='sm:col-span-1 col-span-2'>
                                                     <input
                                                         type="file"
                                                         className=""
@@ -375,7 +375,7 @@ const Products = () => {
                                                             mainImage: e.target.files[0]
                                                         })}
                                                     />
-                                                    <div className='pl-5 pt-2'>
+                                                    <div className='sm:pt-2 pt-4'>
                                                         <img src={AddPhoto} alt='Product'
                                                              className=' border border-teal-500 rounded-lg w-[150px] h-[50px] mb-4 '/>
                                                     </div>
@@ -413,7 +413,7 @@ const Products = () => {
                                                 </div>
                                                 <div className="flex flex-col gap-5">
                                                     <h1 className="text-2xl font-bold">Shto Foto</h1>
-                                                    <div className="flex gap-10">
+                                                    <div className="flex gap-10 flex-wrap items-center justify-center">
                                                         {
                                                             formData.addonImages.map((image, index) => (
                                                                 <div className="flex flex-col max-w-[250px] gap-3">

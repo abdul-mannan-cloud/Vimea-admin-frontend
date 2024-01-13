@@ -273,10 +273,10 @@ function Calendar() {
 
     return (
         <DndProvider backend={HTML5Backend}>
-            <div className='container p-4 mx-auto mt-32 ml-20'>
+            <div className='container sm:p-4 p-0 mx-auto mt-32 pl-16 sm:pr-0 pr-1 '>
                 {/*change date functionality and next day */}
                 <div className='flex items-center justify-between mb-4'>
-                    <div className='flex items-center gap-5'>
+                    <div className='flex sm:flex-row flex-col sm:items-center items-end justify-end gap-x-5 gap-y-2 w-full'>
                         <select
                             value={selectedEmployee.name}
                             onChange={(e) => setSelectedEmployee(e.target.value)}

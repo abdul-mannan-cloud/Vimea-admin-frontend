@@ -222,10 +222,10 @@ const Blogs = () => {
     },[searchQuery]);
 
     return (
-        <div className='flex h-screen bg-gray-100'>
-            <div className='flex flex-col w-full overflow-auto'>
-                <div className='flex flex-col items-center w-full px-20 space-y-4 '>
-                    <div className='flex items-end justify-end w-full mt-32'>
+        <div className="flex h-screen bg-gray-100 ">
+        <div className="flex flex-col w-full overflow-auto">
+          <div className="flex flex-col items-center w-full sm:px-20 px-0 space-y-4 ">
+            <div className="flex sm:flex-row flex-col items-end  justify-end  gap-y-2 w-full mt-32 gap-x-2  sm:pl-0 pl-16 sm:pr-0 pr-1">
                         <input placeholder="Kërko" onChange={(e)=>setSearchQuery(e.target.value)} className="w-30 h-10 p-4 mr-2 rounded-lg border-black border-[1px]"/>
                         <div
                             onClick={() => navigate('/blogs/add')}
@@ -238,16 +238,16 @@ const Blogs = () => {
 
 
                     {blogs.map((blog, index) => (
-                        <div key={index} className='w-full px-16'>
+                        <div key={index} className='w-full sm:pl-0 pl-16 sm:pr-0 pr-1'>
                             <div
-                                className={`border shadow-lg p-5 px-10 gap-10 rounded-lg w-full h-[120px] flex items-center justify-between bg-white ${
-                                    selectedBlogs === blog ? 'mb-2' : 'mb-4'
+                                className={`border shadow-lg sm:py-5 py-4 sm:px-10 px-6 gap-y-3 rounded-lg w-full ${
+                                    selectedBlogs === blog ? 'mb-2' : 'mb-3'
                                 }`}
                                 onClick={() => handleProductClick(blog)}
                             >
-                                <h2 className='text-2xl font-bold'>{blog.blogTitle}</h2>
-                                <p className="max-w-[500px] whitespace-nowrap overflow-hidden"> {blog.description}</p>
-                                <div className='flex flex-row gap-5'>
+                                <h2 className='text-2xl font-bold sm:w-1/2 '>{blog.blogTitle}</h2>
+                                <p className="flex flex-col items-center sm:flex-row justify-between  gap-2 w-full"> {blog.description}</p>
+                                <div className='sm:truncate sm:w-[40rem] text-justify'>
                                     {
                                         blog.images.length > 0 && (
                                             <img
@@ -260,14 +260,14 @@ const Blogs = () => {
                             </div>
                             {selectedBlogs === blog && (
                                 <form
-                                    className='w-full mb-4 border rounded-lg'
+                                    className='w-full mb-4 border rounded-md'
                                     onSubmit={handleNewFormSubmit}
                                     id='formID'
                                     encType='multipart/form-data'
                                 >
                                     <div className='flex justify-center'>
                                         <div
-                                            className='p-4 max-w-7xl w-3/3 min-w-[1000px] l-1/3 rounded-lg bg-white flex flex-col justify-between gap-5'>
+                                            className='p-4 sm:w-1/2 w-full rounded-lg bg-white flex flex-col gap-y-5'>
                                             <div className='flex flex-row gap-10 justify-between'>
                                                 <div className='flex flex-col gap-5 w-[50%]'>
                                                 <h className="font-bold">Blogu në gjuhën shqipe</h>
@@ -329,14 +329,14 @@ const Blogs = () => {
                                             </div>
                                             <div className="flex flex-col gap-5">
                                                 <h1 className="text-2xl font-bold">Shto Foto</h1>
-                                                <div className="flex gap-10">
+                                                <div className="flex flex-wrap sm:gap-x-5 sm:gap-y-5 gap-x-2 gap-y-5">
                                                     {
                                                         formData.images.map((image, index) => (
                                                             <div className="flex flex-col max-w-[250px] gap-3">
                                                                 {typeof image === 'string' ? (
                                                                     <img
                                                                         src={`https://vimea.nyc3.cdn.digitaloceanspaces.com/${image}`}
-                                                                        className='w-[250px] h-[250px] rounded-lg'
+                                                                        className='sm:w-[200px] sm:h-[200px] w-[100px] h-[100px] rounded-lg'
                                                                         alt={image}
                                                                     />
                                                                 ) : (
