@@ -4,7 +4,7 @@ import {HTML5Backend} from 'react-dnd-html5-backend';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import Avatar from 'react-avatar';
-import axios from "axios";
+import axios, {get} from "axios";
 import {useNavigate} from "react-router-dom";
 import PlusIcon from "../../resources/Plus.png";
 import CrossIcon from "../../resources/close.png";
@@ -24,6 +24,10 @@ function Calendar() {
     const [appointments, setAppointments] = useState([]);
     const [selectedEmployee, setSelectedEmployee] = useState('');
     const [options, setOptions] = useState([]);
+    const [clients, setClients] = useState([]);
+    const [children, setChildren] = useState([]);
+    const [showParentInput, setShowParentInput] = useState(false);
+    const [showChildInput, setShowChildInput] = useState(false);
 
     const [appointment, setAppointment] = useState({
         category: 'Për Bebe',
@@ -38,6 +42,29 @@ function Calendar() {
         number: '',
         email: '',
     });
+
+    const getClients = async () => {
+        const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/client/getallclients`);
+        if (res.status === 200) {
+            setClients(res.data)
+        }
+    }
+
+    const getChildren = async (client) => {
+        const children = []
+        for (var child of client.children) {
+            const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/client/getchild/${child}`);
+            if (res.status === 200) {
+                children.push({...res.data,firstName:res.data.firstname})
+            }
+        }
+        console.log(children)
+        setChildren(children)
+    }
+
+    useEffect(() => {
+        getClients()
+    }, []);
 
     useEffect(() => {
         if (localStorage.getItem('token') === null) {
@@ -55,7 +82,7 @@ function Calendar() {
         fetchAppointments();
     }, [])
 
-    useEffect(()=>{
+    useEffect(() => {
         console.log(options)
     })
 
@@ -71,7 +98,7 @@ function Calendar() {
     const submitAppointment = async () => {
         const [hours, minutes] = appointment.time.split(':');
 
-        if(hours < 10 || hours > 18) {
+        if (hours < 10 || hours > 18) {
             alert('Please select a time between 10:00 and 18:00')
             return;
         }
@@ -276,7 +303,8 @@ function Calendar() {
             <div className='container sm:p-4 p-0 mx-auto mt-32 pl-16 sm:pr-0 pr-1 '>
                 {/*change date functionality and next day */}
                 <div className='flex items-center justify-between mb-4'>
-                    <div className='flex sm:flex-row flex-col sm:items-center items-end justify-end gap-x-5 gap-y-2 w-full'>
+                    <div
+                        className='flex sm:flex-row flex-col sm:items-center items-end justify-end gap-x-5 gap-y-2 w-full'>
                         <select
                             value={selectedEmployee.name}
                             onChange={(e) => setSelectedEmployee(e.target.value)}
@@ -356,7 +384,7 @@ function Calendar() {
                                             onChange={(e) => handleInputChange('service', e.target.value)}
                                         >
                                             {
-                                                options.map((option,index) => (
+                                                options.map((option, index) => (
                                                     option.group === appointment.serviceType &&
                                                     <option value={option.name} key={index}>{option.name}</option>
                                                 ))
@@ -373,40 +401,97 @@ function Calendar() {
                                         <input onChange={(e) => handleInputChange('time', e.target.value)}
                                                className='w-[300px] p-2 rounded bg-gray-300' type='time'></input>
                                     </div>
-                                    <div className='flex flex-col gap-3'>
+                                    {!showParentInput && <div className='flex flex-col gap-3'>
                                         <label className='w-[300px]'>Emri i prindit</label>
-                                        <input
-                                            onChange={(e) => handleInputChange('parentFirstName', e.target.value)}
-                                            className='w-[300px] p-2 rounded bg-gray-300' type='text'></input>
-                                    </div>
+                                        <div className='flex gap-1'>
+                                            <select className='w-[300px] p-2 rounded bg-gray-300'
+                                                    onChange={async (e) => {
+                                                        handleInputChange('parentFirstName', e.target.value)
+                                                        setAppointment({
+                                                            ...appointment,
+                                                            parentLastName: clients.find(client => client.firstName === e.target.value).lastName,
+                                                            contactNumber: clients.find(client => client.firstName === e.target.value).contactNumber,
+                                                            email: clients.find(client => client.firstName === e.target.value).email
+                                                        })
+                                                        await getChildren(clients.find(client => client.firstName === e.target.value))
+                                                    }}>
+                                                <option value="">Zgjedh Prindin</option>
+                                                {
+                                                    clients.map((client, index) => (
+                                                        <option value={client.firstName}
+                                                                key={index}>{client.firstName}</option>
+                                                    ))
+                                                }
+                                            </select>
+                                            <button
+                                                className='rounded p-2 bg-teal-600 text-whtie text-2xl text-white'
+                                                onClick={() => setShowParentInput(true)}>+
+                                            </button>
+                                        </div>
+
+                                    </div>}
+                                    {showParentInput && <div className='flex flex-col gap-3'>
+                                        <label className='w-[300px]'>Emri i prindit</label>
+                                        <div className="flex gap-1">
+                                            <input
+                                                onChange={(e) => handleInputChange('parentFirstName', e.target.value)}
+                                                className='w-[300px] p-2 rounded bg-gray-300' type='text'></input>
+                                            <button
+                                                type="button"
+                                                className='rounded p-2 bg-teal-600 text-whtie text-2xl text-white'
+                                                onClick={() => setShowParentInput(false)}>	&lt;
+                                            </button>
+                                        </div>
+                                    </div>}
                                     <div className='flex flex-col gap-3'>
                                         <label className='w-[300px]'>Mbiemri i prinditt</label>
-                                        <input onChange={(e) => handleInputChange('parentLastName', e.target.value)}
+                                        <input value={appointment.parentLastName} onChange={(e) => handleInputChange('parentLastName', e.target.value)}
                                                className='w-[300px] p-2 rounded bg-gray-300' type='text'></input>
                                     </div>
-                                    <div className='flex flex-col gap-3'>
+                                    {!showParentInput && <div className='flex flex-col gap-3'>
+                                        <label className='w-[300px]'>Emri i bebes</label>
+                                        <select className='w-[300px] p-2 rounded bg-gray-300'
+                                                onChange={async (e) => {
+                                                    handleInputChange('babyFirstName', e.target.value)
+                                                    setAppointment({
+                                                        ...appointment,
+                                                        babyLastName: children.find(child => child.firstName === e.target.value).lastName,
+                                                        babyBirthDate: new Date(children.find(child => child.firstName === e.target.value).birthDate).toISOString().split('T')[0]
+                                                    })
+                                                    console.log(children.find(child => child.firstName === e.target.value).birthDate)
+                                                }}>
+                                            <option value="">Zgjedh Beben</option>
+                                            {
+                                                children.map((child, index) => (
+                                                    <option value={child.firstName}
+                                                            key={index}>{child.firstName}</option>
+                                                ))
+                                            }
+                                        </select>
+                                    </div>}
+                                    {showParentInput && <div className='flex flex-col gap-3'>
                                         <label className='w-[300px]'>Emri i bebes</label>
                                         <input onChange={(e) => handleInputChange('babyFirstName', e.target.value)}
                                                className='w-[300px] p-2 rounded bg-gray-300' type='text'></input>
-                                    </div>
+                                    </div>}
                                     <div className='flex flex-col gap-3'>
                                         <label className='w-[300px]'>Mbiemri i bebes</label>
-                                        <input onChange={(e) => handleInputChange('babyLastName', e.target.value)}
+                                        <input value={appointment.babyLastName?appointment.babyLastName:''} onChange={(e) => handleInputChange('babyLastName', e.target.value)}
                                                className='w-[300px] p-2 rounded bg-gray-300' type='text'></input>
                                     </div>
                                     <div className='flex flex-col gap-3'>
                                         <label className='w-[300px]'>Data e lindjes së bebes</label>
-                                        <input onChange={(e) => handleInputChange('babyBirthDate', e.target.value)}
+                                        <input value={appointment.babyBirthDate??appointment.babyBirthDate} onChange={(e) => handleInputChange('babyBirthDate', e.target.value)}
                                                className='w-[300px] p-2 rounded bg-gray-300' type='date'></input>
                                     </div>
                                     <div className='flex flex-col gap-3'>
                                         <label className='w-[300px]'>Numri Kontaktues</label>
-                                        <input onChange={(e) => handleInputChange('contactNumber', e.target.value)}
+                                        <input value={appointment.contactNumber??appointment.contactNumber} onChange={(e) => handleInputChange('contactNumber', e.target.value)}
                                                className='w-[300px] p-2 rounded bg-gray-300' type='text'></input>
                                     </div>
                                     <div className='flex flex-col gap-3'>
                                         <label className='w-[300px]'>E-mail</label>
-                                        <input onChange={(e) => handleInputChange('email', e.target.value)}
+                                        <input value={appointment.email??appointment.email} onChange={(e) => handleInputChange('email', e.target.value)}
                                                className='w-[300px] p-2 rounded bg-gray-300' type='email'></input>
                                     </div>
                                     <div>&nbsp;</div>

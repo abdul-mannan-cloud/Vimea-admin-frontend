@@ -19,11 +19,24 @@ const Orders = () => {
     }, []);
 
     const calculateQuantity = (order) => {
-        return order.products.reduce((acc, product) => acc + product.quantity, 0);
+        const quantity = order.products.reduce((acc, product) => acc + product.quantity, 0);
+        return quantity;
     }
 
+    const calculatePrice = (order) => {
+        if (order.state === 'Kosova') {
+            return 2;
+        } else if (order.state === 'Shqiperi') {
+            return 5;
+        } else if ( order.state === 'Macedoni') {
+            return 5;
+        } else {
+            return 0;
+        }
+    };
+
     const calculateTotal = (order) => {
-        return order.products.reduce((acc, product) => acc + product.price * product.quantity, 0);
+        return order.products.reduce((acc, product) => acc + product.price * product.quantity, 0)+calculatePrice(order);
     }
 
     const getData = async () => {
@@ -157,7 +170,7 @@ const Orders = () => {
                                                 <span>Emri:</span>
                                                 <span>Mbiemri:</span>
                                                 <span>Shteti:</span>
-                                                <span>Adresa:</span><br></br>
+                                                <span>Adresa:</span>
                                                 <span>Kodi Postar:</span>
                                             </div>
                                             <div className="flex flex-col">
