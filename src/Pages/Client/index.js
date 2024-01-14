@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+    import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import axios from 'axios';
@@ -23,6 +23,43 @@ const Employees = () => {
 
     const [clients, setClients] = useState([]);
 
+    const calculatePrice = (order) => {
+        if (order.state === 'Kosova') {
+            return 2;
+        } else if (order.state === 'Shqiperi') {
+            return 5;
+        } else if ( order.state === 'Macedoni') {
+            return 5;
+        } else {
+            return 0;
+        }
+    };
+
+    const calculateTotal = (order) => {
+        return order.products.reduce((acc, product) => acc + product.price * product.quantity, 0)+calculatePrice(order);
+    }
+
+    const calculateSales = async (orders) => {
+        let totalSales = 0;
+        for (const order of orders) {
+            const data = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/order/orders/${order}`);
+            totalSales += calculateTotal(data.data);
+        }
+        console.log(totalSales)
+        return totalSales;
+    }
+
+    const calculateAllSales = async (clients) => {
+        for(const client of clients){
+            const sales = await calculateSales(client.orders);
+            client.sales = sales;
+        }
+        setClients(clients);
+    }
+
+    useEffect(()=>{
+    },[])
+
     useEffect(() => {
         const getClients = async () => {
             try {
@@ -46,15 +83,16 @@ const Employees = () => {
 
                     // Flatten the array of arrays into a single array
                     const flattenedChildren = associatedChildren.flat();
-                    
+
                   //console.log(associatedChildren)
                   return {
                     id: user._id,
                     clientName: user.firstName + ' ' + user.lastName,
                     mobileNumber: user.contactNumber,
-                    sales: user.orders.length,
+                    sales: 0,
                     userName: user.firstName,
                     password: user.password,
+                      orders: user.orders,
                     appointments: user.appointments.length,
                     // Replace children IDs with actual child objects in the transformed data
                     children: flattenedChildren,
@@ -62,9 +100,7 @@ const Employees = () => {
                 });
               
                 // Update state with the transformed data
-                setClients(transformedClients);
-                console.log(transformedClients)
-              
+                await calculateAllSales(transformedClients)
               } catch (error) {
                 console.error("Error fetching data:", error);
               }              

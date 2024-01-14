@@ -80,7 +80,13 @@ const Blogs = () => {
         if (selectedBlogs) {
             try {
                 const response = await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/blogs/deleteblog/${selectedBlogs._id}`);
-                console.log(response.data);
+                if (response.status === 200) {
+                    const updatedBlogs = blogs.filter((blog) => blog._id !== selectedBlogs._id);
+                    setBlogs(updatedBlogs);
+                    setAllBlogs(updatedBlogs)
+                    setSelectedBlogs(null);
+                    setShowForm(false);
+                }
             } catch (error) {
                 console.error('Error deleting product:', error);
             }
