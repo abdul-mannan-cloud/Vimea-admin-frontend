@@ -125,6 +125,7 @@ function Calendar() {
             window.location.reload()
         }
         closeModal()
+        window.location.reload()
     }
 
     const getData = async () => {
