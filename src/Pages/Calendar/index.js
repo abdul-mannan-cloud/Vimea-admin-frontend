@@ -116,8 +116,11 @@ function Calendar() {
             child: {
                 firstName: appointment.babyFirstName,
                 lastName: appointment.babyLastName,
+                birthDate: appointment.babyBirthDate,
+                id:children.find(child=>child.firstName===appointment.babyFirstName)._id
             },
             contactNumber: appointment.contactNumber,
+            showHistory: !showParentInput,
         });
         if (res.status === 200) {
             alert('Appointment added successfully')
