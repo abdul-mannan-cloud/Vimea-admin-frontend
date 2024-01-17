@@ -6,8 +6,6 @@ import {useNavigate} from 'react-router-dom';
 import {useEffect} from 'react';
 import axios from 'axios';
 import {TextField, Button} from '@mui/material';
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
 import Fixed from '../../resources/fixed.png';
 import AddPhoto from '../../resources/addphoto.png';
 import Plus from '../../resources/Plus.png'
@@ -332,48 +330,15 @@ const Products = () => {
                                                 <TextField label="Sasia" name="quantity"
                                                            value={formData.quantity} onChange={handleInputChange}
                                                            variant="outlined" className='sm:col-span-1 col-span-2'/>
-                                             <FormControl variant="outlined" className='sm:col-span-1 col-span-2'>
-  <InputLabel htmlFor="category-al">Kategoria (AL)</InputLabel>
-  <Select
-    label="Kategoria (AL)"
-    name="type"
-    value={formData.type}
-    onChange={handleInputChange}
-  >
-    <MenuItem value="option1">Option 1</MenuItem>
-    <MenuItem value="option2">Option 2</MenuItem>
-    {/* Add more MenuItem components as needed */}
-  </Select>
-</FormControl>
-
-<FormControl variant="outlined" className='sm:col-span-1 col-span-2'>
-  <InputLabel htmlFor="category-en">Kategoria (EN)</InputLabel>
-  <Select
-    label="Kategoria (EN)"
-    name="typeENG"
-    value={formData.typeENG}
-    onChange={handleInputChange}
-  >
-    <MenuItem value="option1">Option 1</MenuItem>
-    <MenuItem value="option2">Option 2</MenuItem>
-    {/* Add more MenuItem components as needed */}
-  </Select>
-</FormControl>
-
-<FormControl variant="outlined" className='sm:col-span-1 col-span-2'>
-  <InputLabel htmlFor="brand">Brendi</InputLabel>
-  <Select
-    label="Brendi"
-    name="brand"
-    value={formData.brand}
-    onChange={handleInputChange}
-  >
-    <MenuItem value="option1">Option 1</MenuItem>
-    <MenuItem value="option2">Option 2</MenuItem>
-    {/* Add more MenuItem components as needed */}
-  </Select>
-</FormControl>
-
+                                                <TextField label="Kategoria (AL)" name="type" value={formData.type}
+                                                           onChange={handleInputChange} variant="outlined"
+                                                           className='sm:col-span-1 col-span-2'/>
+                                                <TextField label="Kategoria (EN)" name="typeENG" value={formData.typeENG}
+                                                           onChange={handleInputChange} variant="outlined"
+                                                           className='sm:col-span-1 col-span-2'/>
+                                                <TextField label="Brendi" name="brand" value={formData.brand}
+                                                           onChange={handleInputChange} variant="outlined"
+                                                           className='sm:col-span-1 col-span-2'/>
                                                 <TextField type="number" label="Madhësia" name="size"
                                                            value={formData.size}
                                                            onChange={handleInputChange} variant="outlined"
