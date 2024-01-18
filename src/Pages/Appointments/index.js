@@ -69,11 +69,11 @@ const Appointments = () => {
                 className='flex gap-3 px-3 py-2 bg-[#128F96] rounded-xl justify-center items-center hover:bg-cyan-700 transition-all duration-200 cursor-pointer w-48 ml-32'
             >
                 <img src={Plus} className=''/>
-                <span className='text-lg font-bold text-white'>Shto Servis të ri</span>
+                <span className='text-lg font-bold text-white'>Shto Servis</span>
             </button>
             <div className='flex flex-col w-full overflow-auto'>
                 <div
-                    className="flex items-center bg-gray-100 self-center justify-center align-middle w-[90%] ml-16  rounded-xl p-10 px-20 flex-col gap-10">
+                    className="flex items-center bg-gray-100 self-center justify-center align-middle w-full sm:pl-40 sm:pr-40 pl-16 pr-1 rounded-xl py-10  flex-col gap-10">
                     <div className='flex flex-col w-full gap-1'>
                         <div className='ml-2 font-bold'>Për Fëmijë</div>
                         {childrenAppointments.map((appointment, index) =>
@@ -81,10 +81,10 @@ const Appointments = () => {
                                     className='flex flex-row justify-between rounded-lg h-[50px] w-full bg-white font-bold shadow-xl'>
                                     <div className='w-0 h-full border-4 border-yellow-400 rounded-full'></div>
                                     <div
-                                        className='flex flex-row items-center justify-between w-full h-full gap-10 px-5 py-2 align-middle'>
+                                        className='flex flex-row items-center justify-between w-full h-full gap-x-5 sm:px-5 px-1 py-2 align-middle'>
                                         <span>{appointment.name}</span>
                                         <span>{appointment.duration} min</span>
-                                        <div>
+                                        <div className="flex items-center">
                                         <span>
                                         €{appointment.price}
                                         </span>
@@ -115,10 +115,10 @@ const Appointments = () => {
                                     className='flex flex-row justify-between rounded-lg h-[50px] w-full bg-white font-bold shadow-xl'>
                                     <div className='w-0 h-full border-4 border-green-600 rounded-full'></div>
                                     <div
-                                        className='flex flex-row items-center justify-between w-full h-full gap-10 px-5 py-2 align-middle'>
-                                        <span>{appointment.name}</span>
-                                        <span>{appointment.duration} min</span>
-                                        <div>
+                                        className='flex flex-row items-center justify-between w-full h-full gap-x-5 sm:px-5 px-1 py-2 align-middle '>
+                                        <span className="w-[30%] truncate">{appointment.name}</span>
+                                        <span className="flex items-center sm:gap-x-4 gap-x-2 ">{appointment.duration} min</span>
+                                        <div className="flex items-center">
                                         <span>
                                         €{appointment.price}
                                         </span>
@@ -149,7 +149,7 @@ const Appointments = () => {
                                 className='flex flex-row justify-between rounded-lg h-[50px] w-full bg-white font-bold shadow-xl'>
                                 <div className='w-0 h-full border-4 border-blue-400 rounded-full'></div>
                                 <div
-                                    className='flex flex-row items-center justify-between w-full h-full gap-10 px-5 py-2 align-middle'>
+                                    className='flex flex-row items-center justify-between w-full h-full gap-x-5 sm:px-5 px-1 py-2 align-middle'>
                                     <span>{appointment.name}</span>
                                     <span>{appointment.duration} min</span>
                                     <div>
@@ -184,7 +184,7 @@ const Appointments = () => {
                                 className='flex flex-row justify-between rounded-lg h-[50px] w-full bg-white font-bold shadow-xl'>
                                 <div className='w-0 h-full border-4 border-purple-600 rounded-full'></div>
                                 <div
-                                    className='flex flex-row items-center justify-between w-full h-full gap-10 px-5 py-2 align-middle'>
+                                    className='flex flex-row items-center justify-between w-full h-full gap-x-5 sm:px-5 px-1 py-2 align-middle'>
                                     <span>{appointment.name}</span>
                                     <span>{appointment.duration} min</span>
                                     <div>
@@ -218,8 +218,8 @@ const Appointments = () => {
                                 className='flex flex-row justify-between rounded-lg h-[50px] w-full bg-white font-bold shadow-xl'>
                                     <div className='w-0 h-full border-4 border-red-600 rounded-full'></div>
                                     <div
-                                        className='flex flex-row items-center justify-between w-full h-full gap-10 px-5 py-2 align-middle'>
-                                        <span>{appointment.name}</span>
+                                        className='flex flex-row items-center justify-between w-full h-full gap-x-5 sm:px-5 px-1 py-2 align-middle'>
+                                        <span className="w-[30%] truncate">{appointment.name}</span>
                                         <span>{appointment.duration} min</span>
                                         <div>
                                         <span>
