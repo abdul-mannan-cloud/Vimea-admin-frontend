@@ -105,7 +105,6 @@ function Calendar() {
                 duration += appointment.duration;
             }
         }
-        console.log(duration)
         return duration;
     }
 
@@ -141,11 +140,14 @@ function Calendar() {
             return;
         }
 
-        const employee = findFreeEmployee(`${hours}:00`)
-        setAppointment({
-            ...appointment,
-            employee: employee
-        })
+        var employee = appointment.employee;
+        if(employee == undefined){
+            employee = findFreeEmployee(`${hours}:00`)
+            setAppointment({
+                ...appointment,
+                employee: employee
+            })
+        }
 
         if (!isAvailable(employee, `${hours}:00`)) {
             alert('This time is not available')
