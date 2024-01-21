@@ -93,6 +93,7 @@ function Calendar() {
         const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/service/getallservices`);
         if (response.status === 200) {
             const option = response.data.find(option => option.name === category)
+            console.log(option.onlyParent?'bg-[#e2a6e6]':option.child?'bg-[#FFBF69]':option.baby?'bg-[#6cd5cb]':'bg-white')
             return option.onlyParent?'bg-[#e2a6e6]':option.child?'bg-[#FFBF69]':option.baby?'bg-[#6cd5cb]':'bg-white'
         }
     }
@@ -659,9 +660,9 @@ function DraggableAppointment({appointment, updateAppointment, cancelAppointment
 
     return (
         <div ref={drag}
-             className={`cursor-move grid grid-cols-2  drop-shadow-lg p-2 m-2 max-w-[500px] border-l-4 border-${appointment.color}
-                ${appointment.backgroundColor}
-                ${appointment.notShow ? 'bg-red-300' : 'bg-white'}
+             className={`cursor-move grid grid-cols-2  drop-shadow-lg p-2 m-2 max-w-[500px]  border-l-4 border-${appointment.color}
+                 
+                ${appointment.notShow ? 'bg-red-300' : appointment.backgroundColor}
         `}>
             <p className="col-span-1">Koha: {appointment.time}</p>
             <p className="col-span-1">Data: {appointment.date.toLocaleDateString()}</p>
