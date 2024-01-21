@@ -30,9 +30,9 @@ function Calendar() {
     const [showChildInput, setShowChildInput] = useState(false);
 
     const [appointment, setAppointment] = useState({
-        category: 'Për Bebe',
-        service: '',
-        serviceType: 'Për Bebe',
+        category: 'Hidroterapi',
+        service: 'Hidroterapi për bebe',
+        serviceType: 'Hidroterapi',
         date: '',
         time: '',
         parentFirstName: '',
@@ -41,6 +41,7 @@ function Calendar() {
         babyLastName: '',
         number: '',
         email: '',
+        duration:20,
     });
 
     const getClients = async () => {
@@ -58,7 +59,6 @@ function Calendar() {
                 children.push({...res.data,firstName:res.data.firstname})
             }
         }
-        console.log(children)
         setChildren(children)
     }
 
@@ -73,7 +73,6 @@ function Calendar() {
         const fetchAppointments = async () => {
             try {
                 const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/service/getallservices`);
-                console.log(response.data)
                 setOptions(response.data);
             } catch (error) {
                 console.error('Error fetching appointments:', error.message);
@@ -82,16 +81,46 @@ function Calendar() {
         fetchAppointments();
     }, [])
 
-    useEffect(() => {
-        console.log(options)
-    })
-
     const findColor = (category) => {
         if (category == "Group Plush") return 'blue-400'
         if (category == "Për Fëmijë") return 'yellow-400'
         if (category == "Për Bebe") return 'green-600'
         if (category == "Për Nënen") return 'purple-600'
         if (category == "Mami + Bebi") return 'red-600'
+    }
+
+    const getAppointmentsDurationAtTime = (employee, time) => {
+        var duration = 0;
+        for(let appointment of appointments){
+            if(appointment.time===time && appointment.employee===employee){
+                duration+=appointment.duration;
+            }
+        }
+        console.log(duration)
+        return duration;
+    }
+
+    const findFreeEmployee = (time) => {
+        for(let employee of employees){
+                    if(appointment.duration+getAppointmentsDurationAtTime(employee.name,time)<=60){
+                        return employee.name;
+                    }
+        }
+        return employees[0].name;
+    }
+
+    const isAvailable = (employee, time) => {
+        var available = true;
+        for(let appointment of appointments){
+            if(appointment.time===time && appointment.employee===employee){
+                console.log('here')
+                if(appointment.duration+getAppointmentsDurationAtTime(employee,time)>60){
+                    available = false;
+                    break;
+                }
+            }
+        }
+        return available;
     }
 
 
@@ -103,11 +132,29 @@ function Calendar() {
             return;
         }
 
+        const employee = findFreeEmployee(`${hours}:00`)
+    console.log(employee)
+        setAppointment({
+            ...appointment,
+            employee: employee
+        })
+
+        if(!isAvailable(employee,`${hours}:00`)){
+            alert('This time is not available')
+            return;
+        }
+
+        console.log(appointment)
+
+        return;
+
         const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/appointment/addappointment`, {
-            service: appointment.type,
+            service: appointment.serviceType,
             date: appointment.date,
             time: `${hours}:00`,
-            category: appointment.category,
+            serviceType: appointment.service,
+            duration: appointment.duration,
+            employee: employee,
             parent: {
                 email: appointment.email,
                 firstName: appointment.parentFirstName,
@@ -117,7 +164,7 @@ function Calendar() {
                 firstName: appointment.babyFirstName,
                 lastName: appointment.babyLastName,
                 birthDate: appointment.babyBirthDate,
-                id:children.find(child=>child.firstName===appointment.babyFirstName)._id
+                id:children.find(child=>child.firstName===appointment.babyFirstName)?children.find(child=>child.firstName===appointment.babyFirstName).id:'',
             },
             contactNumber: appointment.contactNumber,
             showHistory: !showParentInput,
@@ -144,8 +191,9 @@ function Calendar() {
                     employee: appointment.employee ? appointment.employee : res.data[0].name,
                     date: new Date(appointment.date),
                     time: appointment.time,
-                    content: appointment.service,
+                    service: appointment.service,
                     category: appointment.category,
+                    duration: appointment.duration,
                     serviceType: appointment.serviceType,
                     parentName: appointment.parent.firstName + ' ' + appointment.parent.lastName,
                     childName: appointment.child.firstName + ' ' + appointment.child.lastName,
@@ -153,15 +201,6 @@ function Calendar() {
                     approved: appointment.approved,
                     status: appointment.status,
                     notShow: appointment.notShow,
-                }
-            }))
-            console.log(appointmentRes.data.map(appointment => {
-                return {
-                    id: appointment._id,
-                    employee: appointment.employee ? appointment.employee : res.data[0].name,
-                    date: new Date(appointment.date),
-                    time: appointment.time,
-                    content: appointment.content
                 }
             }))
         }
@@ -295,8 +334,8 @@ function Calendar() {
     const getGroups = () => {
         const groups = []
         options.forEach(option => {
-            if (!groups.includes(option.group)) {
-                groups.push(option.group)
+            if (!groups.includes(option.displayGroup)) {
+                groups.push(option.displayGroup)
             }
         })
         return groups
@@ -371,7 +410,10 @@ function Calendar() {
                                         <label className='w-[300px]'>Zgjedh Servisin</label>
                                         <select
                                             className='w-[300px] p-2 rounded bg-gray-300'
-                                            onChange={(e) => handleInputChange('serviceType', e.target.value)}
+                                            onChange={(e) => {
+                                                handleInputChange('serviceType', e.target.value)
+                                                handleInputChange('duration', options.find(option=>option.displayGroup===e.target.value).duration)
+                                            }}
                                         >
                                             {
                                                 getGroups().map((option) => (
@@ -385,11 +427,14 @@ function Calendar() {
                                         <label className='w-[300px]'>Zgjedh tipin e Servisit </label>
                                         <select
                                             className='w-[300px] p-2 rounded bg-gray-300'
-                                            onChange={(e) => handleInputChange('service', e.target.value)}
+                                            onChange={(e) => {
+                                                handleInputChange('service', e.target.value)
+                                                handleInputChange('duration', options.find(option => option.name === e.target.value).duration)
+                                            }}
                                         >
                                             {
                                                 options.map((option, index) => (
-                                                    option.group === appointment.serviceType &&
+                                                    option.displayGroup === appointment.serviceType &&
                                                     <option value={option.name} key={index}>{option.name}</option>
                                                 ))
                                             }
@@ -410,9 +455,9 @@ function Calendar() {
                                         <div className='flex gap-1'>
                                             <select className='w-[300px] p-2 rounded bg-gray-300'
                                                     onChange={async (e) => {
-                                                        handleInputChange('parentFirstName', e.target.value)
                                                         setAppointment({
                                                             ...appointment,
+                                                            parentFirstName: e.target.value,
                                                             parentLastName: clients.find(client => client.firstName === e.target.value).lastName,
                                                             contactNumber: clients.find(client => client.firstName === e.target.value).contactNumber,
                                                             email: clients.find(client => client.firstName === e.target.value).email
@@ -456,9 +501,9 @@ function Calendar() {
                                         <label className='w-[300px]'>Emri i bebes</label>
                                         <select className='w-[300px] p-2 rounded bg-gray-300'
                                                 onChange={async (e) => {
-                                                    handleInputChange('babyFirstName', e.target.value)
                                                     setAppointment({
                                                         ...appointment,
+                                                        babyFirstName: e.target.value,
                                                         babyLastName: children.find(child => child.firstName === e.target.value).lastName,
                                                         babyBirthDate: new Date(children.find(child => child.firstName === e.target.value).birthDate).toISOString().split('T')[0]
                                                     })
@@ -588,8 +633,8 @@ function DraggableAppointment({appointment, updateAppointment, cancelAppointment
         `}>
             <p className="col-span-1">Koha: {appointment.time}</p>
             <p className="col-span-1">Data: {appointment.date.toLocaleDateString()}</p>
-            <p className="col-span-1">Shërbimi: {appointment.content}</p>
-            <p className="col-span-1">Kategoria: {appointment.category}</p>
+            <p className="col-span-1">Shërbimi: {appointment.serviceType}</p>
+            <p className="col-span-1">Kategoria: {appointment.service}</p>
             <p className="col-span-1">Prindi: {appointment.parentName}</p>
             <p className="col-span-1">Fëmiju: {appointment.childName}</p>
             <div className='flex flex-row justify-between w-full col-span-2'>
