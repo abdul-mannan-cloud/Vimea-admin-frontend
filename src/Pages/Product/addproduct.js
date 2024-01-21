@@ -41,6 +41,12 @@ const AddProduct = () => {
         'some other type 2'
     ]
 
+    const typesEng= [
+        'Activity Toyes Eng',
+        'some other type Eng',
+        'some other type 2 Eng'
+    ]
+
     const brands=[
         'Brand 1',
         'Brand 2',
@@ -246,7 +252,7 @@ const AddProduct = () => {
                                 </div>
                                 <div className='col-span-1 flex flex-col gap-2 px-3'>
                                     <label className='font-semibold text-black-300'>Kategoria (AL)</label>
-                                    <select onChange={e=>{
+                                    <select onChange={e => {
                                         setFormData({...formData, type: e.target.value})
                                     }} className='w-full rounded-lg p-3 border-[2px] border-black-200'>
                                         {types.map((type) => (
@@ -256,17 +262,20 @@ const AddProduct = () => {
                                 </div>
                                 <div className='col-span-1 flex flex-col gap-2 px-3'>
                                     <label className='font-semibold text-black-300'>Kategoria (EN)</label>
-                                    <input value={formData.typeENG} onChange={handleInputChange} name="typeENG"
-                                           label="type" variant="outlined"
-                                           className='w-full rounded-lg p-3 border-[2px] border-black-200'
-                                           placeholder=''/>
+                                    <select onChange={e => {
+                                        setFormData({...formData, typeENG: e.target.value})
+                                    }} className='w-full rounded-lg p-3 border-[2px] border-black-200'>
+                                        {typesEng.map((type) => (
+                                            <option value={type}>{type}</option>
+                                        ))}
+                                    </select>
                                 </div>
                                 <div className='flex col-span-1 sm:flex-row flex-col gap-x-3 gap-y-3'>
                                     <div className='flex flex-row gap-3 items-center justify-center'>
                                         <div className='flex flex-col gap-2'>
                                             <label className='font-semibold text-black-300'>Çmimi</label>
                                             <input name="price" label="" type="number" value={formData.price}
-                                                   onChange={handleInputChange} variant="outlined" 
+                                                   onChange={handleInputChange} variant="outlined"
                                                    className='w-[60px] border border-black-200 p-2 rounded-lg'/>
                                         </div>
                                         <div className='flex flex-col gap-2'>
@@ -277,7 +286,8 @@ const AddProduct = () => {
                                         </div>
                                     </div>
                                     <div className='flex col-span-1 flex-col gap-2 px-3'>
-                                        <label className='w-full font-semibold text-black-300'>Sasia (ml) (Optional)</label>
+                                        <label className='w-full font-semibold text-black-300'>Sasia (ml)
+                                            (Optional)</label>
                                         <input
                                             onChange={(e) => {
                                                 setFormData({...formData, size: e.target.value}); // Combines the numeric value with 'ml'
@@ -289,7 +299,7 @@ const AddProduct = () => {
                                 </div>
                                 <div className='col-span-1 flex flex-col gap-2 px-3'>
                                     <label className='font-semibold text-black-300'>Brendi</label>
-                                    <select onChange={e=>{
+                                    <select onChange={e => {
                                         setFormData({...formData, brand: e.target.value})
                                     }
                                     } className='w-full rounded-lg p-3 border-[2px] border-black-200'>
@@ -330,7 +340,8 @@ const AddProduct = () => {
                                     {
                                         formData.coverimage == ''
                                             ?
-                                            <div className='w-60 h-60 bg-gray-300 rounded-lg inline-flex items-center justify-center'>
+                                            <div
+                                                className='w-60 h-60 bg-gray-300 rounded-lg inline-flex items-center justify-center'>
 
                                             </div>
                                             :
