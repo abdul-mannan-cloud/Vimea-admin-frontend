@@ -11,6 +11,8 @@ export const AddAppointment = () => {
         group: "",
         displayGroup: "",
         onlyParent: false,
+        baby: false,
+        child: false,
     });
 
     const handleChange = (e) => {
@@ -88,6 +90,18 @@ export const AddAppointment = () => {
                     <div className="flex flex-col justify-center items-center">
                         <label htmlFor="onlyParent" className="text-xl font-bold">Vetëm prind</label>
                         <input type="checkbox" name="onlyParent" id="onlyParent"
+                               className="border-2 border-black rounded-md p-2"
+                               onChange={handleChange}/>
+                    </div>
+                    <div className="flex flex-col justify-center items-center">
+                        <label htmlFor="baby" className="text-xl font-bold">For Baby</label>
+                        <input  type="checkbox" name="baby" id="baby"
+                               className="border-2 border-black rounded-md p-2"
+                               onChange={handleChange}/>
+                    </div>
+                    <div className="flex flex-col justify-center items-center">
+                        <label htmlFor="child" className="text-xl font-bold">For Child</label>
+                        <input type="checkbox" name="child" id="child"
                                className="border-2 border-black rounded-md p-2"
                                onChange={handleChange}/>
                     </div>

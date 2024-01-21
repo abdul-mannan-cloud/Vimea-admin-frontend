@@ -41,13 +41,16 @@ function Calendar() {
         babyLastName: '',
         number: '',
         email: '',
-        duration:20,
+        duration: 20,
+        newUser: false,
+        notRegistered: false,
     });
 
     const getClients = async () => {
         const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/client/getallclients`);
         if (res.status === 200) {
             setClients(res.data)
+            return res.data
         }
     }
 
@@ -56,15 +59,12 @@ function Calendar() {
         for (var child of client.children) {
             const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/client/getchild/${child}`);
             if (res.status === 200) {
-                children.push({...res.data,firstName:res.data.firstname})
+                children.push({...res.data, firstName: res.data.firstname})
             }
         }
         setChildren(children)
     }
 
-    useEffect(() => {
-        getClients()
-    }, []);
 
     useEffect(() => {
         if (localStorage.getItem('token') === null) {
@@ -89,11 +89,19 @@ function Calendar() {
         if (category == "Mami + Bebi") return 'red-600'
     }
 
+    const findBackgroundColor = async (category) => {
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/service/getallservices`);
+        if (response.status === 200) {
+            const option = response.data.find(option => option.name === category)
+            return option.onlyParent?'bg-[#e2a6e6]':option.child?'bg-[#FFBF69]':option.baby?'bg-[#6cd5cb]':'bg-white'
+        }
+    }
+
     const getAppointmentsDurationAtTime = (employee, time) => {
         var duration = 0;
-        for(let appointment of appointments){
-            if(appointment.time===time && appointment.employee===employee){
-                duration+=appointment.duration;
+        for (let appointment of appointments) {
+            if (appointment.time === time && appointment.employee === employee) {
+                duration += appointment.duration;
             }
         }
         console.log(duration)
@@ -101,20 +109,20 @@ function Calendar() {
     }
 
     const findFreeEmployee = (time) => {
-        for(let employee of employees){
-                    if(appointment.duration+getAppointmentsDurationAtTime(employee.name,time)<=60){
-                        return employee.name;
-                    }
+        for (let employee of employees) {
+            if (appointment.duration + getAppointmentsDurationAtTime(employee.name, time) <= 60) {
+                return employee.name;
+            }
         }
         return employees[0].name;
     }
 
     const isAvailable = (employee, time) => {
         var available = true;
-        for(let appointment of appointments){
-            if(appointment.time===time && appointment.employee===employee){
+        for (let appointment of appointments) {
+            if (appointment.time === time && appointment.employee === employee) {
                 console.log('here')
-                if(appointment.duration+getAppointmentsDurationAtTime(employee,time)>60){
+                if (appointment.duration + getAppointmentsDurationAtTime(employee, time) > 60) {
                     available = false;
                     break;
                 }
@@ -133,20 +141,16 @@ function Calendar() {
         }
 
         const employee = findFreeEmployee(`${hours}:00`)
-    console.log(employee)
         setAppointment({
             ...appointment,
             employee: employee
         })
 
-        if(!isAvailable(employee,`${hours}:00`)){
+        if (!isAvailable(employee, `${hours}:00`)) {
             alert('This time is not available')
             return;
         }
 
-        console.log(appointment)
-
-        return;
 
         const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/appointment/addappointment`, {
             service: appointment.serviceType,
@@ -164,7 +168,7 @@ function Calendar() {
                 firstName: appointment.babyFirstName,
                 lastName: appointment.babyLastName,
                 birthDate: appointment.babyBirthDate,
-                id:children.find(child=>child.firstName===appointment.babyFirstName)?children.find(child=>child.firstName===appointment.babyFirstName).id:'',
+                id: children.find(child => child.firstName === appointment.babyFirstName) ? children.find(child => child.firstName === appointment.babyFirstName).id : '',
             },
             contactNumber: appointment.contactNumber,
             showHistory: !showParentInput,
@@ -179,13 +183,15 @@ function Calendar() {
     }
 
     const getData = async () => {
+
+        const clients = await getClients()
         const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/employee/getallemployee`);
         if (res.status === 200) {
             setEmployees(res.data)
         }
         const appointmentRes = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/appointment/getallappointments`);
         if (appointmentRes.status === 200) {
-            setAppointments(appointmentRes.data.map(appointment => {
+            setAppointments(await Promise.all(appointmentRes.data.map(async appointment => {
                 return {
                     id: appointment._id,
                     employee: appointment.employee ? appointment.employee : res.data[0].name,
@@ -195,15 +201,36 @@ function Calendar() {
                     category: appointment.category,
                     duration: appointment.duration,
                     serviceType: appointment.serviceType,
+                    email: appointment.parent.email,
                     parentName: appointment.parent.firstName + ' ' + appointment.parent.lastName,
                     childName: appointment.child.firstName + ' ' + appointment.child.lastName,
                     color: findColor(appointment.serviceType),
+                    backgroundColor: await findBackgroundColor(appointment.serviceType),
                     approved: appointment.approved,
                     status: appointment.status,
                     notShow: appointment.notShow,
+                    newUser: checkIfNewUser(clients, appointment),
+                    notRegistered: checkIfNotRegistered(clients, appointment),
                 }
-            }))
+            })))
         }
+
+    }
+
+    const checkIfNotRegistered = (clients,appointment) => {
+        const client = clients.find(client => client.email === appointment.parent.email)
+        if (!client) {
+            return true
+        }
+        return false
+    }
+
+    const checkIfNewUser = (clients,appointment) => {
+        const client = clients.find(client => client.email === appointment.parent.email)
+        if (client && client.appointments.length === 1) {
+            return true
+        }
+        return false
     }
 
     function convertTimeTo24HourFormat(timeString) {
@@ -412,7 +439,7 @@ function Calendar() {
                                             className='w-[300px] p-2 rounded bg-gray-300'
                                             onChange={(e) => {
                                                 handleInputChange('serviceType', e.target.value)
-                                                handleInputChange('duration', options.find(option=>option.displayGroup===e.target.value).duration)
+                                                handleInputChange('duration', options.find(option => option.displayGroup === e.target.value).duration)
                                             }}
                                         >
                                             {
@@ -488,13 +515,14 @@ function Calendar() {
                                             <button
                                                 type="button"
                                                 className='rounded p-2 bg-teal-600 text-whtie text-2xl text-white'
-                                                onClick={() => setShowParentInput(false)}>	&lt;
+                                                onClick={() => setShowParentInput(false)}>    &lt;
                                             </button>
                                         </div>
                                     </div>}
                                     <div className='flex flex-col gap-3'>
                                         <label className='w-[300px]'>Mbiemri i prinditt</label>
-                                        <input value={appointment.parentLastName} onChange={(e) => handleInputChange('parentLastName', e.target.value)}
+                                        <input value={appointment.parentLastName}
+                                               onChange={(e) => handleInputChange('parentLastName', e.target.value)}
                                                className='w-[300px] p-2 rounded bg-gray-300' type='text'></input>
                                     </div>
                                     {!showParentInput && <div className='flex flex-col gap-3'>
@@ -525,22 +553,26 @@ function Calendar() {
                                     </div>}
                                     <div className='flex flex-col gap-3'>
                                         <label className='w-[300px]'>Mbiemri i bebes</label>
-                                        <input value={appointment.babyLastName?appointment.babyLastName:''} onChange={(e) => handleInputChange('babyLastName', e.target.value)}
+                                        <input value={appointment.babyLastName ? appointment.babyLastName : ''}
+                                               onChange={(e) => handleInputChange('babyLastName', e.target.value)}
                                                className='w-[300px] p-2 rounded bg-gray-300' type='text'></input>
                                     </div>
                                     <div className='flex flex-col gap-3'>
                                         <label className='w-[300px]'>Data e lindjes së bebes</label>
-                                        <input value={appointment.babyBirthDate??appointment.babyBirthDate} onChange={(e) => handleInputChange('babyBirthDate', e.target.value)}
+                                        <input value={appointment.babyBirthDate ?? appointment.babyBirthDate}
+                                               onChange={(e) => handleInputChange('babyBirthDate', e.target.value)}
                                                className='w-[300px] p-2 rounded bg-gray-300' type='date'></input>
                                     </div>
                                     <div className='flex flex-col gap-3'>
                                         <label className='w-[300px]'>Numri Kontaktues</label>
-                                        <input value={appointment.contactNumber??appointment.contactNumber} onChange={(e) => handleInputChange('contactNumber', e.target.value)}
+                                        <input value={appointment.contactNumber ?? appointment.contactNumber}
+                                               onChange={(e) => handleInputChange('contactNumber', e.target.value)}
                                                className='w-[300px] p-2 rounded bg-gray-300' type='text'></input>
                                     </div>
                                     <div className='flex flex-col gap-3'>
                                         <label className='w-[300px]'>E-mail</label>
-                                        <input value={appointment.email??appointment.email} onChange={(e) => handleInputChange('email', e.target.value)}
+                                        <input value={appointment.email ?? appointment.email}
+                                               onChange={(e) => handleInputChange('email', e.target.value)}
                                                className='w-[300px] p-2 rounded bg-gray-300' type='email'></input>
                                     </div>
                                     <div>&nbsp;</div>
@@ -624,11 +656,11 @@ function DraggableAppointment({appointment, updateAppointment, cancelAppointment
         }),
     }));
 
-    const [status, setStatus] = useState("pending");
 
     return (
         <div ref={drag}
              className={`cursor-move grid grid-cols-2  drop-shadow-lg p-2 m-2 max-w-[500px] border-l-4 border-${appointment.color}
+                ${appointment.backgroundColor}
                 ${appointment.notShow ? 'bg-red-300' : 'bg-white'}
         `}>
             <p className="col-span-1">Koha: {appointment.time}</p>
@@ -637,6 +669,10 @@ function DraggableAppointment({appointment, updateAppointment, cancelAppointment
             <p className="col-span-1">Kategoria: {appointment.service}</p>
             <p className="col-span-1">Prindi: {appointment.parentName}</p>
             <p className="col-span-1">Fëmiju: {appointment.childName}</p>
+            <div className='flex gap-2 min-w-max py-2'>
+                {appointment.newUser && <p className="col-span-2 bg-blue-200 text-blue-500 rounded px-2 ">New Client</p>}
+                {appointment.notRegistered && <p className="col-span-2 bg-red-200 text-red-500 rounded px-2 ">Not Registered</p>}
+            </div>
             <div className='flex flex-row justify-between w-full col-span-2'>
                 <button onClick={() => {
                     appointment.approved = true

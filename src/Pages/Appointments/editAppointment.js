@@ -13,6 +13,8 @@ export const EditAppointment = () => {
         group: "",
         displayGroup: "",
         onlyParent: false,
+        baby: false,
+        child: false,
     });
 
     useEffect(() => {
@@ -70,12 +72,14 @@ export const EditAppointment = () => {
                 <form onSubmit={handleSubmit} className="flex flex-col justify-center items-center">
                     <div className="flex flex-col justify-center items-center">
                         <label htmlFor="name" className="text-xl font-bold">Shërbimi</label>
-                        <input value={formData.name} type="text" name="name" id="name" className="border-2 border-black rounded-md p-2"
+                        <input value={formData.name} type="text" name="name" id="name"
+                               className="border-2 border-black rounded-md p-2"
                                onChange={handleChange}/>
                     </div>
                     <div className="flex flex-col justify-center items-center">
                         <label htmlFor="price" className="text-xl font-bold">Çmimi</label>
-                        <input value={formData.price} type="number" name="price" id="price" className="border-2 border-black rounded-md p-2"
+                        <input value={formData.price} type="number" name="price" id="price"
+                               className="border-2 border-black rounded-md p-2"
                                onChange={handleChange}/>
                     </div>
                     <div className="flex flex-col justify-center items-center">
@@ -86,7 +90,8 @@ export const EditAppointment = () => {
                     </div>
                     <div className="flex flex-col justify-center items-center">
                         <label htmlFor="category" className="text-xl font-bold">Kategoria</label>
-                        <select value={formData.group} name="group" id="group" className="border-2 border-black rounded-md p-2"
+                        <select value={formData.group} name="group" id="group"
+                                className="border-2 border-black rounded-md p-2"
                                 onChange={handleChange}>
                             <option value="" disabled selected>Zgjidhni një kategori</option>
                             {groups.map((group) => (
@@ -96,7 +101,8 @@ export const EditAppointment = () => {
                     </div>
                     <div className="flex flex-col justify-center items-center">
                         <label htmlFor="displayGroup" className="text-xl font-bold">Kategoria e shfaqur</label>
-                        <select value={formData.displayGroup} name="displayGroup" id="displayGroup" className="border-2 border-black rounded-md p-2"
+                        <select value={formData.displayGroup} name="displayGroup" id="displayGroup"
+                                className="border-2 border-black rounded-md p-2"
                                 onChange={handleChange}>
                             <option value="" disabled selected>Zgjidhni një kategori</option>
                             {displayGroups.map((group) => (
@@ -108,7 +114,19 @@ export const EditAppointment = () => {
                         <label htmlFor="onlyParent" className="text-xl font-bold">Vetëm prind</label>
                         <input checked={formData.onlyParent} type="checkbox" name="onlyParent" id="onlyParent"
                                className="border-2 border-black rounded-md p-2"
-                               onChange={e=>setFormData({...formData, onlyParent: e.target.checked})}/>
+                               onChange={e => setFormData({...formData, onlyParent: e.target.checked})}/>
+                    </div>
+                    <div className="flex flex-col justify-center items-center">
+                        <label htmlFor="baby" className="text-xl font-bold">For Baby</label>
+                        <input checked={formData.baby} type="checkbox" name="baby" id="baby"
+                               className="border-2 border-black rounded-md p-2"
+                               onChange={e => setFormData({...formData, baby: e.target.checked})}/>
+                    </div>
+                    <div className="flex flex-col justify-center items-center">
+                        <label htmlFor="child" className="text-xl font-bold">For Child</label>
+                        <input checked={formData.child} type="checkbox" name="child" id="child"
+                               className="border-2 border-black rounded-md p-2"
+                               onChange={e => setFormData({...formData, child: e.target.checked})}/>
                     </div>
                     <button type="submit" className="border-2 border-black rounded-md p-2 mt-5">Shto Service</button>
                 </form>

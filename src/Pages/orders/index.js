@@ -172,14 +172,15 @@ const Orders = () => {
                                                 <span>Shteti:</span>
                                                 <span>Adresa:</span>
                                                 <span>Kodi Postar:</span>
+                                                <span>Phone Number:</span>
                                             </div>
                                             <div className="flex flex-col">
                                                 <span>{order.firstName}</span>
                                                 <span>{order.lastName}</span>
-                                                <span>{order.state?order.state:"state not entered"}</span>
+                                                <span>{order.state ? order.state : "state not entered"}</span>
                                                 <span>{order.shippingAddress}</span>
                                                 <span>{order.postalCode}</span>
-
+                                                <span>{order.phoneNumber}</span>
                                             </div>
                                         </div>
                                     </div>
