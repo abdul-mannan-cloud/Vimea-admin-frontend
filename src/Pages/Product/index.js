@@ -25,6 +25,18 @@ const Products = () => {
     const [allProducts, setAllProducts] = useState([]);
     const [searchQuery, setSearchQuery] = useState("");
 
+    const types = [
+        'Activity Toyes',
+        'some other type',
+        'some other type 2'
+    ]
+
+    const brands = [
+        'Brand 1',
+        'Brand 2',
+        'Brand 3'
+    ]
+
     useEffect(() => {
         if (localStorage.getItem('token') === null) {
             navigate('/login')
@@ -274,7 +286,8 @@ const Products = () => {
             <div className='flex flex-col w-full overflow-auto'>
                 <div className='flex flex-col items-center space-y-4 w-full sm:px-20 pl-16 pr-1'>
                     <div className='flex sm:flex-row flex-col gap-y-2 items-end justify-end mt-32 w-full'>
-                        <input placeholder='Kerko produktin' className='w-[250px] h-[45px] px-2 py-3 rounded-md sm:mr-2 mr-0'
+                        <input placeholder='Kerko produktin'
+                               className='w-[250px] h-[45px] px-2 py-3 rounded-md sm:mr-2 mr-0'
                                onChange={(e) => {
                                    setSearchQuery(e.target.value);
                                }}/>
@@ -318,69 +331,81 @@ const Products = () => {
                                             className='p-4 sm:max-w-7xl sm:w-3/3 sm:l-1/3 rounded-lg bg-white flex sm:flex-row flex-col justify-between'>
                                             <div>
                                                 <div className="grid sm:grid-cols-3 grid-cols-1 gap-5 mb-5">
-                                                <TextField value={formData.productName} onChange={handleInputChange}
-                                                           name="productName" label="Emri i Produktit (AL)" variant="outlined"
-                                                           className='sm:col-span-1 col-span-21'/>
-                                                <TextField value={formData.productNameENG} onChange={handleInputChange}
-                                                           name="productNameENG" label="Emri i Produktit (EN)" variant="outlined"
-                                                           className='sm:col-span-1 col-span-2'/>
-                                                <TextField name="price" label="Çmimi" value={formData.price}
-                                                           onChange={handleInputChange} variant="outlined"
-                                                           className='sm:col-span-1 col-span-2'/>
-                                                <TextField label="Sasia" name="quantity"
-                                                           value={formData.quantity} onChange={handleInputChange}
-                                                           variant="outlined" className='sm:col-span-1 col-span-2'/>
-                                                <TextField label="Kategoria (AL)" name="type" value={formData.type}
-                                                           onChange={handleInputChange} variant="outlined"
-                                                           className='sm:col-span-1 col-span-2'/>
-                                                <TextField label="Kategoria (EN)" name="typeENG" value={formData.typeENG}
-                                                           onChange={handleInputChange} variant="outlined"
-                                                           className='sm:col-span-1 col-span-2'/>
-                                                <TextField label="Brendi" name="brand" value={formData.brand}
-                                                           onChange={handleInputChange} variant="outlined"
-                                                           className='sm:col-span-1 col-span-2'/>
-                                                <TextField type="number" label="Madhësia" name="size"
-                                                           value={formData.size}
-                                                           onChange={handleInputChange} variant="outlined"
-                                                           className='sm:col-span-1 col-span-2'/>
-                                                <TextField
-                                                    label="Përshkrimi (AL)"
-                                                    name="description"
-                                                    value={formData.description}
-                                                    onChange={handleInputChange}
-                                                    multiline
-                                                    rows={4}
-                                                    variant="outlined"
-                                                    className='col-span-2'
-                                                />
-                                                <TextField
-                                                    label="Përshkrimi (EN)"
-                                                    name="descriptionENG"
-                                                    value={formData.descriptionENG}
-                                                    onChange={handleInputChange}
-                                                    multiline
-                                                    rows={4}
-                                                    variant="outlined"
-                                                    className='col-span-2'
-                                                />
-                                                <div className='sm:col-span-1 col-span-2'>
-                                                    <input
-                                                        type="file"
-                                                        className=""
-                                                        accept="image/png, image/jpg"
-                                                        name="mainImage"
-                                                        id="mainImage"
-                                                        onChange={(e) => setFormData({
-                                                            ...formData,
-                                                            mainImage: e.target.files[0]
-                                                        })}
+                                                    <TextField value={formData.productName} onChange={handleInputChange}
+                                                               name="productName" label="Emri i Produktit (AL)"
+                                                               variant="outlined"
+                                                               className='sm:col-span-1 col-span-21'/>
+                                                    <TextField value={formData.productNameENG}
+                                                               onChange={handleInputChange}
+                                                               name="productNameENG" label="Emri i Produktit (EN)"
+                                                               variant="outlined"
+                                                               className='sm:col-span-1 col-span-2'/>
+                                                    <TextField name="price" label="Çmimi" value={formData.price}
+                                                               onChange={handleInputChange} variant="outlined"
+                                                               className='sm:col-span-1 col-span-2'/>
+                                                    <TextField label="Sasia" name="quantity"
+                                                               value={formData.quantity} onChange={handleInputChange}
+                                                               variant="outlined" className='sm:col-span-1 col-span-2'/>
+                                                    <select name="type" value={formData.type}
+                                                            onChange={handleInputChange}
+                                                            className='sm:col-span-1 col-span-2 border-[1px] border-gray-300 rounded'>
+                                                        {types.map((type) => (
+                                                            <option value={type}>{type}</option>
+                                                        ))}
+                                                    </select>
+                                                    <TextField label="Kategoria (EN)" name="typeENG"
+                                                               value={formData.typeENG}
+                                                               onChange={handleInputChange} variant="outlined"
+                                                               className='sm:col-span-1 col-span-2'/>
+                                                    <select name="brand" value={formData.brand}
+                                                            onChange={handleInputChange}
+                                                            className='sm:col-span-1 col-span-2 border-[1px] border-gray-300 rounded'>
+                                                        {brands.map((brand) => (
+                                                            <option value={brand}>{brand}</option>
+                                                        ))}
+                                                    </select>
+                                                    <TextField type="number" label="Madhësia" name="size"
+                                                               value={formData.size}
+                                                               onChange={handleInputChange} variant="outlined"
+                                                               className='sm:col-span-1 col-span-2'/>
+                                                    <TextField
+                                                        label="Përshkrimi (AL)"
+                                                        name="description"
+                                                        value={formData.description}
+                                                        onChange={handleInputChange}
+                                                        multiline
+                                                        rows={4}
+                                                        variant="outlined"
+                                                        className='col-span-2'
                                                     />
-                                                    <div className='sm:pt-2 pt-4'>
-                                                        <img src={AddPhoto} alt='Product'
-                                                             className=' border border-teal-500 rounded-lg w-[150px] h-[50px] mb-4 '/>
-                                                    </div>
+                                                    <TextField
+                                                        label="Përshkrimi (EN)"
+                                                        name="descriptionENG"
+                                                        value={formData.descriptionENG}
+                                                        onChange={handleInputChange}
+                                                        multiline
+                                                        rows={4}
+                                                        variant="outlined"
+                                                        className='col-span-2'
+                                                    />
+                                                    <div className='sm:col-span-1 col-span-2'>
+                                                        <input
+                                                            type="file"
+                                                            className=""
+                                                            accept="image/png, image/jpg"
+                                                            name="mainImage"
+                                                            id="mainImage"
+                                                            onChange={(e) => setFormData({
+                                                                ...formData,
+                                                                mainImage: e.target.files[0]
+                                                            })}
+                                                        />
+                                                        <div className='sm:pt-2 pt-4'>
+                                                            <img src={AddPhoto} alt='Product'
+                                                                 className=' border border-teal-500 rounded-lg w-[150px] h-[50px] mb-4 '/>
+                                                        </div>
 
-                                                </div>
+                                                    </div>
                                                 </div>
                                                 <div className="flex flex-row gap-5">
                                                     <Button

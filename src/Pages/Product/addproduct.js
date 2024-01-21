@@ -35,6 +35,18 @@ const AddProduct = () => {
 
     const navigate = useNavigate();
 
+    const types=[
+        'Activity Toyes',
+        'some other type',
+        'some other type 2'
+    ]
+
+    const brands=[
+        'Brand 1',
+        'Brand 2',
+        'Brand 3'
+    ]
+
     useEffect(() => {
         if (localStorage.getItem('token') === null) {
             navigate('/login')
@@ -234,10 +246,13 @@ const AddProduct = () => {
                                 </div>
                                 <div className='col-span-1 flex flex-col gap-2 px-3'>
                                     <label className='font-semibold text-black-300'>Kategoria (AL)</label>
-                                    <input value={formData.type} onChange={handleInputChange} name="type"
-                                           label="type" variant="outlined"
-                                           className='w-full rounded-lg p-3 border-[2px] border-black-200'
-                                           placeholder=''/>
+                                    <select onChange={e=>{
+                                        setFormData({...formData, type: e.target.value})
+                                    }} className='w-full rounded-lg p-3 border-[2px] border-black-200'>
+                                        {types.map((type) => (
+                                            <option value={type}>{type}</option>
+                                        ))}
+                                    </select>
                                 </div>
                                 <div className='col-span-1 flex flex-col gap-2 px-3'>
                                     <label className='font-semibold text-black-300'>Kategoria (EN)</label>
@@ -275,10 +290,14 @@ const AddProduct = () => {
                                 </div>
                                 <div className='col-span-1 flex flex-col gap-2 px-3'>
                                     <label className='font-semibold text-black-300'>Brendi</label>
-                                    <input value={formData.brand} onChange={handleInputChange} name="brand"
-                                           label="brand" variant="outlined"
-                                           className='w-full rounded-lg p-3 border-[2px] border-black-200'
-                                           placeholder=''/>
+                                    <select onChange={e=>{
+                                        setFormData({...formData, brand: e.target.value})
+                                    }
+                                    } className='w-full rounded-lg p-3 border-[2px] border-black-200'>
+                                        {brands.map((brand) => (
+                                            <option value={brand}>{brand}</option>
+                                        ))}
+                                    </select>
                                 </div>
                                 <div className='col-span-2 flex flex-col gap-2 px-3 '>
                                     <label className='font-semibold text-black-300'>Përshkrimi (AL)</label>
