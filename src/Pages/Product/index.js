@@ -364,7 +364,7 @@ const Products = () => {
                                                             <option value={brand}>{brand}</option>
                                                         ))}
                                                     </select>
-                                                    <TextField type="number" label="Madhësia" name="size"
+                                                    <TextField label="Madhësia" name="size"
                                                                value={formData.size}
                                                                onChange={handleInputChange} variant="outlined"
                                                                className='sm:col-span-1 col-span-2'/>

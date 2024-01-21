@@ -279,12 +279,11 @@ const AddProduct = () => {
                                     <div className='flex col-span-1 flex-col gap-2 px-3'>
                                         <label className='w-full font-semibold text-black-300'>Sasia (ml) (Optional)</label>
                                         <input
-                                            type='number'
                                             onChange={(e) => {
                                                 setFormData({...formData, size: e.target.value}); // Combines the numeric value with 'ml'
                                             }}
                                             className='border border-black-200 py-2 rounded-lg px-2'
-                                            placeholder='Shkruaj sasine (e.g. 10ml)'
+                                            placeholder='Shkruaj sasine (e.g. 10ml,10cm)'
                                         />
                                     </div>
                                 </div>
