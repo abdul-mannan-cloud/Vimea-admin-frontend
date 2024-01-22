@@ -27,14 +27,28 @@ const Products = () => {
 
     const types = [
         'Activity Toyes',
-        'some other type',
-        'some other type 2'
+        'Bathing & Changing',
+        'Baby Cream and more',
+        'Car Seat and Stroller',
+        'Nursery Furniture'
+    ]
+
+    const types1 = [
+        'Lodra Aktiviteti',
+        'Banje dhe ndërrim',
+        'Krem për fëmijë dhe më shumë',
+        'Sedilja dhe karroca e makinës',
+        'Mobilje për fëmijë'
     ]
 
     const brands = [
-        'Brand 1',
-        'Brand 2',
-        'Brand 3'
+        'Baby Fehn',
+        'Huggies',
+        'Mabyen',
+        'Stokke',
+        'Vimea',
+        'Baby Zen',
+        'Baby Rotho'
     ]
 
     useEffect(() => {
@@ -353,10 +367,13 @@ const Products = () => {
                                                             <option value={type}>{type}</option>
                                                         ))}
                                                     </select>
-                                                    <TextField label="Kategoria (EN)" name="typeENG"
-                                                               value={formData.typeENG}
-                                                               onChange={handleInputChange} variant="outlined"
-                                                               className='sm:col-span-1 col-span-2'/>
+                                                    <select name="type" value={formData.type}
+                                                            onChange={handleInputChange}
+                                                            className='sm:col-span-1 col-span-2 border-[1px] border-gray-300 rounded'>
+                                                        {types.map((type) => (
+                                                            <option value={types1}>{types1}</option>
+                                                        ))}
+                                                    </select>
                                                     <select name="brand" value={formData.brand}
                                                             onChange={handleInputChange}
                                                             className='sm:col-span-1 col-span-2 border-[1px] border-gray-300 rounded'>
