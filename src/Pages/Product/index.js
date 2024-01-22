@@ -25,7 +25,7 @@ const Products = () => {
     const [allProducts, setAllProducts] = useState([]);
     const [searchQuery, setSearchQuery] = useState("");
 
-    const types=[
+    const types = [
         'Lodra Aktiviteti',
         'Banje dhe ndërrim',
         'Krem për fëmijë dhe më shumë',
@@ -33,7 +33,7 @@ const Products = () => {
         'Mobilje për fëmijë'
     ]
 
-    const typesEng= [
+    const typesEng = [
         'Activity Toyes',
         'Bathing & Changing',
         'Baby Cream and more',
@@ -41,7 +41,7 @@ const Products = () => {
         'Nursery Furniture'
     ]
 
-    const brands=[
+    const brands = [
         'Baby Fehn',
         'Huggies',
         'Mabyen',
@@ -360,22 +360,26 @@ const Products = () => {
                                                     <TextField label="Sasia" name="quantity"
                                                                value={formData.quantity} onChange={handleInputChange}
                                                                variant="outlined" className='sm:col-span-1 col-span-2'/>
-                                              <select onChange={e => {
-                                        setFormData({...formData, type: e.target.value})
-                                    }} className='sm:col-span-1 col-span-2 border-[1px] border-gray-300 rounded'>
-                                        {types.map((type) => (
-                                            <option value={type}>{type}</option>
-                                        ))}
-                                    </select>
-                            
-                               
-                                    <select onChange={e => {
-                                        setFormData({...formData, typeENG: e.target.value})
-                                    }} className='sm:col-span-1 col-span-2 border-[1px] border-gray-300 rounded'>
-                                        {typesEng.map((type) => (
-                                            <option value={type}>{type}</option>
-                                        ))}
-                                    </select>
+                                                    <select onChange={e => {
+                                                        setFormData({...formData, type: e.target.value})
+                                                    }}
+                                                            value={formData.type}
+                                                            className='sm:col-span-1 col-span-2 border-[1px] border-gray-300 rounded'>
+                                                        {types.map((type) => (
+                                                            <option value={type}>{type}</option>
+                                                        ))}
+                                                    </select>
+
+
+                                                    <select onChange={e => {
+                                                        setFormData({...formData, typeENG: e.target.value})
+                                                    }}
+                                                            value={formData.typeENG}
+                                                            className='sm:col-span-1 col-span-2 border-[1px] border-gray-300 rounded'>
+                                                        {typesEng.map((type) => (
+                                                            <option value={type}>{type}</option>
+                                                        ))}
+                                                    </select>
                                                     <select name="brand" value={formData.brand}
                                                             onChange={handleInputChange}
                                                             className='sm:col-span-1 col-span-2 border-[1px] border-gray-300 rounded'>
