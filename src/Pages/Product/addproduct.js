@@ -36,21 +36,29 @@ const AddProduct = () => {
     const navigate = useNavigate();
 
     const types=[
-        'Activity Toyes',
-        'some other type',
-        'some other type 2'
+        'Lodra Aktiviteti',
+        'Banje dhe ndërrim',
+        'Krem për fëmijë dhe më shumë',
+        'Sedilja dhe karroca e makinës',
+        'Mobilje për fëmijë'
     ]
 
     const typesEng= [
-        'Activity Toyes Eng',
-        'some other type Eng',
-        'some other type 2 Eng'
+        'Activity Toyes',
+        'Bathing & Changing',
+        'Baby Cream and more',
+        'Car Seat and Stroller',
+        'Nursery Furniture'
     ]
 
     const brands=[
-        'Brand 1',
-        'Brand 2',
-        'Brand 3'
+        'Baby Fehn',
+        'Huggies',
+        'Mabyen',
+        'Stokke',
+        'Vimea',
+        'Baby Zen',
+        'Baby Rotho'
     ]
 
     useEffect(() => {
