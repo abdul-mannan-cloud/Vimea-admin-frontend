@@ -44,7 +44,7 @@ export const AddAppointment = () => {
     };
 
     const groups = ["Për Fëmijë", "Për Bebe", "Mami + Bebi", "Group Plush", "Për Nënen"];
-    const displayGroups= ["Hidroterapi", "Masazh për bebe", "Plush", "VIP Plush", "MAMI + BEBI","Masazh për nëna shtatzëna dhe pas lindjes"];
+    const displayGroups= ["HIDROTERAPI", "MASAZH PËR BEBE", "PlUSH", "VIP PlUSH", "MAMI + BEBI","MASAZHË PËR NËNA"];
 
     return (
         <>
