@@ -301,10 +301,6 @@ function Calendar() {
     }
 
     const moveAppointment = useCallback(async (id, newEmployee, newTime, newDate) => {
-        if (localStorage.getItem('role') !== 'admin') {
-            alert('You are not authorized to update anything')
-            return;
-        }
         let appointmentTemp = null
         setAppointments(prevAppointments => prevAppointments.map(appointment => {
             if (appointment.id === id) {
