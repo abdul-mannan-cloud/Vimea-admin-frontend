@@ -15,6 +15,7 @@ export const EditAppointment = () => {
         onlyParent: false,
         baby: false,
         child: false,
+        displayGroupAlb: "",
     });
 
     useEffect(() => {
@@ -40,7 +41,6 @@ export const EditAppointment = () => {
     }, [id]);
 
     const handleChange = (e) => {
-        console.log(e.target.value)
         setFormData({...formData, [e.target.name]: e.target.value});
     };
 
@@ -63,6 +63,7 @@ export const EditAppointment = () => {
 
     const groups = ["Për Fëmijë", "Për Bebe", "Mami + Bebi", "Group Plush", "Për Nënen"];
     const displayGroups= ["Hidroterapi", "Masazh për bebe", "Plush", "VIP Plush", "MAMI + BEBI","Masazh për nëna shtatzëna dhe pas lindjes"];
+    const displayGroupsAlb= ["Hidroterapi ALb", "Masazh për bebe Alb", "Plush Alb", "VIP Plush Alb", "MAMI + BEBI Alb","Masazh për nëna shtatzëna dhe pas lindjes Alb"];
 
     return (
         <>   
@@ -106,6 +107,18 @@ export const EditAppointment = () => {
                                 onChange={handleChange}>
                             <option value="" disabled selected>Zgjidhni një kategori</option>
                             {displayGroups.map((group) => (
+                                <option value={group}>{group}</option>
+                            ))}
+                        </select>
+                    </div>
+                    <div className="flex flex-col justify-center items-center">
+                        <label htmlFor="displayGroupAlb" className="text-xl font-bold">Kategoria e shfaqur
+                            Albanian</label>
+                        <select value={formData.displayGroupAlb} name="displayGroupAlb" id="displayGroupAlb"
+                                className="border-2 border-black rounded-md p-2"
+                                onChange={handleChange}>
+                            <option value="" disabled selected>Zgjidhni një kategori</option>
+                            {displayGroupsAlb.map((group) => (
                                 <option value={group}>{group}</option>
                             ))}
                         </select>
