@@ -154,7 +154,6 @@ function Calendar() {
             return;
         }
 
-
         const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/appointment/addappointment`, {
             service: appointment.serviceType,
             date: appointment.date,
@@ -171,7 +170,7 @@ function Calendar() {
                 firstName: appointment.babyFirstName,
                 lastName: appointment.babyLastName,
                 birthDate: appointment.babyBirthDate,
-                id: children.find(child => child.firstName === appointment.babyFirstName) ? children.find(child => child.firstName === appointment.babyFirstName).id : '',
+                id: children.find(child => child.firstName === appointment.babyFirstName) ? children.find(child => child.firstName === appointment.babyFirstName)._id : '',
             },
             contactNumber: appointment.contactNumber,
             showHistory: !showParentInput,
