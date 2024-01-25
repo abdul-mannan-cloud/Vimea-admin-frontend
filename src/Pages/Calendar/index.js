@@ -368,15 +368,15 @@ function Calendar() {
 
     return (
         <DndProvider backend={HTML5Backend}>
-            <div className='container sm:p-4 p-0 mx-auto mt-32 pl-16 sm:pr-0 pr-1 '>
+            <div className='container p-0 pl-16 pr-1 mx-auto mt-32 sm:p-4 sm:pr-0 '>
                 {/*change date functionality and next day */}
                 <div className='flex items-center justify-between mb-4'>
                     <div
-                        className='flex sm:flex-row flex-col sm:items-center items-end justify-end gap-x-5 gap-y-2 w-full'>
+                        className='flex flex-col justify-start w-full mr-0 lg:mr-5 lg:items-end lg:justify-end sm:flex-row sm:items-center gap-x-5 gap-y-2'>
                         <select
                             value={selectedEmployee.name}
                             onChange={(e) => setSelectedEmployee(e.target.value)}
-                            className="p-2 border rounded"
+                            className="p-2 border rounded max-w-[200px]"
                         >
                             <option value="">Stafi</option>
                             {employees.map((employee) => (
@@ -419,18 +419,18 @@ function Calendar() {
                             onRequestClose={closeModal}
                             style={customStyles}
                         >
-                            <div className='w-full h-full flex flex-col items-center justify-center align-middle'>
-                                <div className='w-full flex justify-end'>
+                            <div className='flex flex-col items-center justify-center w-full h-full align-middle'>
+                                <div className='flex justify-end w-full'>
                                     <img src={CrossIcon} onClick={closeModal} className='w-7 h-7'/>
 
                                 </div>
 
-                                <div className='w-fit mb-10'>
-                                    <h className="text-2xl self-center font-bold">Detajet e Terminit</h>
+                                <div className='mb-10 w-fit'>
+                                    <h className="self-center text-2xl font-bold">Detajet e Terminit</h>
                                 </div>
 
 
-                                <form className='w-fit grid grid-cols-2 gap-5 p-5'>
+                                <form className='grid grid-cols-2 gap-5 p-5 w-fit'>
                                     <div className='flex flex-col gap-3'>
                                         <label className='w-[300px]'>Zgjedh Servisin</label>
                                         <select
@@ -498,7 +498,7 @@ function Calendar() {
                                                 }
                                             </select>
                                             <button
-                                                className='rounded p-2 bg-teal-600 text-whtie text-2xl text-white'
+                                                className='p-2 text-2xl text-white bg-teal-600 rounded text-whtie'
                                                 onClick={() => setShowParentInput(true)}>+
                                             </button>
                                         </div>
@@ -512,7 +512,7 @@ function Calendar() {
                                                 className='w-[300px] p-2 rounded bg-gray-300' type='text'></input>
                                             <button
                                                 type="button"
-                                                className='rounded p-2 bg-teal-600 text-whtie text-2xl text-white'
+                                                className='p-2 text-2xl text-white bg-teal-600 rounded text-whtie'
                                                 onClick={() => setShowParentInput(false)}>    &lt;
                                             </button>
                                         </div>
@@ -585,7 +585,7 @@ function Calendar() {
                         </Modal>
                     </div>
                 </div>
-                <table className='w-full'>
+                <table className='w-full max-w-screen'>
                     <thead className=''>
                     <tr>
                         <th className='px-4 py-2 '></th>
@@ -602,7 +602,7 @@ function Calendar() {
                     <tbody>
                     {times.map((time) => (
                         <tr key={time}>
-                            <td className='h-32 px-4 py-2 border'>{time}</td>
+                            <td className='h-32 px-2 py-2 border lg:px-4'>{time}</td>
                             {employees.map((employee) => (
                                 <DropZone
                                     key={`${employee._id}-${time}-${currentDate}`}
@@ -639,7 +639,7 @@ function DropZone({children, employee, time, date, moveAppointment}) {
     }));
 
     return (
-        <td ref={drop} className='px-4 py-2 border'>
+        <td ref={drop} className='px-1 py-1 border lg:py-2 lg:px-4'>
             {children}
         </td>
     );
@@ -657,26 +657,26 @@ function DraggableAppointment({appointment, updateAppointment, cancelAppointment
 
     return (
         <div ref={drag}
-             className={`cursor-move grid grid-cols-2  drop-shadow-lg p-2 m-2 max-w-[500px]  border-l-4 border-${appointment.color}
+             className={`cursor-move grid grid-cols-1 lg:grid-cols-2  drop-shadow-lg p-2 m-2 max-w-[500px] text-xs lg:text-base  border-l-4 border-${appointment.color}
                  
                 ${appointment.notShow ? 'bg-red-300' : appointment.backgroundColor}
         `}>
-            <p className="col-span-1">Koha: {appointment.time}</p>
-            <p className="col-span-1">Data: {appointment.date.toLocaleDateString()}</p>
-            <p className="col-span-1">Shërbimi: {appointment.serviceType}</p>
-            <p className="col-span-1">Kategoria: {appointment.service}</p>
-            <p className="col-span-1">Prindi: {appointment.parentName}</p>
-            <p className="col-span-1">Fëmiju: {appointment.childName}</p>
-            <div className='flex gap-2 min-w-max py-2'>
-                {appointment.newUser && <p className="col-span-2 bg-blue-200 text-blue-500 rounded px-2 ">New Client</p>}
-                {appointment.notRegistered && <p className="col-span-2 bg-red-200 text-red-500 rounded px-2 ">Not Registered</p>}
+            <p className="col-span-2 lg:col-span-1">Koha: {appointment.time}</p>
+            <p className="col-span-2 lg:col-span-1">Data: {appointment.date.toLocaleDateString()}</p>
+            <p className="col-span-2 lg:col-span-1">Shërbimi: {appointment.serviceType}</p>
+            <p className="col-span-2 lg:col-span-1">Kategoria: {appointment.service}</p>
+            <p className="col-span-2 lg:col-span-1">Prindi: {appointment.parentName}</p>
+            <p className="col-span-2 lg:col-span-1">Fëmiju: {appointment.childName}</p>
+            <div className='flex gap-2 py-2 min-w-max'>
+                {appointment.newUser && <p className="max-w-full col-span-2 px-2 text-blue-500 bg-blue-200 rounded ">New Client</p>}
+                {appointment.notRegistered && <p className="max-w-full col-span-2 px-2 text-red-500 bg-red-200 rounded">Not Registered</p>}
             </div>
-            <div className='flex flex-row justify-between w-full col-span-2'>
+            <div className='flex flex-col justify-between w-full col-span-2 gap-3 lg:flex-row lg:gap-2'>
                 <button onClick={() => {
                     appointment.approved = true
                     updateAppointment(appointment)
                 }} disabled={appointment.approved || appointment.notShow}
-                        className={` bg-blue-500 disabled:bg-gray-400 text-white rounded-md p-2 w-[32%]`}>{
+                        className={` bg-blue-500 disabled:bg-gray-400 text-white rounded-md p-2 w-full lg:w-[32%]`}>{
                     appointment.approved ? 'Aprovuar' : 'Aprovo'
                 }</button>
 
@@ -684,7 +684,7 @@ function DraggableAppointment({appointment, updateAppointment, cancelAppointment
                     console.log(appointment.notShow)
                     appointment.notShow = !appointment.notShow
                     updateAppointment(appointment)
-                }} className={` bg-red-600 disabled:bg-gray-400 text-white rounded-md p-2 w-[32%]
+                }} className={` bg-red-600 disabled:bg-gray-400 text-white rounded-md p-2 w-full lg:w-[32%]
                 `}>{
                     appointment.notShow == true ? 'show' : 'not show'
                 }</button>
@@ -692,7 +692,7 @@ function DraggableAppointment({appointment, updateAppointment, cancelAppointment
                 <button onClick={() => {
                     appointment.approved = false
                     cancelAppointment(appointment)
-                }} className={` bg-purple-700 disabled:bg-gray-400 text-white rounded-md p-2 w-[32%]
+                }} className={` bg-purple-700 disabled:bg-gray-400 text-white rounded-md p-2 w-full lg:w-[32%]
                 `}>Fshij
                 </button>
             </div>
