@@ -25,10 +25,10 @@ const AddBlog = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if(localStorage.getItem('token') === null){
+        if (localStorage.getItem('token') === null) {
             navigate('/login')
         }
-        if(localStorage.getItem('role') !== 'admin'){
+        if (localStorage.getItem('role') !== 'admin') {
             alert('You are not authorized to view this page')
             navigate('/blogs')
         }
@@ -116,10 +116,8 @@ const AddBlog = () => {
         };
 
         try {
-            console.log("Blog adding...");
             const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/blogs/addblog`, updatedFormData);
-            console.log("Blog added");
-            if(res.status === 201){
+            if (res.status === 201) {
                 alert('Blogu u shtua me sukses!');
             }
             navigate('/blogs');
@@ -133,14 +131,14 @@ const AddBlog = () => {
 
     return (
         <form className='mt-20' onSubmit={handleNewFormSubmit} id="formID" enctype="multipart/form-data">
-        <div className='flex h-screen bg-gray-100'>
-            <div className='flex flex-col w-full overflow-auto'>
-                <div className='flex flex-col items-center justify-center gap-5 mt-10 align-middle'>
-                    <div className='items-start justify-start w-2/3'>
-                        <button onClick={() => navigate('/blogs')}
-                                className='py-2 px-5 rounded-lg bg-[#128F96] font-bold text-white hover:bg-cyan-700 transition-all duration-200'>Kthehu
-                        </button>
-                    </div>
+            <div className='flex h-screen bg-gray-100'>
+                <div className='flex flex-col w-full overflow-auto'>
+                    <div className='flex flex-col items-center justify-center gap-5 mt-10 align-middle'>
+                        <div className='items-start justify-start w-2/3'>
+                            <button onClick={() => navigate('/blogs')}
+                                    className='py-2 px-5 rounded-lg bg-[#128F96] font-bold text-white hover:bg-cyan-700 transition-all duration-200'>Kthehu
+                            </button>
+                        </div>
                         <div className='items-center w-2/3 bg-white rounded-lg h-18 '>
                             <div className='flex items-center justify-between p-5 '>
                                 <h2 className='text-2xl font-bold'>Shto Blogun e ri</h2>
@@ -231,10 +229,12 @@ const AddBlog = () => {
                                 <h className="font-bold">Blogu në gjuhën angleze</h>
                                 <div className='flex flex-col gap-2'>
                                     <label className='font-semibold text-gray-300'>Titulli i Blogu-t</label>
-                                    <input value={formData.blogTitleENG} onChange={handleInputChange} name="blogTitleENG"
-                                            label="Blog Title" variant="outlined"
-                                            className='w-full rounded-lg p-3 border-[2px] border-gray-200'
-                                            placeholder='Titulli i Blog-ut'/>
+                                    <input value={formData.blogTitleENG} onChange={handleInputChange}
+                                           name="blogTitleENG"
+                                           label="Blog Title" variant="outlined"
+                                           id="blogTitleENG"
+                                           className='w-full rounded-lg p-3 border-[2px] border-gray-200'
+                                           placeholder='Titulli i Blog-ut'/>
                                 </div>
                                 <label className='font-semibold text-gray-300'>Përshkrimi</label>
                                 <textarea
