@@ -44,12 +44,9 @@ const Blogs = () => {
         fetchBlogs();
     }, []);
 
-// useEffect(() => {
-//   console.log("printning in use effect")
-//   console.log(blogs);
-// }, [blogs]);
 
     const handleProductClick = (blog) => {
+        console.log(blog)
         if (selectedBlogs === blog) {
             setSelectedBlogs(null);
             setShowForm(false);
@@ -67,8 +64,8 @@ const Blogs = () => {
             setFormData({
                 blogTitle: blog.blogTitle || '',
                 description: blog.description || '',
-                blogTitleALB: blog.blogTitleENG || '',
-                descriptionALB: blog.descriptionENG || '',
+                blogTitleENG: blog.blogTitleENG || '',
+                descriptionENG: blog.descriptionENG || '',
                 coverimage: blog.coverimage || '',
                 images: blog.images || [],
             });
@@ -249,7 +246,9 @@ const Blogs = () => {
                                 className={`border shadow-lg sm:py-5 py-4 sm:px-10 px-6 gap-y-3 rounded-lg w-full ${
                                     selectedBlogs === blog ? 'mb-2' : 'mb-3'
                                 }`}
-                                onClick={() => handleProductClick(blog)}
+                                onClick={() => {
+                                    handleProductClick(blog)
+                                }}
                             >
                                 <h2 className='text-2xl font-bold sm:w-1/2 '>{blog.blogTitle}</h2>
                                 <p className="flex flex-col items-center sm:flex-row justify-between  gap-2 w-full"> {blog.description}</p>
