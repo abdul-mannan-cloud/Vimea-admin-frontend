@@ -28,11 +28,12 @@ function Calendar() {
     const [children, setChildren] = useState([]);
     const [showParentInput, setShowParentInput] = useState(false);
     const [showChildInput, setShowChildInput] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const [appointment, setAppointment] = useState({
-        category: 'Hidroterapi',
+        category: 'HYDROTHERAPY',
         service: 'Hidroterapi për bebe',
-        serviceType: 'Hidroterapi',
+        serviceType: 'HYDROTHERAPY',
         date: '',
         time: '',
         parentFirstName: '',
@@ -89,13 +90,10 @@ function Calendar() {
         if (category == "Mami + Bebi") return 'red-600'
     }
 
-    const findBackgroundColor = async (category) => {
-        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/service/getallservices`);
-        if (response.status === 200) {
-            const option = response.data.find(option => option.name === category)
-            console.log(option.onlyParent?'bg-[#e2a6e6]':option.child?'bg-[#FFBF69]':option.baby?'bg-[#6cd5cb]':'bg-white')
-            return option.onlyParent?'bg-[#e2a6e6]':option.child?'bg-[#FFBF69]':option.baby?'bg-[#6cd5cb]':'bg-white'
-        }
+    const findBackgroundColor = async (category, services) => {
+        console.log(services)
+        const option = services.find(option => option.name === category)
+        return option.onlyParent ? 'bg-[#e2a6e6]' : option.child ? 'bg-[#FFBF69]' : option.baby ? 'bg-[#6cd5cb]' : 'bg-white'
     }
 
     const getAppointmentsDurationAtTime = (employee, time) => {
@@ -121,7 +119,6 @@ function Calendar() {
         var available = true;
         for (let appointment of appointments) {
             if (appointment.time === time && appointment.employee === employee) {
-                console.log('here')
                 if (appointment.duration + getAppointmentsDurationAtTime(employee, time) > 60) {
                     available = false;
                     break;
@@ -141,7 +138,7 @@ function Calendar() {
         }
 
         var employee = appointment.employee;
-        if(employee == undefined){
+        if (employee == undefined) {
             employee = findFreeEmployee(`${hours}:00`)
             setAppointment({
                 ...appointment,
@@ -185,13 +182,15 @@ function Calendar() {
     }
 
     const getData = async () => {
-
+        setLoading(true)
         const clients = await getClients()
         const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/employee/getallemployee`);
         if (res.status === 200) {
             setEmployees(res.data)
         }
         const appointmentRes = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/appointment/getallappointments`);
+        const services = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/service/getallservices`);
+
         if (appointmentRes.status === 200) {
             setAppointments(await Promise.all(appointmentRes.data.map(async appointment => {
                 return {
@@ -207,7 +206,7 @@ function Calendar() {
                     parentName: appointment.parent.firstName + ' ' + appointment.parent.lastName,
                     childName: appointment.child.firstName + ' ' + appointment.child.lastName,
                     color: findColor(appointment.serviceType),
-                    backgroundColor: await findBackgroundColor(appointment.serviceType),
+                    backgroundColor: findBackgroundColor(appointment.serviceType, services.data),
                     approved: appointment.approved,
                     status: appointment.status,
                     notShow: appointment.notShow,
@@ -216,10 +215,11 @@ function Calendar() {
                 }
             })))
         }
-
+        setLoading(false)
     }
 
-    const checkIfNotRegistered = (clients,appointment) => {
+
+    const checkIfNotRegistered = (clients, appointment) => {
         const client = clients.find(client => client.email === appointment.parent.email)
         if (!client) {
             return true
@@ -227,7 +227,7 @@ function Calendar() {
         return false
     }
 
-    const checkIfNewUser = (clients,appointment) => {
+    const checkIfNewUser = (clients, appointment) => {
         const client = clients.find(client => client.email === appointment.parent.email)
         if (client && client.appointments.length === 1) {
             return true
@@ -367,266 +367,273 @@ function Calendar() {
     }
 
     return (
-        <DndProvider backend={HTML5Backend}>
-            <div className='container p-0 pl-16 pr-1 mx-auto mt-32 sm:p-4 sm:pr-0 '>
-                {/*change date functionality and next day */}
-                <div className='flex items-center justify-between mb-4'>
-                    <div
-                        className='flex flex-col justify-start w-full mr-0 lg:mr-5 lg:items-end lg:justify-end sm:flex-row sm:items-center gap-x-5 gap-y-2'>
-                        <select
-                            value={selectedEmployee.name}
-                            onChange={(e) => setSelectedEmployee(e.target.value)}
-                            className="p-2 border rounded max-w-[200px]"
-                        >
-                            <option value="">Stafi</option>
-                            {employees.map((employee) => (
-                                <option key={employee._id} value={employee.name}>
-                                    {employee.name}
-                                </option>
-                            ))}
-                        </select>
-                        <div className="flex items-center">
-                            <button onClick={handlePrevDay} className='px-4 py-2 bg-gray-200 rounded hover:bg-gray-300'>
-                                <svg className='w-4 h-4 fill-current' viewBox='0 0 20 20'>
-                                    <path
-                                        d='M12.707 15.707a1 1 0 01-1.414 0l-5-5a1 1 0 010-1.414l5-5a1 1 0 111.414 1.414L9.414 10l4.293 4.293a1 1 0 010 1.414z'/>
-                                </svg>
-                            </button>
-                            <DatePicker
-                                selected={currentDate}
-                                onChange={date => setCurrentDate(date)}
-                                customInput={<span
-                                    className='mx-4 text-gray-700 cursor-pointer'>{formatDate(currentDate)}</span>}
-                            />
-                            <button onClick={handleNextDay} className='px-4 py-2 bg-gray-200 rounded hover:bg-gray-300'>
-                                <svg className='w-4 h-4 fill-current' viewBox='0 0 20 20'>
-                                    <path
-                                        d='M7.707 14.707a1 1 0 01-1.414-1.414L9.586 10 6.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4z'/>
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-                    <div className="mb-4">
+        <>
+            {loading && <div className="fixed top-0 left-0 w-screen h-screen bg-white opacity-50 z-50 flex justify-center items-center">
+                <div className="animate-spin rounded-full h-20 w-20 border-t-2  border-teal-600"></div>
+            </div>
+            }
+            <DndProvider backend={HTML5Backend}>
+                <div className='container p-0 pl-16 pr-1 mx-auto mt-32 sm:p-4 sm:pr-0 '>
+                    {/*change date functionality and next day */}
+                    <div className='flex items-center justify-between mb-4'>
                         <div
-                            onClick={(e) => {
-                                openModal();
-                            }
-                            }
-                            className='bg-[#128F96] py-2 px-5 rounded-lg'><img src={PlusIcon} className='w-8 h-8'/>
+                            className='flex flex-col justify-start w-full mr-0 lg:mr-5 lg:items-end lg:justify-end sm:flex-row sm:items-center gap-x-5 gap-y-2'>
+                            <select
+                                value={selectedEmployee.name}
+                                onChange={(e) => setSelectedEmployee(e.target.value)}
+                                className="p-2 border rounded max-w-[200px]"
+                            >
+                                <option value="">Stafi</option>
+                                {employees.map((employee) => (
+                                    <option key={employee._id} value={employee.name}>
+                                        {employee.name}
+                                    </option>
+                                ))}
+                            </select>
+                            <div className="flex items-center">
+                                <button onClick={handlePrevDay}
+                                        className='px-4 py-2 bg-gray-200 rounded hover:bg-gray-300'>
+                                    <svg className='w-4 h-4 fill-current' viewBox='0 0 20 20'>
+                                        <path
+                                            d='M12.707 15.707a1 1 0 01-1.414 0l-5-5a1 1 0 010-1.414l5-5a1 1 0 111.414 1.414L9.414 10l4.293 4.293a1 1 0 010 1.414z'/>
+                                    </svg>
+                                </button>
+                                <DatePicker
+                                    selected={currentDate}
+                                    onChange={date => setCurrentDate(date)}
+                                    customInput={<span
+                                        className='mx-4 text-gray-700 cursor-pointer'>{formatDate(currentDate)}</span>}
+                                />
+                                <button onClick={handleNextDay}
+                                        className='px-4 py-2 bg-gray-200 rounded hover:bg-gray-300'>
+                                    <svg className='w-4 h-4 fill-current' viewBox='0 0 20 20'>
+                                        <path
+                                            d='M7.707 14.707a1 1 0 01-1.414-1.414L9.586 10 6.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4z'/>
+                                    </svg>
+                                </button>
+                            </div>
                         </div>
-                        <Modal
-                            isOpen={modalIsOpen}
-                            onRequestClose={closeModal}
-                            style={customStyles}
-                        >
-                            <div className='flex flex-col items-center justify-center w-full h-full align-middle'>
-                                <div className='flex justify-end w-full'>
-                                    <img src={CrossIcon} onClick={closeModal} className='w-7 h-7'/>
+                        <div className="mb-4">
+                            <div
+                                onClick={(e) => {
+                                    openModal();
+                                }
+                                }
+                                className='bg-[#128F96] py-2 px-5 rounded-lg'><img src={PlusIcon} className='w-8 h-8'/>
+                            </div>
+                            <Modal
+                                isOpen={modalIsOpen}
+                                onRequestClose={closeModal}
+                                style={customStyles}
+                            >
+                                <div className='flex flex-col items-center justify-center w-full h-full align-middle'>
+                                    <div className='flex justify-end w-full'>
+                                        <img src={CrossIcon} onClick={closeModal} className='w-7 h-7'/>
 
-                                </div>
+                                    </div>
 
-                                <div className='mb-10 w-fit'>
-                                    <h className="self-center text-2xl font-bold">Detajet e Terminit</h>
-                                </div>
+                                    <div className='mb-10 w-fit'>
+                                        <h className="self-center text-2xl font-bold">Detajet e Terminit</h>
+                                    </div>
 
 
-                                <form className='grid grid-cols-2 gap-5 p-5 w-fit'>
-                                    <div className='flex flex-col gap-3'>
-                                        <label className='w-[300px]'>Zgjedh Servisin</label>
-                                        <select
-                                            className='w-[300px] p-2 rounded bg-gray-300'
-                                            onChange={(e) => {
-                                                handleInputChange('serviceType', e.target.value)
-                                                handleInputChange('duration', options.find(option => option.displayGroup === e.target.value).duration)
-                                            }}
-                                        >
-                                            {
-                                                getGroups().map((option) => (
-                                                    <option value={option} key={option}
-                                                    >{option}</option>
-                                                ))
-                                            }
-                                        </select>
-                                    </div>
-                                    <div className='flex flex-col gap-3'>
-                                        <label className='w-[300px]'>Zgjedh tipin e Servisit </label>
-                                        <select
-                                            className='w-[300px] p-2 rounded bg-gray-300'
-                                            onChange={(e) => {
-                                                handleInputChange('service', e.target.value)
-                                                handleInputChange('duration', options.find(option => option.name === e.target.value).duration)
-                                            }}
-                                        >
-                                            {
-                                                options.map((option, index) => (
-                                                    option.displayGroup === appointment.serviceType &&
-                                                    <option value={option.name} key={index}>{option.name}</option>
-                                                ))
-                                            }
-                                        </select>
-                                    </div>
-                                    <div className='flex flex-col gap-3'>
-                                        <label className='w-[300px]'>Zgjedh datën</label>
-                                        <input onChange={(e) => handleInputChange('date', e.target.value)}
-                                               className='w-[300px] p-2 rounded bg-gray-300' type='date'></input>
-                                    </div>
-                                    <div className='flex flex-col gap-3'>
-                                        <label className='w-[300px]'>Zgjedh kohën</label>
-                                        <input onChange={(e) => handleInputChange('time', e.target.value)}
-                                               className='w-[300px] p-2 rounded bg-gray-300' type='time'></input>
-                                    </div>
-                                    {!showParentInput && <div className='flex flex-col gap-3'>
-                                        <label className='w-[300px]'>Emri i prindit</label>
-                                        <div className='flex gap-1'>
+                                    <form className='grid grid-cols-2 gap-5 p-5 w-fit'>
+                                        <div className='flex flex-col gap-3'>
+                                            <label className='w-[300px]'>Zgjedh Servisin</label>
+                                            <select
+                                                className='w-[300px] p-2 rounded bg-gray-300'
+                                                onChange={(e) => {
+                                                    handleInputChange('serviceType', e.target.value)
+                                                    handleInputChange('duration', options.find(option => option.displayGroup === e.target.value).duration)
+                                                }}
+                                            >
+                                                {
+                                                    getGroups().map((option) => (
+                                                        <option value={option} key={option}
+                                                        >{option}</option>
+                                                    ))
+                                                }
+                                            </select>
+                                        </div>
+                                        <div className='flex flex-col gap-3'>
+                                            <label className='w-[300px]'>Zgjedh tipin e Servisit </label>
+                                            <select
+                                                className='w-[300px] p-2 rounded bg-gray-300'
+                                                onChange={(e) => {
+                                                    handleInputChange('service', e.target.value)
+                                                    handleInputChange('duration', options.find(option => option.name === e.target.value).duration)
+                                                }}
+                                            >
+                                                {
+                                                    options.map((option, index) => (
+                                                        option.displayGroup === appointment.serviceType &&
+                                                        <option value={option.name} key={index}>{option.name}</option>
+                                                    ))
+                                                }
+                                            </select>
+                                        </div>
+                                        <div className='flex flex-col gap-3'>
+                                            <label className='w-[300px]'>Zgjedh datën</label>
+                                            <input onChange={(e) => handleInputChange('date', e.target.value)}
+                                                   className='w-[300px] p-2 rounded bg-gray-300' type='date'></input>
+                                        </div>
+                                        <div className='flex flex-col gap-3'>
+                                            <label className='w-[300px]'>Zgjedh kohën</label>
+                                            <input onChange={(e) => handleInputChange('time', e.target.value)}
+                                                   className='w-[300px] p-2 rounded bg-gray-300' type='time'></input>
+                                        </div>
+                                        {!showParentInput && <div className='flex flex-col gap-3'>
+                                            <label className='w-[300px]'>Emri i prindit</label>
+                                            <div className='flex gap-1'>
+                                                <select className='w-[300px] p-2 rounded bg-gray-300'
+                                                        onChange={async (e) => {
+                                                            setAppointment({
+                                                                ...appointment,
+                                                                parentFirstName: e.target.value,
+                                                                parentLastName: clients.find(client => client.firstName === e.target.value).lastName,
+                                                                contactNumber: clients.find(client => client.firstName === e.target.value).contactNumber,
+                                                                email: clients.find(client => client.firstName === e.target.value).email
+                                                            })
+                                                            await getChildren(clients.find(client => client.firstName === e.target.value))
+                                                        }}>
+                                                    <option value="">Zgjedh Prindin</option>
+                                                    {
+                                                        clients.map((client, index) => (
+                                                            <option value={client.firstName}
+                                                                    key={index}>{client.firstName}</option>
+                                                        ))
+                                                    }
+                                                </select>
+                                                <button
+                                                    className='p-2 text-2xl text-white bg-teal-600 rounded text-whtie'
+                                                    onClick={() => setShowParentInput(true)}>+
+                                                </button>
+                                            </div>
+
+                                        </div>}
+                                        {showParentInput && <div className='flex flex-col gap-3'>
+                                            <label className='w-[300px]'>Emri i prindit</label>
+                                            <div className="flex gap-1">
+                                                <input
+                                                    onChange={(e) => handleInputChange('parentFirstName', e.target.value)}
+                                                    className='w-[300px] p-2 rounded bg-gray-300' type='text'></input>
+                                                <button
+                                                    type="button"
+                                                    className='p-2 text-2xl text-white bg-teal-600 rounded text-whtie'
+                                                    onClick={() => setShowParentInput(false)}>    &lt;
+                                                </button>
+                                            </div>
+                                        </div>}
+                                        <div className='flex flex-col gap-3'>
+                                            <label className='w-[300px]'>Mbiemri i prinditt</label>
+                                            <input value={appointment.parentLastName}
+                                                   onChange={(e) => handleInputChange('parentLastName', e.target.value)}
+                                                   className='w-[300px] p-2 rounded bg-gray-300' type='text'></input>
+                                        </div>
+                                        {!showParentInput && <div className='flex flex-col gap-3'>
+                                            <label className='w-[300px]'>Emri i bebes</label>
                                             <select className='w-[300px] p-2 rounded bg-gray-300'
                                                     onChange={async (e) => {
                                                         setAppointment({
                                                             ...appointment,
-                                                            parentFirstName: e.target.value,
-                                                            parentLastName: clients.find(client => client.firstName === e.target.value).lastName,
-                                                            contactNumber: clients.find(client => client.firstName === e.target.value).contactNumber,
-                                                            email: clients.find(client => client.firstName === e.target.value).email
+                                                            babyFirstName: e.target.value,
+                                                            babyLastName: children.find(child => child.firstName === e.target.value).lastName,
+                                                            babyBirthDate: new Date(children.find(child => child.firstName === e.target.value).birthDate).toISOString().split('T')[0]
                                                         })
-                                                        await getChildren(clients.find(client => client.firstName === e.target.value))
                                                     }}>
-                                                <option value="">Zgjedh Prindin</option>
+                                                <option value="">Zgjedh Beben</option>
                                                 {
-                                                    clients.map((client, index) => (
-                                                        <option value={client.firstName}
-                                                                key={index}>{client.firstName}</option>
+                                                    children.map((child, index) => (
+                                                        <option value={child.firstName}
+                                                                key={index}>{child.firstName}</option>
                                                     ))
                                                 }
                                             </select>
-                                            <button
-                                                className='p-2 text-2xl text-white bg-teal-600 rounded text-whtie'
-                                                onClick={() => setShowParentInput(true)}>+
-                                            </button>
+                                        </div>}
+                                        {showParentInput && <div className='flex flex-col gap-3'>
+                                            <label className='w-[300px]'>Emri i bebes</label>
+                                            <input onChange={(e) => handleInputChange('babyFirstName', e.target.value)}
+                                                   className='w-[300px] p-2 rounded bg-gray-300' type='text'></input>
+                                        </div>}
+                                        <div className='flex flex-col gap-3'>
+                                            <label className='w-[300px]'>Mbiemri i bebes</label>
+                                            <input value={appointment.babyLastName ? appointment.babyLastName : ''}
+                                                   onChange={(e) => handleInputChange('babyLastName', e.target.value)}
+                                                   className='w-[300px] p-2 rounded bg-gray-300' type='text'></input>
                                         </div>
-
-                                    </div>}
-                                    {showParentInput && <div className='flex flex-col gap-3'>
-                                        <label className='w-[300px]'>Emri i prindit</label>
-                                        <div className="flex gap-1">
-                                            <input
-                                                onChange={(e) => handleInputChange('parentFirstName', e.target.value)}
-                                                className='w-[300px] p-2 rounded bg-gray-300' type='text'></input>
-                                            <button
-                                                type="button"
-                                                className='p-2 text-2xl text-white bg-teal-600 rounded text-whtie'
-                                                onClick={() => setShowParentInput(false)}>    &lt;
-                                            </button>
+                                        <div className='flex flex-col gap-3'>
+                                            <label className='w-[300px]'>Data e lindjes së bebes</label>
+                                            <input value={appointment.babyBirthDate ?? appointment.babyBirthDate}
+                                                   onChange={(e) => handleInputChange('babyBirthDate', e.target.value)}
+                                                   className='w-[300px] p-2 rounded bg-gray-300' type='date'></input>
                                         </div>
-                                    </div>}
-                                    <div className='flex flex-col gap-3'>
-                                        <label className='w-[300px]'>Mbiemri i prinditt</label>
-                                        <input value={appointment.parentLastName}
-                                               onChange={(e) => handleInputChange('parentLastName', e.target.value)}
-                                               className='w-[300px] p-2 rounded bg-gray-300' type='text'></input>
-                                    </div>
-                                    {!showParentInput && <div className='flex flex-col gap-3'>
-                                        <label className='w-[300px]'>Emri i bebes</label>
-                                        <select className='w-[300px] p-2 rounded bg-gray-300'
-                                                onChange={async (e) => {
-                                                    setAppointment({
-                                                        ...appointment,
-                                                        babyFirstName: e.target.value,
-                                                        babyLastName: children.find(child => child.firstName === e.target.value).lastName,
-                                                        babyBirthDate: new Date(children.find(child => child.firstName === e.target.value).birthDate).toISOString().split('T')[0]
-                                                    })
-                                                    console.log(children.find(child => child.firstName === e.target.value).birthDate)
-                                                }}>
-                                            <option value="">Zgjedh Beben</option>
-                                            {
-                                                children.map((child, index) => (
-                                                    <option value={child.firstName}
-                                                            key={index}>{child.firstName}</option>
-                                                ))
-                                            }
-                                        </select>
-                                    </div>}
-                                    {showParentInput && <div className='flex flex-col gap-3'>
-                                        <label className='w-[300px]'>Emri i bebes</label>
-                                        <input onChange={(e) => handleInputChange('babyFirstName', e.target.value)}
-                                               className='w-[300px] p-2 rounded bg-gray-300' type='text'></input>
-                                    </div>}
-                                    <div className='flex flex-col gap-3'>
-                                        <label className='w-[300px]'>Mbiemri i bebes</label>
-                                        <input value={appointment.babyLastName ? appointment.babyLastName : ''}
-                                               onChange={(e) => handleInputChange('babyLastName', e.target.value)}
-                                               className='w-[300px] p-2 rounded bg-gray-300' type='text'></input>
-                                    </div>
-                                    <div className='flex flex-col gap-3'>
-                                        <label className='w-[300px]'>Data e lindjes së bebes</label>
-                                        <input value={appointment.babyBirthDate ?? appointment.babyBirthDate}
-                                               onChange={(e) => handleInputChange('babyBirthDate', e.target.value)}
-                                               className='w-[300px] p-2 rounded bg-gray-300' type='date'></input>
-                                    </div>
-                                    <div className='flex flex-col gap-3'>
-                                        <label className='w-[300px]'>Numri Kontaktues</label>
-                                        <input value={appointment.contactNumber ?? appointment.contactNumber}
-                                               onChange={(e) => handleInputChange('contactNumber', e.target.value)}
-                                               className='w-[300px] p-2 rounded bg-gray-300' type='text'></input>
-                                    </div>
-                                    <div className='flex flex-col gap-3'>
-                                        <label className='w-[300px]'>E-mail</label>
-                                        <input value={appointment.email ?? appointment.email}
-                                               onChange={(e) => handleInputChange('email', e.target.value)}
-                                               className='w-[300px] p-2 rounded bg-gray-300' type='email'></input>
-                                    </div>
-                                    <div>&nbsp;</div>
-                                    <div>&nbsp;</div>
-                                    <button onClick={submitAppointment}
-                                            className='w-[300px] p-2 rounded bg-[#128F96] text-white font-bold'
-                                            type="button">Rezervo
-                                    </button>
-                                </form>
-                            </div>
-
-                        </Modal>
-                    </div>
-                </div>
-                <table className='w-full max-w-screen'>
-                    <thead className=''>
-                    <tr>
-                        <th className='px-4 py-2 '></th>
-                        {employees.map((employee) => (
-                            <th key={employee} className='px-4 py-2 border '>
-                                <div className="flex flex-col items-center justify-center">
-                                    <Avatar name={employee.name} size="100" round={true}/>
-                                    {employee.name}
+                                        <div className='flex flex-col gap-3'>
+                                            <label className='w-[300px]'>Numri Kontaktues</label>
+                                            <input value={appointment.contactNumber ?? appointment.contactNumber}
+                                                   onChange={(e) => handleInputChange('contactNumber', e.target.value)}
+                                                   className='w-[300px] p-2 rounded bg-gray-300' type='text'></input>
+                                        </div>
+                                        <div className='flex flex-col gap-3'>
+                                            <label className='w-[300px]'>E-mail</label>
+                                            <input value={appointment.email ?? appointment.email}
+                                                   onChange={(e) => handleInputChange('email', e.target.value)}
+                                                   className='w-[300px] p-2 rounded bg-gray-300' type='email'></input>
+                                        </div>
+                                        <div>&nbsp;</div>
+                                        <div>&nbsp;</div>
+                                        <button onClick={submitAppointment}
+                                                className='w-[300px] p-2 rounded bg-[#128F96] text-white font-bold'
+                                                type="button">Rezervo
+                                        </button>
+                                    </form>
                                 </div>
-                            </th>
-                        ))}
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {times.map((time) => (
-                        <tr key={time}>
-                            <td className='h-32 px-2 py-2 border lg:px-4'>{time}</td>
-                            {employees.map((employee) => (
-                                <DropZone
-                                    key={`${employee._id}-${time}-${currentDate}`}
-                                    employee={employee.name}
-                                    time={time}
-                                    date={currentDate}
-                                    moveAppointment={moveAppointment}
-                                >
 
-                                    {appointments
-                                        .filter(app => (selectedEmployee === '' || app.employee === selectedEmployee) && app.employee === employee.name && compareTimes(app.time, time) === 0 && new Date(currentDate).toLocaleDateString() === new Date(app.date).toLocaleDateString())
-                                        .map(app => (
-                                            <DraggableAppointment key={app.id} appointment={app}
-                                                                  updateAppointment={updateAppointment}
-                                                                  cancelAppointment={cancelAppointment}/>
-                                        ))}
-                                </DropZone>
+                            </Modal>
+                        </div>
+                    </div>
+                    <table className='w-full max-w-screen'>
+                        <thead className=''>
+                        <tr>
+                            <th className='px-4 py-2 '></th>
+                            {employees.map((employee) => (
+                                <th key={employee} className='px-4 py-2 border '>
+                                    <div className="flex flex-col items-center justify-center">
+                                        <Avatar name={employee.name} size="100" round={true}/>
+                                        {employee.name}
+                                    </div>
+                                </th>
                             ))}
                         </tr>
-                    ))}
-                    </tbody>
-                </table>
-            </div>
-        </DndProvider>
+                        </thead>
+                        <tbody>
+                        {times.map((time) => (
+                            <tr key={time}>
+                                <td className='h-32 px-2 py-2 border lg:px-4'>{time}</td>
+                                {employees.map((employee) => (
+                                    <DropZone
+                                        key={`${employee._id}-${time}-${currentDate}`}
+                                        employee={employee.name}
+                                        time={time}
+                                        date={currentDate}
+                                        moveAppointment={moveAppointment}
+                                    >
+
+                                        {appointments
+                                            .filter(app => (selectedEmployee === '' || app.employee === selectedEmployee) && app.employee === employee.name && compareTimes(app.time, time) === 0 && new Date(currentDate).toLocaleDateString() === new Date(app.date).toLocaleDateString())
+                                            .map(app => (
+                                                <DraggableAppointment key={app.id} appointment={app}
+                                                                      updateAppointment={updateAppointment}
+                                                                      cancelAppointment={cancelAppointment}/>
+                                            ))}
+                                    </DropZone>
+                                ))}
+                            </tr>
+                        ))}
+                        </tbody>
+                    </table>
+                </div>
+            </DndProvider>
+        </>
     );
 }
 
@@ -668,8 +675,10 @@ function DraggableAppointment({appointment, updateAppointment, cancelAppointment
             <p className="col-span-2 lg:col-span-1">Prindi: {appointment.parentName}</p>
             <p className="col-span-2 lg:col-span-1">Fëmiju: {appointment.childName}</p>
             <div className='flex gap-2 py-2 min-w-max'>
-                {appointment.newUser && <p className="max-w-full col-span-2 px-2 text-blue-500 bg-blue-200 rounded ">New Client</p>}
-                {appointment.notRegistered && <p className="max-w-full col-span-2 px-2 text-red-500 bg-red-200 rounded">Not Registered</p>}
+                {appointment.newUser &&
+                    <p className="max-w-full col-span-2 px-2 text-blue-500 bg-blue-200 rounded ">New Client</p>}
+                {appointment.notRegistered &&
+                    <p className="max-w-full col-span-2 px-2 text-red-500 bg-red-200 rounded">Not Registered</p>}
             </div>
             <div className='flex flex-col justify-between w-full col-span-2 gap-3 lg:flex-row lg:gap-2'>
                 <button onClick={() => {
@@ -681,7 +690,6 @@ function DraggableAppointment({appointment, updateAppointment, cancelAppointment
                 }</button>
 
                 <button onClick={() => {
-                    console.log(appointment.notShow)
                     appointment.notShow = !appointment.notShow
                     updateAppointment(appointment)
                 }} className={` bg-red-600 disabled:bg-gray-400 text-white rounded-md p-2 w-full lg:w-[32%]
