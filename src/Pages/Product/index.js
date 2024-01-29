@@ -28,8 +28,8 @@ const Products = () => {
     const types = [
         'Lodra Aktiviteti',
         'Banje dhe ndërrim',
-        'Krem për fëmijë dhe më shumë',
-        'Sedilja dhe karroca e makinës',
+        'Krema për fëmijë dhe të tjera',
+        'Karroca dhe sedilje të makinës',
         'Mobilje për fëmijë'
     ]
 

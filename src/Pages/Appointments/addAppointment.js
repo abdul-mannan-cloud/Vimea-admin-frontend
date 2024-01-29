@@ -99,19 +99,19 @@ export const AddAppointment = () => {
                         </select>
                     </div>
                     <div className="flex flex-col justify-center items-center">
-                        <label htmlFor="onlyParent" className="text-xl font-bold">Vetëm prind</label>
+                        <label htmlFor="onlyParent" className="text-xl font-bold">Për Prind</label>
                         <input type="checkbox" name="onlyParent" id="onlyParent"
                                className="border-2 border-black rounded-md p-2"
                                onChange={handleChange}/>
                     </div>
                     <div className="flex flex-col justify-center items-center">
-                        <label htmlFor="baby" className="text-xl font-bold">For Baby</label>
+                        <label htmlFor="baby" className="text-xl font-bold">Për Bebe</label>
                         <input type="checkbox" name="baby" id="baby"
                                className="border-2 border-black rounded-md p-2"
                                onChange={handleChange}/>
                     </div>
                     <div className="flex flex-col justify-center items-center">
-                        <label htmlFor="child" className="text-xl font-bold">For Child</label>
+                        <label htmlFor="child" className="text-xl font-bold">Për Fëmijë</label>
                         <input type="checkbox" name="child" id="child"
                                className="border-2 border-black rounded-md p-2"
                                onChange={handleChange}/>
