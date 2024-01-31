@@ -177,6 +177,7 @@ const Blogs = () => {
     const handleNewFormSubmit = async (e) => {
         e.preventDefault();
         let imageNames = [];
+        let mobileImageNames = [];
 
         for (let i = 0; i < formData.images.length; i++) {
             if (typeof formData.images[i] === 'string') {
@@ -194,21 +195,23 @@ const Blogs = () => {
             }
         }
         for (let i = 0; i < formData.mobileImages.length; i++) {
-            if (typeof formData.images[i] !== 'string') {
+            console.log('here')
+            if (typeof formData.mobileImages[i] !== 'string') {
                 const imageUploadResponse = await uploadImage(formData.mobileImages[i], 'blog-mobile-image');
                 if (imageUploadResponse.success) {
                     console.log(`Add-on image uploaded with filename: ${imageUploadResponse.filename}`);
-                    imageNames.push(imageUploadResponse.filename);
+                     mobileImageNames.push(imageUploadResponse.filename);
                 } else {
                     console.error(`Failed to upload add-on image: ${imageUploadResponse.error}`);
                     return;
                 }
             }
         }
+        console.log('here',mobileImageNames)
         const updatedFormData = {
             ...formData,
             imagenames: imageNames,
-            mobileImages: formData.mobileImages,
+            mobileImages: mobileImageNames,
         };
 
         try {

@@ -19,7 +19,8 @@ const AddBlog = () => {
         blogTitleENG: '',
         descriptionENG: '',
         images: [],
-        imagenames: []
+        imagenames: [],
+        mobileImages: [],
     });
 
     const navigate = useNavigate();
@@ -59,7 +60,6 @@ const AddBlog = () => {
     const uploadImage = async (file, imageType) => {
         const timestamp = Date.now();
         const uniqueFileName = `${imageType}-${file.name}-${timestamp}`;
-        console.log(`Uploading ${uniqueFileName}`);
 
         const params = {
             Body: file,
@@ -92,6 +92,7 @@ const AddBlog = () => {
     const handleNewFormSubmit = async (e) => {
         e.preventDefault();
         let imageNames = [];
+        let mobileImageNames = [];
         if (formData.blogTitle == '' || formData.description == '' || formData.images.length == 0) {
             alert('Ploteso te gjitha fushat!');
             return;
@@ -110,9 +111,23 @@ const AddBlog = () => {
             }
         }
 
+        for (let i = 0; i < formData.mobileImages.length; i++) {
+            if (formData.mobileImages[i]) {
+                const imageUploadResponse = await uploadImage(formData.mobileImages[i], 'blog-mobile-image');
+                if (imageUploadResponse.success) {
+                    console.log(`Add-on image uploaded with filename: ${imageUploadResponse.filename}`);
+                    mobileImageNames.push(imageUploadResponse.filename);
+                } else {
+                    console.error(`Failed to upload add-on image: ${imageUploadResponse.error}`);
+                    return;
+                }
+            }
+        }
+
         const updatedFormData = {
             ...formData,
             imagenames: imageNames,
+            mobileImages: mobileImageNames,
         };
 
         try {
@@ -169,6 +184,25 @@ const AddBlog = () => {
                                                     className="absolute inset-0 w-1 h-1 p-0 m-0 -ml-1 overflow-hidden border-0 opacity-0 clip rect-0 whitespace-nowrap"
                                                     onChange={(e) => {
                                                         setFormData({...formData, images: e.target.files});
+                                                    }}
+                                                />
+                                            </div>
+                                        </label>
+                                    </div>
+                                    <div className="col-span-1 ml-2">
+                                        <label className="block w-[100px] h-[100px] cursor-pointer">
+                                            <div
+                                                className="flex flex-col items-center justify-center w-full h-full gap-1 align-middle bg-gray-300 rounded-lg">
+                                                <img src={camera} className='w-[30px] h-[30px]'/>
+                                                <span className='text-sm font-bold text-[#128F96] pl-2'>Shto Foton (Mobile)</span>
+                                                <input
+                                                    type="file"
+                                                    name="mobileImage"
+                                                    id="mobileImage"
+                                                    multiple
+                                                    className="absolute inset-0 w-1 h-1 p-0 m-0 -ml-1 overflow-hidden border-0 opacity-0 clip rect-0 whitespace-nowrap"
+                                                    onChange={(e) => {
+                                                        setFormData({...formData, mobileImages: e.target.files});
                                                     }}
                                                 />
                                             </div>
