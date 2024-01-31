@@ -57,6 +57,7 @@ const Blogs = () => {
                 descriptionENG: '',
                 coverimage: '',
                 images: [],
+                mobileImages: [],
             });
         } else {
             setSelectedBlogs(blog);
@@ -68,6 +69,7 @@ const Blogs = () => {
                 descriptionENG: blog.descriptionENG || '',
                 coverimage: blog.coverimage || '',
                 images: blog.images || [],
+                mobileImages: blog.mobileImages || [],
             });
         }
     };
@@ -101,8 +103,6 @@ const Blogs = () => {
     const uploadImage = async (file, imageType) => {
         const timestamp = Date.now();
         const uniqueFileName = `${imageType}-${file.name}-${timestamp}`;
-        console.log(`Uploading ${uniqueFileName}`);
-
         const params = {
             Body: file,
             Bucket: bucketName,
@@ -123,7 +123,6 @@ const Blogs = () => {
                         console.log(err);
                         reject({success: false, error: err});
                     } else {
-                        console.log('Upload Success');
                         resolve({success: true, filename: uniqueFileName});
                     }
                 });
@@ -139,6 +138,7 @@ const Blogs = () => {
         descriptionENG: '',
         coverimage: '',
         images: [],
+        mobileImages: [],
     });
 
     const handleFileChange = (index, e) => {
@@ -193,9 +193,22 @@ const Blogs = () => {
                 return;
             }
         }
+        for (let i = 0; i < formData.mobileImages.length; i++) {
+            if (typeof formData.images[i] !== 'string') {
+                const imageUploadResponse = await uploadImage(formData.mobileImages[i], 'blog-mobile-image');
+                if (imageUploadResponse.success) {
+                    console.log(`Add-on image uploaded with filename: ${imageUploadResponse.filename}`);
+                    imageNames.push(imageUploadResponse.filename);
+                } else {
+                    console.error(`Failed to upload add-on image: ${imageUploadResponse.error}`);
+                    return;
+                }
+            }
+        }
         const updatedFormData = {
             ...formData,
             imagenames: imageNames,
+            mobileImages: formData.mobileImages,
         };
 
         try {
@@ -275,10 +288,11 @@ const Blogs = () => {
                                             className='p-4 sm:w-1/2 w-full rounded-lg bg-white flex flex-col gap-y-5'>
                                             <div className='flex flex-row gap-10 justify-between'>
                                                 <div className='flex flex-col gap-5 w-[50%]'>
-                                                <h className="font-bold">Blogu në gjuhën shqipe</h>
+                                                    <h className="font-bold">Blogu në gjuhën shqipe</h>
                                                     <TextField value={formData.blogTitle} onChange={handleInputChange}
-                                                            name="blogTitle" label="Titulli i Blogut (AL)" variant="outlined"
-                                                            className='mb-4 w-full'
+                                                               name="blogTitle" label="Titulli i Blogut (AL)"
+                                                               variant="outlined"
+                                                               className='mb-4 w-full'
                                                     />
                                                     <TextField
                                                         label="Përshkrimi i Blogut (AL)"
@@ -292,10 +306,12 @@ const Blogs = () => {
                                                     />
                                                 </div>
                                                 <div className='flex flex-col gap-5 w-[50%]'>
-                                                <h className="font-bold">Blogu në gjuhën angleze</h>
-                                                    <TextField value={formData.blogTitleENG} onChange={handleInputChange}
-                                                            name="blogTitleENG" label="Titulli i Blogut (EN)" variant="outlined"
-                                                            className='mb-4 w-full'
+                                                    <h className="font-bold">Blogu në gjuhën angleze</h>
+                                                    <TextField value={formData.blogTitleENG}
+                                                               onChange={handleInputChange}
+                                                               name="blogTitleENG" label="Titulli i Blogut (EN)"
+                                                               variant="outlined"
+                                                               className='mb-4 w-full'
                                                     />
                                                     <TextField
                                                         label="Përshkrimi i Blogut (EN)"
@@ -374,6 +390,48 @@ const Blogs = () => {
                                                     }} className={``}/>}
                                                 </div>
                                             </div>
+                                            <div className="flex flex-col gap-5">
+                                                <h1 className="text-2xl font-bold">Shto Foto (Mobile)</h1>
+                                                <div className="flex flex-wrap sm:gap-x-5 sm:gap-y-5 gap-x-2 gap-y-5">
+                                                    {
+                                                        formData.mobileImages.map((image, index) => (
+                                                            <div className="flex flex-col max-w-[250px] gap-3">
+                                                                {typeof image === 'string' ? (
+                                                                    <img
+                                                                        src={`https://vimea.nyc3.cdn.digitaloceanspaces.com/${image}`}
+                                                                        className='sm:w-[200px] sm:h-[200px] w-[100px] h-[100px] rounded-lg'
+                                                                        alt={image}
+                                                                    />
+                                                                ) : (
+                                                                    <img
+                                                                        src={URL.createObjectURL(image)}
+                                                                        className='w-[250px] h-[250px] rounded-lg'
+                                                                        alt={image.name}
+                                                                    />
+                                                                )}
+                                                                <button type="button" onClick={() => {
+                                                                    handleImageDelete(index)
+                                                                    setSelectedBlogs(blog);
+                                                                }}
+                                                                        className="bg-red-500 text-white rounded-lg px-2 py-1">
+                                                                    Fshij
+                                                                </button>
+                                                            </div>
+                                                        ))
+                                                    }
+                                                    <div onClick={() => setShowImageInput(!showImageInput)}
+                                                         className="text-xl cursor-pointer hover:shadow-lg h-10 px-3 pt-1 place-self-center rounded-full border-2 border-black">
+                                                        +
+                                                    </div>
+                                                    {showImageInput && <input type='file' onChange={(e) => {
+                                                        setShowImageInput(false);
+                                                        setFormData({
+                                                            ...formData,
+                                                            mobileImages: [...formData.mobileImages, e.target.files[0]]
+                                                        });
+                                                    }} className={``}/>}
+                                                </div>
+                                            </div>
                                         </div>
 
                                         <input type="file" ref={fileInput} style={{display: 'none'}}
@@ -383,8 +441,8 @@ const Blogs = () => {
                             )}
                         </div>
                     ))}
-                </div>
-            </div>
+          </div>
+        </div>
         </div>
     );
 };
