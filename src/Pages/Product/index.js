@@ -86,11 +86,11 @@ const Products = () => {
     };
 
 
-    const spacesEndpoint = new AWS.Endpoint('nyc3.digitaloceanspaces.com');
+    const spacesEndpoint = new AWS.Endpoint("nyc3.digitaloceanspaces.com");
     const s3 = new AWS.S3({
         endpoint: spacesEndpoint,
-        accessKeyId: 'DO00B86B2J6M8JRAFFMR',
-        secretAccessKey: 'XxvAhR8M2aF8ZYDliQ5kuvDvKEMwIr1BKUKJi7g7Bv4'
+        accessKeyId: "DO00B86B2J6M8JRAFFMR",
+        secretAccessKey: "XxvAhR8M2aF8ZYDliQ5kuvDvKEMwIr1BKUKJi7g7Bv4",
     });
     const bucketName = 'vimea';
     const uploadImage = async (file, imageType) => {
@@ -143,6 +143,7 @@ const Products = () => {
                 addonImages: [],
                 productNameENG: '',
                 descriptionENG: '',
+                nameENG: '',
                 typeENG: '',
             });
         } else {
@@ -216,6 +217,22 @@ const Products = () => {
         });
     };
 
+    const handleImageColorChange = (index,e) => {
+        var updatedImages = [...formData.addonImages];
+        updatedImages[index] = {
+            file: updatedImages[index].file?updatedImages[index].file:updatedImages[index],
+            color: e.target.value
+        }
+        setFormData({
+            ...formData,
+            addonImages: updatedImages,
+        });
+    }
+
+    useEffect(()=>{
+        console.log(formData.addonImages)
+    },[formData.addonImages])
+
     const handleNewFormSubmit = async (e) => {
         e.preventDefault();
         let imageNames = [];
@@ -233,9 +250,9 @@ const Products = () => {
         //     }
         // }
 
-        var mainImage = formData.mainImage;
-        if (typeof formData.mainImage !== 'string') {
-            const imageUploadResponse = await uploadImage(formData.mainImage, 'main-image');
+        var mainImage = formData.mainImage.file?formData.mainImage.file:formData.mainImage;
+        if (typeof (formData.mainImage.file?formData.mainImage.file:formData.mainImage) !== 'string') {
+            const imageUploadResponse = await uploadImage(formData.mainImage.file?formData.mainImage.file:formData.mainImage, 'main-image');
             if (imageUploadResponse.success) {
                 console.log(`Main image uploaded with filename: ${imageUploadResponse.filename}`);
                 mainImage = imageUploadResponse.filename;
@@ -246,23 +263,29 @@ const Products = () => {
         }
 
         for (let i = 0; i < formData.addonImages.length; i++) {
-            console.log(formData.addonImages[i])
-            if (typeof formData.addonImages[i] === 'string') continue;
-            const imageUploadResponse = await uploadImage(formData.addonImages[i], 'add-on-image');
-            if (imageUploadResponse.success) {
-                console.log(`Add-on image uploaded with filename: ${imageUploadResponse.filename}`);
-                imageNames.push(imageUploadResponse.filename);
-
+            const image = formData.addonImages[i];
+            if (typeof (image.file?image.file:image) !== 'string') {
+                console.log('testing here')
+                const imageUploadResponse = await uploadImage(image.file?image.file:image, `addon-image-${i}`);
+                if (imageUploadResponse.success) {
+                    console.log(`Addon image ${i} uploaded with filename: ${imageUploadResponse.filename}`);
+                    imageNames.push({
+                        file: imageUploadResponse.filename,
+                        color: image.color
+                    });
+                } else {
+                    console.error(`Failed to upload addon image ${i}: ${imageUploadResponse.error}`);
+                    return;
+                }
             } else {
-                console.error(`Failed to upload add-on image: ${imageUploadResponse.error}`);
-                return;
+                imageNames.push(image);
             }
         }
 
         const updatedFormData = {
             ...formData,
             mainImage: typeof mainImage === 'string' ? mainImage : {},
-            addonImages: [...formData.addonImages, ...imageNames],
+            addonImages: [...imageNames],
         };
 
         try {
@@ -420,8 +443,26 @@ const Products = () => {
                                                             id="mainImage"
                                                             onChange={(e) => setFormData({
                                                                 ...formData,
-                                                                mainImage: e.target.files[0]
+                                                                mainImage: {
+                                                                    file: e.target.files[0],
+                                                                    color: ''
+                                                                }
                                                             })}
+                                                        />
+                                                        <input
+                                                            name="color"
+                                                            className="border-2 border-gray-300 rounded-lg px-2"
+                                                            value={formData.mainImage.color}
+                                                            placeholder={"Ngjyra"}
+                                                            onChange={(e)=>{
+                                                                setFormData({
+                                                                    ...formData,
+                                                                    mainImage: {
+                                                                        file: formData.mainImage.file,
+                                                                        color: e.target.value
+                                                                    }
+                                                                })
+                                                            }}
                                                         />
                                                         <div className='sm:pt-2 pt-4'>
                                                             <img src={AddPhoto} alt='Product'
@@ -444,7 +485,6 @@ const Products = () => {
                                                     >
                                                         Ruaj
                                                     </Button>
-
                                                     <Button
                                                         variant="contained"
                                                         style={{
@@ -458,6 +498,7 @@ const Products = () => {
                                                     >
                                                         Fshij
                                                     </Button>
+
                                                 </div>
                                                 <div className="flex flex-col gap-5">
                                                     <h1 className="text-2xl font-bold">Shto Foto</h1>
@@ -465,19 +506,26 @@ const Products = () => {
                                                         {
                                                             formData.addonImages.map((image, index) => (
                                                                 <div className="flex flex-col max-w-[250px] gap-3">
-                                                                    {typeof image === 'string' ? (
+                                                                    {typeof (image.file?image.file:image) === 'string' ? (
                                                                         <img
-                                                                            src={`https://vimea.nyc3.cdn.digitaloceanspaces.com/${image}`}
+                                                                            src={`https://vimea.nyc3.cdn.digitaloceanspaces.com/${image.file?image.file:image}`}
                                                                             className='w-[250px] h-[250px] rounded-lg'
                                                                             alt={image}
                                                                         />
                                                                     ) : (
                                                                         <img
-                                                                            src={URL.createObjectURL(image)}
+                                                                            src={URL.createObjectURL(image.file?image.file:image)}
                                                                             className='w-[250px] h-[250px] rounded-lg'
-                                                                            alt={image.name}
+                                                                            alt={image.file?image.file.name:image.name}
                                                                         />
                                                                     )}
+                                                                    <input name="color"
+                                                                           className="border-2 border-gray-300 rounded-lg px-2"
+                                                                           placeholder={"Ngjyra"}
+                                                                           value={image.color}
+                                                                           onChange={(e)=>{
+                                                                               handleImageColorChange(index,e)
+                                                                           }}/>
                                                                     <button type="button" onClick={() => {
                                                                         handleImageDelete(index)
                                                                         setSelectedProduct(product);
@@ -494,9 +542,13 @@ const Products = () => {
                                                         </div>
                                                         {showImageInput && <input type='file' onChange={(e) => {
                                                             setShowImageInput(false);
+                                                            const newImage = {
+                                                                file: e.target.files[0],
+                                                                color: ''
+                                                            }
                                                             setFormData({
                                                                 ...formData,
-                                                                addonImages: [...formData.addonImages, e.target.files[0]]
+                                                                addonImages: [...formData.addonImages, newImage]
                                                             });
                                                         }} className={``}/>}
                                                     </div>

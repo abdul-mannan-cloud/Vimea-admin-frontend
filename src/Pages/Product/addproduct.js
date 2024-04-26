@@ -354,7 +354,7 @@ const AddProduct = () => {
                                             </div>
                                             :
                                             <div className='w-full h-full'>
-                                                <img className='w-full h-full rounded-lg cover' coverimage
+                                                <img className='w-72 h-72 mt-5 rounded-lg cover' coverimage
                                                      src={URL.createObjectURL(formData.coverimage)}/>
                                             </div>
                                     }
