@@ -217,10 +217,10 @@ const Products = () => {
         });
     };
 
-    const handleImageColorChange = (index,e) => {
+    const handleImageColorChange = (index, e) => {
         var updatedImages = [...formData.addonImages];
         updatedImages[index] = {
-            file: updatedImages[index].file?updatedImages[index].file:updatedImages[index],
+            file: updatedImages[index].file ? updatedImages[index].file : updatedImages[index],
             color: e.target.value
         }
         setFormData({
@@ -229,9 +229,9 @@ const Products = () => {
         });
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         console.log(formData.addonImages)
-    },[formData.addonImages])
+    }, [formData.addonImages])
 
     const handleNewFormSubmit = async (e) => {
         e.preventDefault();
@@ -250,9 +250,9 @@ const Products = () => {
         //     }
         // }
 
-        var mainImage = formData.mainImage.file?formData.mainImage.file:formData.mainImage;
-        if (typeof (formData.mainImage.file?formData.mainImage.file:formData.mainImage) !== 'string') {
-            const imageUploadResponse = await uploadImage(formData.mainImage.file?formData.mainImage.file:formData.mainImage, 'main-image');
+        var mainImage = formData.mainImage.file ? formData.mainImage.file : formData.mainImage;
+        if (typeof (formData.mainImage.file ? formData.mainImage.file : formData.mainImage) !== 'string') {
+            const imageUploadResponse = await uploadImage(formData.mainImage.file ? formData.mainImage.file : formData.mainImage, 'main-image');
             if (imageUploadResponse.success) {
                 console.log(`Main image uploaded with filename: ${imageUploadResponse.filename}`);
                 mainImage = imageUploadResponse.filename;
@@ -264,9 +264,9 @@ const Products = () => {
 
         for (let i = 0; i < formData.addonImages.length; i++) {
             const image = formData.addonImages[i];
-            if (typeof (image.file?image.file:image) !== 'string') {
+            if (typeof (image.file ? image.file : image) !== 'string') {
                 console.log('testing here')
-                const imageUploadResponse = await uploadImage(image.file?image.file:image, `addon-image-${i}`);
+                const imageUploadResponse = await uploadImage(image.file ? image.file : image, `addon-image-${i}`);
                 if (imageUploadResponse.success) {
                     console.log(`Addon image ${i} uploaded with filename: ${imageUploadResponse.filename}`);
                     imageNames.push({
@@ -307,10 +307,6 @@ const Products = () => {
         setShowForm(false);
         return false;
     };
-
-    useEffect(() => {
-        console.log(formData.addonImages)
-    })
 
     useEffect(() => {
         setProducts(allProducts.filter((product) =>
@@ -453,8 +449,8 @@ const Products = () => {
                                                             name="color"
                                                             className="border-2 border-gray-300 rounded-lg px-2"
                                                             value={formData.mainImage.color}
-                                                            placeholder={"Ngjyra"}
-                                                            onChange={(e)=>{
+                                                            placeholder={"Ngjyra (Hex Code)"}
+                                                            onChange={(e) => {
                                                                 setFormData({
                                                                     ...formData,
                                                                     mainImage: {
@@ -506,25 +502,25 @@ const Products = () => {
                                                         {
                                                             formData.addonImages.map((image, index) => (
                                                                 <div className="flex flex-col max-w-[250px] gap-3">
-                                                                    {typeof (image.file?image.file:image) === 'string' ? (
+                                                                    {typeof (image.file ? image.file : image) === 'string' ? (
                                                                         <img
-                                                                            src={`https://vimea.nyc3.cdn.digitaloceanspaces.com/${image.file?image.file:image}`}
+                                                                            src={`https://vimea.nyc3.cdn.digitaloceanspaces.com/${image.file ? image.file : image}`}
                                                                             className='w-[250px] h-[250px] rounded-lg'
                                                                             alt={image}
                                                                         />
                                                                     ) : (
                                                                         <img
-                                                                            src={URL.createObjectURL(image.file?image.file:image)}
+                                                                            src={URL.createObjectURL(image.file ? image.file : image)}
                                                                             className='w-[250px] h-[250px] rounded-lg'
-                                                                            alt={image.file?image.file.name:image.name}
+                                                                            alt={image.file ? image.file.name : image.name}
                                                                         />
                                                                     )}
                                                                     <input name="color"
                                                                            className="border-2 border-gray-300 rounded-lg px-2"
-                                                                           placeholder={"Ngjyra"}
+                                                                           placeholder={"Ngjyra (Hex Code)"}
                                                                            value={image.color}
-                                                                           onChange={(e)=>{
-                                                                               handleImageColorChange(index,e)
+                                                                           onChange={(e) => {
+                                                                               handleImageColorChange(index, e)
                                                                            }}/>
                                                                     <button type="button" onClick={() => {
                                                                         handleImageDelete(index)
