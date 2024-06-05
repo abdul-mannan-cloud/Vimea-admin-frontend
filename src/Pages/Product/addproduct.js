@@ -131,6 +131,7 @@ const AddProduct = () => {
 
         if (formData.productName === '' || formData.price === '' || formData.quantity === '' || formData.type === '' || formData.size === '' || formData.description === '' || formData.images.length === 0) {
             alert("Ploteso te gjitha fushat");
+            setLoading(false)
             return;
         }
 
@@ -334,7 +335,7 @@ const AddProduct = () => {
                                     <textarea
                                         label="Description"
                                         name="descriptionENG"
-                                        value={formData.description}
+                                        value={formData.descriptionENG}
                                         onChange={handleInputChange}
                                         multiline
                                         rows={4}
