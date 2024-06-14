@@ -58,7 +58,8 @@ const AddProduct = () => {
         'Stokke',
         'Vimea',
         'Baby Zen',
-        'Baby Rotho'
+        'Baby Rotho',
+         'Doona Stroller & Liki Trike'
     ]
 
     useEffect(() => {
