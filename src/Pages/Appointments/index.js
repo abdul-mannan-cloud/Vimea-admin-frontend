@@ -1,18 +1,7 @@
 import React, {useState} from 'react';
-import NavBar from '../../Components/navbar';
-import Sidebar from '../../Components/sidebar';
-import AddBlogs from '../../resources/addBlogs.png';
 import {useNavigate} from 'react-router-dom';
 import {useEffect} from 'react';
 import axios from 'axios';
-import {useRef} from 'react';
-import {Container, InputAdornment, TextField} from "@mui/material";
-import SearchIcon from "@mui/icons-material/Search";
-import arrowIcon from '../../resources/arrowIcon.png';
-import plusIcon from '../../resources/Plus.png';
-import AWS from 'aws-sdk';
-
-import femaleIcon from '../../resources/female.png'
 import Plus from "../../resources/Plus.png";
 import IconButton from "@mui/material/IconButton";
 import {Close} from "@mui/icons-material";
@@ -59,8 +48,6 @@ const Appointments = () => {
     const motherAppointments = appointments.filter(appointment => appointment.group === "Për Nënen");
     const motherBabyAppointments = appointments.filter(appointment => appointment.group === "Mami + Bebi");
 
-    console.log(babyAppointments)
-    console.log(groupAppointments)
 
     return (
         <div className='flex flex-col pt-32 h-screen bg-gray-100'>
@@ -97,7 +84,7 @@ const Appointments = () => {
                                                 <Close/>
                                             </IconButton>                                        </span>
                                             <span>
-                                                <IconButton onClick={()=>{
+                                                <IconButton onClick={() => {
                                                     navigate(`/appointments/edit/${appointment._id}`)
                                                 }}>
                                                     <EditIcon/>
@@ -117,7 +104,8 @@ const Appointments = () => {
                                     <div
                                         className='flex flex-row items-center justify-between w-full h-full gap-x-5 sm:px-5 px-1 py-2 align-middle '>
                                         <span className="w-[30%] truncate">{appointment.name}</span>
-                                        <span className="flex items-center sm:gap-x-4 gap-x-2 ">{appointment.duration} min</span>
+                                        <span
+                                            className="flex items-center sm:gap-x-4 gap-x-2 ">{appointment.duration} min</span>
                                         <div className="flex items-center">
                                         <span>
                                         €{appointment.price}
@@ -214,8 +202,8 @@ const Appointments = () => {
                     <div className='flex flex-col w-full gap-1 '>
                         <div className='ml-2 font-bold'>Mami + Bebi</div>
                         {motherBabyAppointments.map((appointment, index) =>
-                            <div
-                                className='flex flex-row justify-between rounded-lg h-[50px] w-full bg-white font-bold shadow-xl'>
+                                <div
+                                    className='flex flex-row justify-between rounded-lg h-[50px] w-full bg-white font-bold shadow-xl'>
                                     <div className='w-0 h-full border-4 border-red-600 rounded-full'></div>
                                     <div
                                         className='flex flex-row items-center justify-between w-full h-full gap-x-5 sm:px-5 px-1 py-2 align-middle'>
@@ -242,7 +230,7 @@ const Appointments = () => {
                                             </span>
                                         </div>
                                     </div>
-                            </div>
+                                </div>
                         )}
                     </div>
                 </div>

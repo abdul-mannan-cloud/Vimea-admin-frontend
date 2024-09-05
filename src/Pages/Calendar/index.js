@@ -191,12 +191,15 @@ function Calendar() {
         const appointmentRes = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/appointment/getallappointments`);
         const services = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/service/getallservices`);
 
+        let appointmentDate = new Date(appointment.date);
+        appointmentDate.setDate(appointmentDate.getDate() - 1);
+
         if (appointmentRes.status === 200) {
             setAppointments(await Promise.all(appointmentRes.data.map(async appointment => {
                 return {
                     id: appointment._id,
                     employee: appointment.employee ? appointment.employee : res.data[0].name,
-                    date: new Date(appointment.date),
+                    date: appointmentDate,
                     time: appointment.time,
                     service: appointment.service,
                     category: appointment.category,
