@@ -91,8 +91,8 @@ function Calendar() {
     }
 
     const findBackgroundColor = async (category, services) => {
-        console.log(services)
         const option = services.find(option => option.name === category)
+        if(!option) return 'bg-white'
         return option.onlyParent ? 'bg-[#e2a6e6]' : option.child ? 'bg-[#FFBF69]' : option.baby ? 'bg-[#6cd5cb]' : 'bg-white'
     }
 
@@ -191,15 +191,17 @@ function Calendar() {
         const appointmentRes = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/appointment/getallappointments`);
         const services = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/service/getallservices`);
 
-        let appointmentDate = new Date(appointment.date);
-        appointmentDate.setDate(appointmentDate.getDate() - 1);
 
         if (appointmentRes.status === 200) {
             setAppointments(await Promise.all(appointmentRes.data.map(async appointment => {
+
+                const date = new Date(appointment.date)
+                date.setDate(date.getDate() - 1)
+
                 return {
                     id: appointment._id,
                     employee: appointment.employee ? appointment.employee : res.data[0].name,
-                    date: appointmentDate,
+                    date: date,
                     time: appointment.time,
                     service: appointment.service,
                     category: appointment.category,
