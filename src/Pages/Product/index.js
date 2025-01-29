@@ -49,6 +49,7 @@ const Products = () => {
         'Vimea',
         'Baby Zen',
         'Baby Rotho',
+        'MOMCOZY',
         'Doona Stroller & Liki Trike'
         
         
