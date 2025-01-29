@@ -40,6 +40,7 @@ const AddProduct = () => {
         'Banje dhe ndërrim',
         'Krema për fëmijë dhe të tjera',
         'Karroca dhe sedilje të makinës',
+        'Për nëna',
         'Mobilje për fëmijë'
     ]
 
@@ -48,6 +49,7 @@ const AddProduct = () => {
         'Bathing & Changing',
         'Baby Cream and more',
         'Car Seat and Stroller',
+        'For mothers',
         'Nursery Furniture'
     ]
 
